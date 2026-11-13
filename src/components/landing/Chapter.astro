@@ -1,0 +1,52 @@
+---
+// Opens one of the four chapters (a screenshot's life: named → found → organized → kept private).
+// The track shows where you are on the page; each step jumps to its chapter.
+const chapters = [
+  { id: 'name', label: 'Name', line: 'Every screenshot gets a clear name the moment you take it.' },
+  { id: 'find', label: 'Find', line: 'Any screenshot or recording, found by what’s in it.' },
+  { id: 'organize', label: 'Organize', line: 'Old piles cleaned up, new ones filed, copies cleared.' },
+  { id: 'protect', label: 'Protect', line: 'Secrets stay hidden, and nothing leaves your Mac.' },
+] as const;
+interface Props { current: (typeof chapters)[number]['id'] }
+const { current } = Astro.props;
+const at = chapters.findIndex((c) => c.id === current);
+const here = chapters[at];
+---
+<div class="chapter wrap">
+  <ol class="track" aria-label="Chapters">
+    {chapters.map((c, i) => (
+      <li class:list={[{ done: i < at, on: i === at }]}>
+        <a href={`#${c.id}`} aria-current={i === at ? 'step' : undefined}>
+          <span class="num mono">{String(i + 1).padStart(2, '0')}</span>{c.label}
+        </a>
+      </li>
+    ))}
+  </ol>
+  <p class="line">{here.line}</p>
+</div>
+
+<style>
+  .chapter { display: flex; flex-direction: column; gap: 14px; padding-top: 72px; }
+  .track { margin: 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+  .track li { display: flex; align-items: center; gap: 6px; }
+  /* Connector into each step; lit up to the current chapter. */
+  .track li + li::before { content: ''; width: 28px; height: 1px; background: var(--line-strong); }
+  .track li.done + li::before, .track li.on::before { background: rgba(212, 255, 63, 0.45); }
+  .track a {
+    display: inline-flex; align-items: center; gap: 8px; height: 32px; padding: 0 12px; border-radius: 999px;
+    border: 1px solid var(--line); color: var(--text-3); text-decoration: none; font-size: 13px; font-weight: 500;
+    transition: border-color 120ms ease-out, color 120ms ease-out;
+  }
+  .track a:hover { color: var(--text); border-color: var(--line-strong); }
+  .num { font-size: 11px; color: var(--text-4); }
+  .done a { color: var(--text-2); }
+  .on a { background: rgba(212, 255, 63, 0.1); border-color: rgba(212, 255, 63, 0.45); color: var(--beam); }
+  .on .num { color: var(--beam); }
+  .line { font-size: 15px; color: var(--text-2); }
+  @media (max-width: 640px) {
+    .chapter { padding-top: 56px; }
+    .track li + li::before { width: 10px; }
+    .track a { padding: 0 10px; }
+  }
+  @media (prefers-reduced-motion: reduce) { .track a { transition: none; } }
+</style>

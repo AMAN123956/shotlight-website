@@ -4,7 +4,7 @@
   <div class="copy">
     <span class="eyebrow is-sensitive">Sensitive guard</span>
     <h2 class="h2">Screenshotted a secret? We noticed.</h2>
-    <p class="lede">API keys, passwords, card numbers and one-time codes are spotted on your Mac, blurred in previews, kept out of search, and old codes can clear themselves.</p>
+    <p class="lede">API keys, passwords, card numbers and one-time codes are spotted on your Mac, blurred in previews and kept out of search and Spotlight. Old one-time codes can go to the Trash after a week, with Restore.</p>
     <div class="kinds">
       <span>API keys</span><span>Passwords</span><span>Card numbers</span><span>OTP codes</span>
     </div>
@@ -25,6 +25,16 @@
       </span>
       <button type="button" class="switch" role="switch" aria-checked="true" aria-label="Sensitive guard" data-toggle style="--switch-on: var(--sensitive);"><span></span></button>
     </div>
+    <div class="expiring panel">
+      <span class="stack" style="gap: 2px; min-width: 0;">
+        <span class="exp-label">Guard › Expiring</span>
+        <span class="mono exp-name">HDFC NetBanking – one-time code.png</span>
+      </span>
+      <span class="countdown">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="13" r="8"></circle><path d="M12 9v4l2 2M10 2h4"></path></svg>
+        Trash in 6 days
+      </span>
+    </div>
   </div>
 </section>
 
@@ -44,6 +54,13 @@
   .toggle-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px 16px; border-radius: 14px; flex-wrap: wrap; }
   .toggle-row b { font-size: 14px; }
   .sub { font-size: 13px; color: var(--text-2); }
+  .expiring { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 16px; border-radius: 14px; flex-wrap: wrap; }
+  .exp-label { font-size: 12px; color: var(--text-3); }
+  .exp-name { font-size: 13px; font-weight: 500; overflow-wrap: anywhere; }
+  .countdown {
+    display: inline-flex; align-items: center; gap: 6px; flex-shrink: 0; font-size: 12px; font-weight: 600; padding: 4px 9px;
+    border-radius: 7px; background: rgba(124, 196, 255, 0.12); color: var(--info); font-variant-numeric: tabular-nums;
+  }
   @media (prefers-reduced-motion: reduce) { .secret { transition: none; } }
 </style>
 

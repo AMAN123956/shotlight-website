@@ -29,7 +29,7 @@ const tokens: ['app' | 'date', string][] = [['app', 'App name'], ['date', 'Date'
           <span class="group-label">Letter case</span>
           <Seg label="Letter case" name="case" value="sentence" options={[['sentence', 'Sentence'], ['lower', 'lower'], ['kebab', 'kebab-case']]} />
         </div>
-        <span class="more">In the app you also get separators and date formats.</span>
+        <span class="more">In the app you also get separators, date formats, and names that learn from your edits.</span>
       </div>
       <div class="cards" aria-live="polite">
         {examples.map((e, i) => (
@@ -39,6 +39,30 @@ const tokens: ['app' | 'date', string][] = [['app', 'App name'], ['date', 'Date'
           </div>
         ))}
       </div>
+    </div>
+    <div class="learn panel" data-learn>
+      <div class="learn-copy">
+        <span class="eyebrow">New · learns from your edits</span>
+        <b class="learn-title">Fix a name three times, and it asks once.</b>
+        <span class="learn-body">Only the names you type are kept, never the text in the screenshot. Settings › Naming lists what it learned, and you can remove any of it.</span>
+        <span class="learn-actions">
+          <button type="button" class="btn btn-ghost btn-sm" data-learn-go>Make three edits</button>
+          <button type="button" class="btn btn-ghost btn-sm" data-learn-reset hidden>↺ Reset</button>
+        </span>
+      </div>
+      <ol class="edits" aria-live="polite">
+        <li class="edit" data-edit><span class="old mono">Safari – Linear issue 412, login loop.png</span><span class="new mono">Linear issue 412, login loop.png</span></li>
+        <li class="edit" data-edit><span class="old mono">Chrome – Vercel deploy failed.png</span><span class="new mono">Vercel deploy failed.png</span></li>
+        <li class="edit" data-edit><span class="old mono">Slack – Design review notes.png</span><span class="new mono">Design review notes.png</span></li>
+      </ol>
+      <div class="ask" data-ask hidden>
+        <span class="ask-q">You usually drop the app name. Always?</span>
+        <span class="learn-actions">
+          <button type="button" class="btn btn-beam btn-sm" data-always>Always</button>
+          <button type="button" class="btn btn-ghost btn-sm" data-not-now>Not now</button>
+        </span>
+      </div>
+      <span class="learned" data-learned hidden></span>
     </div>
   </div>
 </section>
@@ -61,6 +85,27 @@ const tokens: ['app' | 'date', string][] = [['app', 'App name'], ['date', 'Date'
   .cards { flex: 1.4 1 480px; min-width: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; align-content: start; }
   .card { display: flex; flex-direction: column; overflow: hidden; border-radius: 16px; }
   .card-name { padding: 14px; font-size: 13px; line-height: 1.45; font-weight: 500; overflow-wrap: anywhere; }
+  .learn { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: 16px 32px; padding: 24px; align-items: start; }
+  .learn-copy { display: flex; flex-direction: column; gap: 10px; grid-row: span 3; }
+  .learn-title { font-size: 20px; letter-spacing: -0.015em; }
+  .learn-body { font-size: 15px; line-height: 1.55; color: var(--text-2); }
+  .learn-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+  .learn-actions .btn[hidden] { display: none; }
+  .edits { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .edit {
+    display: flex; flex-direction: column; gap: 3px; padding: 10px 12px; border-radius: 12px; background: var(--surface-2);
+    border: 1px solid var(--line); opacity: 0.4; transition: opacity 200ms ease-out;
+  }
+  .edit.done { opacity: 1; }
+  .old { font-size: 12px; color: var(--text-4); overflow-wrap: anywhere; }
+  .edit.done .old { text-decoration: line-through; }
+  .new { font-size: 13px; font-weight: 500; overflow-wrap: anywhere; }
+  .ask { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; padding: 10px 10px 10px 16px; border-radius: 999px; background: #24242C; border: 1px solid #33333C; }
+  .ask[hidden], .learned[hidden] { display: none; }
+  .ask-q { font-size: 14px; font-weight: 500; }
+  .learned { font-size: 14px; color: var(--beam); }
+  @media (max-width: 760px) { .learn { grid-template-columns: minmax(0, 1fr); } .learn-copy { grid-row: auto; } .ask { border-radius: 16px; } }
+  @media (prefers-reduced-motion: reduce) { .edit { transition: none; } }
 </style>
 
 <script>
@@ -82,6 +127,53 @@ const tokens: ['app' | 'date', string][] = [['app', 'App name'], ['date', 'Date'
         b.textContent = (s[id] ? '✓ ' : '+ ') + b.dataset.label;
         paint();
       });
+    });
+
+    // Learning from edits: three renames that drop the app name, then the pill's one-time question.
+    // "Always" switches the playground's own "App name" token off, so the names above change too.
+    const learn = root.querySelector<HTMLElement>('[data-learn]')!;
+    const edits = [...learn.querySelectorAll<HTMLElement>('[data-edit]')];
+    const ask = learn.querySelector<HTMLElement>('[data-ask]')!;
+    const learned = learn.querySelector<HTMLElement>('[data-learned]')!;
+    const go = learn.querySelector<HTMLButtonElement>('[data-learn-go]')!;
+    const reset = learn.querySelector<HTMLButtonElement>('[data-learn-reset]')!;
+    const appToken = root.querySelector<HTMLButtonElement>('[data-token="app"]')!;
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let timers: number[] = [];
+    let switchedApp = false;
+    const pop = (el: HTMLElement) => { if (reduced) return; el.classList.remove('sl-pop'); void el.offsetWidth; el.classList.add('sl-pop'); };
+    const clear = () => { timers.forEach(clearTimeout); timers = []; };
+
+    go.addEventListener('click', () => {
+      clear();
+      go.disabled = true;
+      edits.forEach((e, i) => timers.push(window.setTimeout(() => { e.classList.add('done'); pop(e); }, reduced ? 0 : 350 * (i + 1))));
+      timers.push(window.setTimeout(() => { ask.hidden = false; pop(ask); reset.hidden = false; learn.querySelector<HTMLButtonElement>('[data-always]')!.focus(); }, reduced ? 0 : 1400));
+    });
+    learn.querySelector('[data-always]')!.addEventListener('click', () => {
+      ask.hidden = true;
+      if (s.app) { appToken.click(); switchedApp = true; }
+      learned.textContent = '✓ App name is now off. The names above changed. Undo is in Settings › Naming.';
+      learned.hidden = false;
+      pop(learned);
+      reset.focus();
+    });
+    learn.querySelector('[data-not-now]')!.addEventListener('click', () => {
+      ask.hidden = true;
+      learned.textContent = 'It won’t ask about this habit again.';
+      learned.hidden = false;
+      reset.focus();
+    });
+    reset.addEventListener('click', () => {
+      clear();
+      edits.forEach((e) => e.classList.remove('done'));
+      ask.hidden = true;
+      learned.hidden = true;
+      if (switchedApp && !s.app) appToken.click();
+      switchedApp = false;
+      go.disabled = false;
+      reset.hidden = true;
+      go.focus();
     });
   }
 </script>
