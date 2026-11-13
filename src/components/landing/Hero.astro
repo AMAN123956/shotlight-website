@@ -1,5 +1,6 @@
 ---
 import Thumb from '../Thumb.astro';
+import MenuGlyph from '../MenuGlyph.astro';
 import { seed } from './hero-data';
 ---
 <section id="top" class="hero">
@@ -30,7 +31,7 @@ import { seed } from './hero-data';
         <span class="menus"><b>Finder</b><span>File</span><span>Edit</span><span>View</span></span>
         <span class="status">
           <span class="menu-icon" data-menu-icon>
-            <svg width="15" height="15" viewBox="0 0 48 48"><path d="M11 19v-7h7M37 19v-7h-7M11 29v7h7M37 29v7h-7" stroke="#F4F4F6" stroke-width="3.6" stroke-linecap="round" fill="none"></path><path d="M16 32 L32 16" stroke="#D4FF3F" stroke-width="4.4" stroke-linecap="round"></path></svg>
+            <MenuGlyph />
           </span>
           <span>Wi‑Fi off</span><span>Thu 9:41 PM</span>
         </span>

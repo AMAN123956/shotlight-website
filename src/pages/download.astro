@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import AppIcon from '../components/AppIcon.astro';
+import MenuGlyph from '../components/MenuGlyph.astro';
 import release from '../data/release.json';
 import { DOWNLOAD_LATEST, RELEASES_PAGE } from '../lib/links';
 
@@ -97,7 +98,7 @@ const quarantine = 'xattr -dr com.apple.quarantine /Applications/Shotlight.app';
           <div class="art" aria-hidden="true">
             <div class="menubar">
               <span class="mb-icons">
-                <span class="mb-shot"><svg width="15" height="15" viewBox="0 0 48 48"><path d="M11 19v-7h7M37 19v-7h-7M11 29v7h7M37 29v7h-7" stroke="#F4F4F6" stroke-width="3.6" stroke-linecap="round" fill="none"></path><path d="M16 32 L32 16" stroke="#D4FF3F" stroke-width="4.4" stroke-linecap="round"></path></svg></span>
+                <span class="mb-shot"><MenuGlyph /></span>
                 <span>Thu 9:41 PM</span>
               </span>
               <span class="mb-pop">Welcome to Shotlight</span>
