@@ -1,0 +1,87 @@
+---
+import Thumb from '../Thumb.astro';
+import Seg from '../Seg.astro';
+import { examples, exampleName, initialNaming } from './naming';
+const tokens: ['app' | 'date', string][] = [['app', 'App name'], ['date', 'Date']];
+---
+<section id="naming" class="band" data-naming>
+  <div class="wrap section stack" style="gap: 40px;">
+    <div class="stack head">
+      <span class="eyebrow">Your names, your way</span>
+      <h2 class="h2">Play with it. The names change as you click.</h2>
+    </div>
+    <div class="body">
+      <div class="controls panel">
+        <div class="group">
+          <span class="group-label" id="nm-detail">Detail</span>
+          <Seg label="Detail" name="detail" value="std" options={[['short', 'Short'], ['std', 'Standard'], ['det', 'Detailed']]} />
+        </div>
+        <div class="group">
+          <span class="group-label">Include</span>
+          <div class="tokens">
+            {tokens.map(([id, label]) => {
+              const on = initialNaming[id];
+              return <button type="button" class="token mono" data-token={id} data-label={label} aria-pressed={String(on)}>{(on ? '✓ ' : '+ ') + label}</button>;
+            })}
+          </div>
+        </div>
+        <div class="group">
+          <span class="group-label">Letter case</span>
+          <Seg label="Letter case" name="case" value="sentence" options={[['sentence', 'Sentence'], ['lower', 'lower'], ['kebab', 'kebab-case']]} />
+        </div>
+        <span class="more">In the app you also get separators and date formats.</span>
+      </div>
+      <div class="cards" aria-live="polite">
+        {examples.map((e, i) => (
+          <div class="card panel">
+            <Thumb k={e.k} w="full" h={120} />
+            <span class="card-name mono" data-example={i}>{exampleName(e, initialNaming)}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .head { gap: 14px; max-width: 680px; }
+  .body { display: flex; flex-wrap: wrap; gap: 24px; align-items: stretch; }
+  .controls { flex: 1 1 340px; min-width: 0; display: flex; flex-direction: column; gap: 18px; padding: 24px; }
+  .group { display: flex; flex-direction: column; gap: 8px; }
+  .group-label { font-size: 13px; color: var(--text-2); }
+  .tokens { display: flex; gap: 6px; flex-wrap: wrap; }
+  .token {
+    height: 32px; padding: 0 12px; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 500;
+    background: transparent; color: var(--text-2); border: 1px dashed var(--line-strong);
+    transition: background-color 120ms ease-out, color 120ms ease-out, border-color 120ms ease-out;
+  }
+  .token:hover { color: var(--text); }
+  .token[aria-pressed='true'] { background: rgba(212, 255, 63, 0.12); color: var(--beam); border: 1px solid rgba(212, 255, 63, 0.4); }
+  .more { font-size: 13px; line-height: 1.5; color: var(--text-3); }
+  .cards { flex: 1.4 1 480px; min-width: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; align-content: start; }
+  .card { display: flex; flex-direction: column; overflow: hidden; border-radius: 16px; }
+  .card-name { padding: 14px; font-size: 13px; line-height: 1.45; font-weight: 500; overflow-wrap: anywhere; }
+</style>
+
+<script>
+  import { radioGroup } from '../../lib/radiogroup';
+  import { examples, exampleName, initialNaming, type NamingState, type Detail, type Case } from './naming';
+
+  const root = document.querySelector<HTMLElement>('[data-naming]');
+  if (root) {
+    const s: NamingState = { ...initialNaming };
+    const names = [...root.querySelectorAll<HTMLElement>('[data-example]')];
+    const paint = () => names.forEach((el) => { el.textContent = exampleName(examples[Number(el.dataset.example)], s); });
+    radioGroup(root.querySelector('[data-seg="detail"]')!, (v) => { s.detail = v as Detail; paint(); });
+    radioGroup(root.querySelector('[data-seg="case"]')!, (v) => { s.kase = v as Case; paint(); });
+    root.querySelectorAll<HTMLButtonElement>('[data-token]').forEach((b) => {
+      b.addEventListener('click', () => {
+        const id = b.dataset.token as 'app' | 'date';
+        s[id] = !s[id];
+        b.setAttribute('aria-pressed', String(s[id]));
+        b.textContent = (s[id] ? '✓ ' : '+ ') + b.dataset.label;
+        paint();
+      });
+    });
+  }
+</script>

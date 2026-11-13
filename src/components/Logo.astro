@@ -1,0 +1,10 @@
+---
+// The landing board's header mark: dark tile, corner brackets, lime slash.
+interface Props { size?: number }
+const { size = 30 } = Astro.props;
+---
+<svg width={size} height={size} viewBox="0 0 48 48" aria-hidden="true">
+  <rect x="1" y="1" width="46" height="46" rx="13" fill="#141418" stroke="#2A2A33"></rect>
+  <path d="M13 19v-6h6M35 19v-6h-6M13 29v6h6M35 29v6h-6" stroke="#F4F4F6" stroke-width="2.6" stroke-linecap="round" fill="none"></path>
+  <path d="M16 31 L32 17" stroke="#D4FF3F" stroke-width="3.4" stroke-linecap="round"></path>
+</svg>

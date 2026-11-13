@@ -1,0 +1,45 @@
+---
+import Base from '../layouts/Base.astro';
+import { ISSUES, NEW_ISSUE, VERCEL_PRIVACY, GITHUB_PRIVACY } from '../lib/links';
+const updated = '13 November 2026';
+---
+<Base title="Privacy" description="Shotlight collects nothing. No account, no analytics, no network code. What the app and this website do with your data.">
+  <div class="wrap page">
+    <header class="head">
+      <span class="eyebrow">Privacy</span>
+      <h1>Shotlight collects nothing.</h1>
+      <p class="lede">Short version: the app never goes online, and this website doesn’t track you. Here are the details.</p>
+      <p class="updated">Last updated {updated}</p>
+    </header>
+
+    <div class="prose">
+      <h2>The app</h2>
+      <ul>
+        <li><strong>No account, no analytics, no crash reports, no update checks.</strong> Shotlight has no networking code at all. Every release is checked for network APIs before it’s published.</li>
+        <li><strong>Your data stays on your Mac.</strong> Your screenshots, the text read from them and the search index stay in <code>~/Library/Application Support/Shotlight</code>. Settings are stored in the usual macOS preferences file.</li>
+        <li><strong>Naming happens on-device.</strong> Shotlight reads screenshots with Apple Vision and, where available, Apple Intelligence. Both run on your Mac. Nothing is uploaded, and there’s no model to download.</li>
+        <li><strong>Secrets stay out.</strong> When a screenshot contains something like a password, API key, card number or one-time code, Shotlight keeps it out of the file name and the search index.</li>
+        <li><strong>Only the folders you pick.</strong> Shotlight reads your screenshot folder and any folders you add, and nothing else. It doesn’t need Screen Recording or Accessibility permission.</li>
+      </ul>
+      <p>To remove everything Shotlight stored, quit it and delete <code>~/Library/Application Support/Shotlight</code>.</p>
+
+      <h2>This website</h2>
+      <ul>
+        <li><strong>No cookies, no analytics, no third-party scripts, fonts or embeds.</strong> Everything on this site, including the fonts, is served from this site.</li>
+        <li><strong>Hosting.</strong> The site is hosted on Vercel. Like any web host, Vercel may keep server logs (such as IP addresses) for security and operations. See <a href={VERCEL_PRIVACY}>Vercel’s privacy policy</a>.</li>
+        <li><strong>Downloads.</strong> The app is downloaded from GitHub Releases, and bug reports go to GitHub Issues, so GitHub’s <a href={GITHUB_PRIVACY}>privacy statement</a> applies there.</li>
+      </ul>
+
+      <h2>Contact</h2>
+      <p>Questions about privacy? <a href={NEW_ISSUE}>Open an issue</a> on GitHub, or browse <a href={ISSUES}>existing ones</a>. Issues are public, so don’t include anything personal.</p>
+    </div>
+  </div>
+</Base>
+
+<style>
+  .page { max-width: 820px; padding-top: 80px; padding-bottom: 96px; }
+  .head { display: flex; flex-direction: column; gap: 14px; margin-bottom: 16px; }
+  h1 { font-size: clamp(36px, 4.5vw, 56px); line-height: 1.04; letter-spacing: -0.04em; font-weight: 600; }
+  .updated { font-size: 13px; color: var(--text-3); }
+  @media (max-width: 640px) { .page { padding-top: 48px; padding-bottom: 72px; } }
+</style>

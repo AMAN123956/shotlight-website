@@ -1,0 +1,35 @@
+---
+const faqs: { q: string; a: string; open?: boolean }[] = [
+  { q: 'How do I find my screenshots later?', a: 'Press ⌥ Space and type anything you remember: a word in the image, the app, roughly when.', open: true },
+  { q: 'Does it rename the old ones, or only new screenshots?', a: 'Both. Tidy Up previews new names for every old screenshot in a folder. Nothing changes until you approve, and one Undo reverses it.' },
+  { q: 'How does the naming format work?', a: 'By default: App – what’s on screen. Add the date to keep things in time order, choose short or detailed, change the separator or case. You saw it above: the preview updates as you choose.' },
+  { q: 'Does anything leave my Mac?', a: 'No. Shotlight has no networking code and never goes online, not even to check for updates.' },
+  { q: 'Which Macs does it run on?', a: 'A Mac with Apple silicon and macOS 15 or later. On macOS 26 with Apple Intelligence on, names are richer; otherwise Shotlight names from the text it reads in each screenshot.' },
+  { q: 'Why does macOS ask me to confirm when I first open it?', a: 'This early build isn’t signed by Apple yet. See the steps on the <a href="/download#first-open">download page</a>; you only do it once per version.' },
+];
+---
+<section id="faq" class="faq">
+  <h2>Questions people actually ask</h2>
+  <div class="list">
+    {faqs.map((f) => (
+      <details open={f.open}>
+        <summary>{f.q}<span class="plus" aria-hidden="true">+</span></summary>
+        <p set:html={f.a} />
+      </details>
+    ))}
+  </div>
+</section>
+
+<style>
+  .faq { max-width: 820px; margin: 0 auto; padding: 96px 24px; display: flex; flex-direction: column; gap: 28px; }
+  h2 { font-size: clamp(28px, 3.5vw, 40px); letter-spacing: -0.03em; font-weight: 600; }
+  .list { display: flex; flex-direction: column; border-top: 1px solid var(--line); }
+  details { border-bottom: 1px solid var(--line); padding: 20px 0; }
+  summary { display: flex; justify-content: space-between; gap: 16px; font-size: 18px; font-weight: 500; cursor: pointer; list-style: none; border-radius: 6px; }
+  summary::-webkit-details-marker { display: none; }
+  .plus { color: var(--beam); transition: transform 160ms ease-out; flex-shrink: 0; }
+  details[open] .plus { transform: rotate(45deg); }
+  p { margin: 12px 0 0; font-size: 16px; line-height: 1.6; color: var(--text-2); }
+  @media (max-width: 640px) { .faq { padding: 72px 16px; } summary { font-size: 17px; } }
+  @media (prefers-reduced-motion: reduce) { .plus { transition: none; } }
+</style>

@@ -1,0 +1,11 @@
+---
+// The app icon ("Split S", lime tile), simplified from Assets/AppIcon.svg in the app repo.
+interface Props { size?: number; id?: string }
+const { size = 44, id = 'ai' } = Astro.props;
+---
+<svg width={size} height={size} viewBox="10 10 80 80" aria-hidden="true">
+  <defs><linearGradient id={`${id}-lime`} x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ECFF8C"></stop><stop offset=".5" stop-color="#D4FF3F"></stop><stop offset="1" stop-color="#A9DA12"></stop></linearGradient></defs>
+  <rect x="10" y="10" width="80" height="80" rx="20" fill={`url(#${id}-lime)`}></rect>
+  <path d="M64 28h8v8M28 64v8h8" fill="none" stroke="#0A0A0C" stroke-opacity=".2" stroke-width="4.2" stroke-linecap="round" stroke-linejoin="round"></path>
+  <path d="M64 28H28v13M36 72h36V59M34.5 45.2L65.5 54.8" fill="none" stroke="#0A0A0C" stroke-width="5.6" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>

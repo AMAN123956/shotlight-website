@@ -1,0 +1,7 @@
+---
+import { thumbStyles, type Kind } from '../lib/thumb';
+interface Props { k: Kind; w: number | 'full'; h: number }
+const { k, w, h } = Astro.props;
+const s = thumbStyles(k, w, h);
+---
+<span class="thumb" aria-hidden="true" style={s.thumb}><span style={s.l1}></span><span style={s.l2}></span><span style={s.l3}></span></span>

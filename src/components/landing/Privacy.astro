@@ -1,0 +1,74 @@
+---
+// Copy kept exactly as designed (owner's decision, 2026-11-13). See docs/website-plan.md in the app repo.
+---
+<section id="privacy" class="band">
+  <div class="wrap section split" data-wifi>
+    <div class="copy">
+      <span class="eyebrow">Privacy</span>
+      <h2 class="h2">It can’t leak what it can’t send.</h2>
+      <p class="lede">Shotlight has no network permission at all. macOS enforces that, not a promise in a policy. Turn your Wi‑Fi off and see: everything still works.</p>
+      <ul class="checks">
+        <li>✓ No account, no email, no analytics</li>
+        <li>✓ No screen-recording or accessibility permission</li>
+        <li>✓ Reads only the folders you pick</li>
+        <li>✓ Small download, no giant AI model</li>
+      </ul>
+    </div>
+    <div class="meter panel">
+      <div class="meter-head">
+        <span class="wifi">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M2 9a15 15 0 0 1 20 0M5.5 12.5a10 10 0 0 1 13 0M9 16a5 5 0 0 1 6 0M12 20h.01"></path></svg>
+          <b data-label>Wi‑Fi off</b>
+        </span>
+        <button type="button" class="switch" role="switch" aria-checked="false" aria-label="Wi-Fi" data-toggle style="--switch-on: var(--info);"><span></span></button>
+      </div>
+      <div class="tiles">
+        <div class="tile"><span>Sent by Shotlight today</span><b class="mono">0 B</b></div>
+        <div class="tile"><span>Sent since install</span><b class="mono">0 B</b></div>
+      </div>
+      <div class="graph" aria-hidden="true"><span></span></div>
+      <div class="note">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#D4FF3F" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l4 4L19 6"></path></svg>
+        <span data-note aria-live="polite">Wi‑Fi off. Naming, search and Tidy Up all still work.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .copy { flex: 1 1 400px; min-width: 0; display: flex; flex-direction: column; gap: 18px; }
+  .checks { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 10px; font-size: 15px; color: var(--text-soft); }
+  .meter { flex: 1 1 440px; min-width: 0; display: flex; flex-direction: column; gap: 16px; padding: 24px; border-radius: 20px; }
+  .meter-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .wifi { display: flex; align-items: center; gap: 10px; color: var(--text-4); transition: color 180ms ease-out; }
+  .wifi b { font-size: 15px; color: var(--text); }
+  .is-on .wifi { color: var(--info); }
+  .tiles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .tile { display: flex; flex-direction: column; gap: 4px; padding: 16px; border-radius: 12px; background: var(--surface-2); }
+  .tile span { font-size: 12px; color: var(--text-3); }
+  .tile b { font-size: 28px; font-weight: 600; color: var(--beam); }
+  .graph { height: 56px; border-radius: 12px; background: var(--surface-2); display: flex; align-items: flex-end; padding: 10px 12px; }
+  .graph span { flex: 1; height: 2px; background: var(--line-strong); border-radius: 1px; }
+  .note {
+    display: flex; align-items: center; gap: 10px; padding: 12px 14px; border-radius: 12px; font-size: 14px;
+    background: rgba(212, 255, 63, 0.07); border: 1px solid rgba(212, 255, 63, 0.25);
+  }
+  .note svg { flex-shrink: 0; }
+  .meter, .meter-head { min-width: 0; }
+</style>
+
+<script>
+  const root = document.querySelector<HTMLElement>('[data-wifi]');
+  if (root) {
+    const btn = root.querySelector<HTMLButtonElement>('[data-toggle]')!;
+    const label = root.querySelector<HTMLElement>('[data-label]')!;
+    const note = root.querySelector<HTMLElement>('[data-note]')!;
+    btn.addEventListener('click', () => {
+      const on = btn.getAttribute('aria-checked') !== 'true';
+      btn.setAttribute('aria-checked', String(on));
+      root.classList.toggle('is-on', on);
+      label.textContent = on ? 'Wi‑Fi on' : 'Wi‑Fi off';
+      note.textContent = on ? 'Wi‑Fi on, and still 0 bytes. Shotlight simply has no way out.' : 'Wi‑Fi off. Naming, search and Tidy Up all still work.';
+    });
+  }
+</script>

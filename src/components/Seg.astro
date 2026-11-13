@@ -1,0 +1,10 @@
+---
+// Segmented control (role="radiogroup"); wire it up with radioGroup() from src/lib/radiogroup.ts.
+interface Props { label: string; options: [string, string][]; value: string; name: string }
+const { label, options, value, name } = Astro.props;
+---
+<div class="seg" role="radiogroup" aria-label={label} data-seg={name}>
+  {options.map(([v, text]) => (
+    <button type="button" role="radio" data-value={v} aria-checked={String(v === value)} tabindex={v === value ? 0 : -1}>{text}</button>
+  ))}
+</div>

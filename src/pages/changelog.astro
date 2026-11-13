@@ -1,0 +1,52 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import { RELEASES_PAGE } from '../lib/links';
+
+const entries = (await getCollection('changelog')).sort((a, b) =>
+  b.data.version.localeCompare(a.data.version, undefined, { numeric: true }),
+);
+const rendered = await Promise.all(entries.map(async (e) => ({ e, Content: (await render(e)).Content })));
+const fmt = (d: Date) => d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
+---
+<Base title="Changelog" description="What's new in each version of Shotlight for Mac.">
+  <div class="wrap page">
+    <header class="head">
+      <span class="eyebrow">Changelog</span>
+      <h1>What’s new</h1>
+      <p class="lede">Every version, newest first. Downloads for older versions are on <a href={RELEASES_PAGE}>GitHub</a>.</p>
+    </header>
+    {rendered.map(({ e, Content }, i) => (
+      <article class="entry" id={`v${e.data.version}`}>
+        <div class="when">
+          <a href={`#v${e.data.version}`} class="ver mono">{e.data.version}</a>
+          <time datetime={e.data.date.toISOString().slice(0, 10)}>{fmt(e.data.date)}</time>
+          {i === 0 && <span class="latest">Latest</span>}
+        </div>
+        <div class="prose">
+          <p class="summary">{e.data.summary}</p>
+          <Content />
+        </div>
+      </article>
+    ))}
+  </div>
+</Base>
+
+<style>
+  .page { max-width: 880px; padding-top: 80px; padding-bottom: 96px; }
+  .head { display: flex; flex-direction: column; gap: 14px; margin-bottom: 48px; }
+  h1 { font-size: clamp(36px, 4.5vw, 56px); line-height: 1.04; letter-spacing: -0.04em; font-weight: 600; }
+  .lede a { text-underline-offset: 3px; }
+  .entry { display: grid; grid-template-columns: 180px minmax(0, 1fr); gap: 24px; padding: 32px 0; border-top: 1px solid var(--line); }
+  .when { display: flex; flex-direction: column; gap: 6px; align-items: flex-start; }
+  .ver { font-size: 20px; font-weight: 600; color: var(--text); text-decoration: none; border-radius: 4px; }
+  .ver:hover { color: var(--beam); }
+  time { font-size: 13px; color: var(--text-3); }
+  .latest { font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 6px; background: rgba(212, 255, 63, 0.12); color: var(--beam); }
+  .summary { color: var(--text); font-weight: 500; }
+  @media (max-width: 640px) {
+    .page { padding-top: 48px; padding-bottom: 72px; }
+    .entry { grid-template-columns: 1fr; gap: 12px; }
+    .when { flex-direction: row; align-items: center; gap: 12px; }
+  }
+</style>
