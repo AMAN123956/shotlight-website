@@ -1,0 +1,88 @@
+---
+// Small 0.2 features, shown at the end of the chapter they belong to (Spotlight in Find; smart folders,
+// Finder tags and the weekly line in Organize).
+import Thumb from '../Thumb.astro';
+type Item = 'folders' | 'spotlight' | 'tags' | 'week';
+interface Props { items: Item[]; label: string }
+const { items, label } = Astro.props;
+---
+<section class="wrap also" aria-label={label}>
+  <span class="eyebrow small">{label}</span>
+  <ul class:list={['cards', { one: items.length === 1 }]}>
+    {items.includes('folders') && (
+      <li class="card">
+        <div class="art" aria-hidden="true">
+          <span class="fchip on">Receipts over ₹500</span><span class="fchip">From Figma</span><span class="fchip">Has a secret</span>
+        </div>
+        <span class="text"><b>Smart folders</b><span class="body">Folders that fill by condition, in the Library and as filters in ⌥ Space.</span></span>
+      </li>
+    )}
+    {items.includes('spotlight') && (
+      <li class="card">
+        <div class="art" aria-hidden="true">
+          <div class="spot">
+            <span class="q">pnr goa</span>
+            <span class="hit"><Thumb k="chat" w={26} h={18} /><span class="mono">Gmail – Flight PNR to Goa.png</span></span>
+          </div>
+        </div>
+        <span class="text"><b>Spotlight too</b><span class="body">⌘ Space finds screenshots by their words as well. Ones with secrets are never added, and turning it off removes everything.</span></span>
+      </li>
+    )}
+    {items.includes('tags') && (
+      <li class="card">
+        <div class="art" aria-hidden="true">
+          <span class="ftag"><span style="background: #7CC4FF;"></span>Code</span>
+          <span class="ftag"><span style="background: #FEBC2E;"></span>Receipt</span>
+          <span class="ftag"><span style="background: #D4FF3F;"></span>Travel</span>
+        </div>
+        <span class="text"><b>Finder tags</b><span class="body">Optional. Writes Code, Receipt and rule tags onto the files. Your own tags stay.</span></span>
+      </li>
+    )}
+    {items.includes('week') && (
+      <li class="card">
+        <div class="art" aria-hidden="true">
+          <div class="week">
+            <span class="lbl">This week</span><span class="sep">·</span><b>14 filed</b><span class="sep">·</span><b>6 trashed</b><span class="sep">·</span><b>3 duplicates removed</b>
+          </div>
+        </div>
+        <span class="text"><b>One quiet line a week</b><span class="body">The menu shows what Shotlight did on its own. No notifications, ever.</span></span>
+      </li>
+    )}
+  </ul>
+</section>
+
+<style>
+  .also { display: flex; flex-direction: column; gap: 16px; padding-bottom: 96px; }
+  .small { font-size: 12px; color: var(--text-3); }
+  .cards { margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; }
+  .card { display: flex; flex-direction: column; gap: 14px; padding: 22px; border-radius: 20px; background: var(--card); border: 1px solid var(--line); }
+  .text { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+  .text b { font-size: 18px; }
+  .body { font-size: 15px; line-height: 1.55; color: var(--text-2); }
+  .art {
+    height: 120px; border-radius: 14px; background: var(--surface-2); display: flex; align-items: center; justify-content: center;
+    flex-wrap: wrap; align-content: center; gap: 6px; padding: 12px; overflow: hidden;
+  }
+  /* One card: a wide strip, picture beside the text. */
+  .cards.one { grid-template-columns: minmax(0, 1fr); }
+  .one .card { flex-direction: row; align-items: center; gap: 24px; }
+  .one .art { flex: 0 1 320px; min-width: 0; }
+  .one .text { flex: 1; }
+  .fchip { height: 26px; padding: 0 10px; border-radius: 999px; font-size: 12px; font-weight: 500; display: inline-flex; align-items: center; border: 1px solid var(--line); color: var(--text-soft); }
+  .fchip.on { background: var(--beam); color: var(--bg); border-color: var(--beam); }
+  .spot { width: 100%; max-width: 260px; display: flex; flex-direction: column; gap: 6px; padding: 8px; border-radius: 12px; background: rgba(40, 40, 48, 0.9); border: 1px solid var(--line-strong); }
+  .q { font-size: 14px; padding: 2px 4px; }
+  .hit { display: flex; gap: 8px; align-items: center; padding: 5px; border-radius: 7px; background: rgba(124, 196, 255, 0.18); font-size: 11.5px; min-width: 0; }
+  .hit .mono { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .ftag { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; padding: 4px 10px; border-radius: 999px; background: var(--surface-3); color: var(--text-soft); }
+  .ftag span { width: 8px; height: 8px; border-radius: 50%; }
+  .week { display: flex; flex-wrap: wrap; align-items: center; gap: 5px; width: 100%; padding: 8px 10px; border-radius: 9px; background: rgba(255, 255, 255, 0.05); font-size: 12px; }
+  .week b { font-weight: 500; }
+  .lbl { color: var(--text-3); }
+  .sep { color: var(--text-4); }
+  @media (max-width: 640px) {
+    .also { padding-bottom: 72px; }
+    .one .card { flex-direction: column; align-items: stretch; }
+    .one .art { flex: none; }
+  }
+</style>

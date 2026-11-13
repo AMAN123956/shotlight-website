@@ -5,7 +5,7 @@ import { seed } from './hero-data';
 ---
 <section id="top" class="hero">
   <div class="hero-copy">
-    <span class="badge"><span class="dot"></span>Mac app · 100% on-device</span>
+    <span class="badge"><span class="dot"></span>Mac app · 100% on-device<a class="new" href="/changelog#v0.2.0" aria-label="New in 0.2: rules, duplicates and recordings. See what’s new" title="Rules, duplicates, recordings and more">New in 0.2 <span aria-hidden="true">→</span></a></span>
     <h1>Your screenshots, finally findable.</h1>
     <div class="motif">
       <span class="old mono">Screenshot 2026-11-12 at 09.12.44.png</span>
@@ -68,6 +68,14 @@ import { seed } from './hero-data';
     border-radius: 999px; border: 1px solid var(--line); font-size: 13px; color: var(--text-2);
   }
   .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--beam); }
+  /* "New in 0.2" sits inside the badge, so the hero keeps its height (the try-it note stays above the fold). */
+  .new {
+    display: inline-flex; align-items: center; gap: 4px; height: 22px; margin: 0 -8px 0 4px; padding: 0 9px; border-radius: 999px;
+    font-size: 11.5px; font-weight: 600; text-decoration: none; white-space: nowrap;
+    background: rgba(212, 255, 63, 0.12); color: var(--beam); transition: background-color 120ms ease-out;
+  }
+  .new:hover { background: rgba(212, 255, 63, 0.22); color: var(--beam); }
+  @media (prefers-reduced-motion: reduce) { .new { transition: none; } }
   h1 { font-size: clamp(40px, 5.4vw, 70px); line-height: 1.02; font-weight: 600; letter-spacing: -0.045em; text-wrap: balance; }
   .motif {
     display: flex; flex-direction: column; gap: 6px; padding: 14px 16px; border-radius: 14px;

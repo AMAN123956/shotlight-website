@@ -1,6 +1,6 @@
 ---
 import Thumb from '../Thumb.astro';
-import { index, chips } from './search-data';
+import { index, chips, folders } from './search-data';
 const initial = index.slice(0, 4);
 ---
 <section id="search" class="band">
@@ -8,7 +8,7 @@ const initial = index.slice(0, 4);
     <div class="copy">
       <span class="eyebrow">Find anything</span>
       <h2 class="h2">Remember one word. That’s enough.</h2>
-      <p class="lede">Press ⌥ Space from anywhere. Shotlight searches every word inside every screenshot, the app it came from and its name. It’s all indexed on your Mac.</p>
+      <p class="lede">Press ⌥ Space from anywhere. Shotlight searches every word inside every screenshot, what was said in recordings, the app it came from and its name. It’s all indexed on your Mac.</p>
       <span class="try">Go on, try it →</span>
     </div>
     <div class="window shadow-xl" data-search>
@@ -23,6 +23,10 @@ const initial = index.slice(0, 4);
           <span class="chips-label">Try</span>
           {chips.map((c) => <button type="button" class="chip" data-chip={c} aria-pressed="false">{c}</button>)}
         </div>
+        <div class="chips">
+          <span class="chips-label">Folders</span>
+          {folders.map((f) => <button type="button" class="chip folder" data-folder={f} aria-pressed="false">{f}</button>)}
+        </div>
       </div>
       <div class="divider"></div>
       <div class="results" data-results>
@@ -33,6 +37,7 @@ const initial = index.slice(0, 4);
               <span class="row-name mono">{x.n}</span>
               <span class="row-sub">{x.t}</span>
             </span>
+            {x.said && <span class="said mono">{x.said}</span>}
             {x.sens && <span class="sens">{x.sens}</span>}
           </div>
         ))}
@@ -67,6 +72,8 @@ const initial = index.slice(0, 4);
   }
   .chip:hover { border-color: var(--line-strong); color: var(--text); }
   .chip[aria-pressed='true'] { background: var(--beam); color: var(--bg); border-color: var(--beam); }
+  .chip.folder { border-style: dashed; }
+  .chip.folder[aria-pressed='true'] { border-style: solid; }
   .divider { height: 1px; background: #24242C; }
   .results { display: flex; flex-direction: column; padding: 6px; min-height: 300px; }
   .results :global(.row) { display: flex; align-items: center; gap: 14px; padding: 10px; border-radius: 12px; }
@@ -78,6 +85,7 @@ const initial = index.slice(0, 4);
     flex-shrink: 0; font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 6px;
     background: rgba(255, 122, 102, 0.14); color: var(--sensitive);
   }
+  .results :global(.said) { flex-shrink: 0; font-size: 12px; font-weight: 600; color: var(--info); }
   .results :global(.empty) { padding: 48px 16px; text-align: center; font-size: 14px; color: var(--text-2); }
   @media (max-width: 640px) {
     .results :global(.row) { gap: 10px; padding: 8px 6px; }
@@ -94,6 +102,8 @@ const initial = index.slice(0, 4);
     const count = root.querySelector<HTMLElement>('[data-count]')!;
     const list = root.querySelector<HTMLElement>('[data-results]')!;
     const chipEls = [...root.querySelectorAll<HTMLButtonElement>('[data-chip]')];
+    const folderEls = [...root.querySelectorAll<HTMLButtonElement>('[data-folder]')];
+    let folder: string | null = null;
     const reduced = reducedMotion();
     let lastKey = index.slice(0, 4).map((x) => x.n).join('|');
 
@@ -117,6 +127,13 @@ const initial = index.slice(0, 4);
       }
       text.append(name, sub);
       el.append(thumbEl(x.k, 64, 44), text);
+      if (x.said) {
+        const t = document.createElement('span');
+        t.className = 'said mono';
+        t.textContent = x.said;
+        t.title = 'When it was said';
+        el.append(t);
+      }
       if (x.sens) {
         const b = document.createElement('span');
         b.className = 'sens';
@@ -129,7 +146,8 @@ const initial = index.slice(0, 4);
     function update() {
       const raw = input.value;
       const q = raw.trim().toLowerCase();
-      const matched = q ? index.filter((x) => (x.n + ' ' + x.t).toLowerCase().includes(q)) : index.slice(0, 4);
+      const pool = folder ? index.filter((x) => x.folder === folder) : index;
+      const matched = q ? pool.filter((x) => (x.n + ' ' + x.t).toLowerCase().includes(q)) : folder ? pool : index.slice(0, 4);
       const key = matched.map((x) => x.n).join('|');
       const changed = key !== lastKey;
       lastKey = key;
@@ -145,11 +163,13 @@ const initial = index.slice(0, 4);
               textContent: `No match for “${raw.trim()}”. Try a word that’s inside a screenshot.`,
             })]),
       );
-      count.textContent = q ? `${matched.length} found` : 'Recent';
+      count.textContent = q || folder ? `${matched.length} found` : 'Recent';
+      folderEls.forEach((f) => f.setAttribute('aria-pressed', String(f.dataset.folder === folder)));
       chipEls.forEach((c) => c.setAttribute('aria-pressed', String(q === c.dataset.chip!.toLowerCase())));
     }
 
     input.addEventListener('input', update);
     chipEls.forEach((c) => c.addEventListener('click', () => { input.value = c.dataset.chip!; update(); }));
+    folderEls.forEach((f) => f.addEventListener('click', () => { folder = folder === f.dataset.folder ? null : f.dataset.folder!; update(); }));
   }
 </script>

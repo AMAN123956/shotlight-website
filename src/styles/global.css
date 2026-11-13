@@ -88,6 +88,14 @@ input:focus-visible { outline: none; }
   .split { gap: 32px; }
 }
 
+/* Landing page tones: every section alternates between the band and the plain page, so two sections never
+   share a background. The wrapper decides; a component's own .band is neutralised inside it. */
+.tone-band { background: var(--bg-alt); border-top: 1px solid var(--line-soft); border-bottom: 1px solid var(--line-soft); }
+.tone section.band { background: none; border: 0; }
+/* A chapter marker sits close to its first section; a section followed by its "also new" cards too. */
+.chapter + section.section, .chapter + section > .section { padding-top: 40px; }
+.tone > section.section:has(+ .also), .tone > section:has(+ .also) > .section { padding-bottom: 48px; }
+
 /* Buttons */
 .btn {
   display: inline-flex; align-items: center; justify-content: center; gap: 10px;

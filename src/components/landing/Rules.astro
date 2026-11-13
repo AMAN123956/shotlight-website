@@ -1,0 +1,172 @@
+---
+import Thumb from '../Thumb.astro';
+import { rules, folders } from './rules-data';
+const first = rules[0];
+---
+<section id="rules" class="band" aria-labelledby="rules-title">
+  <div class="wrap section stack" style="gap: 40px;" data-rules>
+    <div class="stack head">
+      <span class="eyebrow">Rules</span>
+      <h2 class="h2" id="rules-title">Folders that fill themselves.</h2>
+      <p class="lede">Write a rule like a sentence. Every new screenshot is named, then filed by the first rule it matches. Click one to see where it goes.</p>
+    </div>
+    <div class="grid">
+      <div class="files" role="group" aria-label="New screenshots">
+        {rules.map((r) => (
+          <button type="button" class="file" data-rule={r.id} aria-pressed={String(r.id === first.id)}>
+            <Thumb k={r.k} w={44} h={30} />
+            <span class="mono">{r.name}</span>
+          </button>
+        ))}
+      </div>
+      <div class="mid" aria-live="polite">
+        <span class="small">Rule that matched</span>
+        <span class="sentence" data-sentence>
+          <span class="w">When </span><span class="chip">{first.when[0]}</span><span class="w"> </span><span class="chip">{first.when[1]}</span><span class="w"> → </span><span class="chip then">{first.then}</span>
+        </span>
+        <span class="matches">
+          <span class="strip" data-strip>{[0, 1, 2, 3].map(() => <Thumb k={first.k} w={22} h={16} />)}</span>
+          <span data-count>Matches {first.matches} screenshots</span>
+        </span>
+        <span class="pill" data-pill hidden>
+          <span class="dot"></span>
+          <span class="mono pill-text">Renamed <span class="arrow">→</span> <span data-dest></span></span>
+          <button type="button" class="undo" data-undo>Undo</button>
+        </span>
+        <svg class="flow" width="60" height="16" viewBox="0 0 60 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M2 8h54M48 2l8 6-8 6"></path></svg>
+      </div>
+      <div class="folders">
+        {folders.map(([id, name, count, unit]) => (
+          <div class:list={['fold', { trashy: id === 'trash' }]} data-folder={id}>
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7z"></path></svg>
+            <b>{name}</b>
+            <span class="count" data-fcount>{count} {unit}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .head { gap: 14px; max-width: 700px; }
+  .grid { display: flex; flex-wrap: wrap; gap: 20px; align-items: center; }
+  .files { flex: 1 1 260px; min-width: 0; display: flex; flex-direction: column; gap: 10px; }
+  .file {
+    display: flex; align-items: center; gap: 12px; width: 100%; padding: 10px 12px; border-radius: 12px; cursor: pointer;
+    text-align: left; color: var(--text); background: var(--card); border: 1px solid var(--line);
+    transition: background-color 160ms ease-out, border-color 160ms ease-out;
+  }
+  .file:hover { border-color: var(--line-strong); }
+  .file[aria-pressed='true'] { background: rgba(212, 255, 63, 0.07); border-color: var(--beam); }
+  .file .mono { font-size: 13px; font-weight: 500; overflow-wrap: anywhere; }
+  .mid {
+    flex: 1 1 280px; min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 22px;
+    border-radius: 16px; background: var(--card); border: 1px dashed var(--line-strong); text-align: center;
+  }
+  .small { font-size: 12px; color: var(--text-3); }
+  .sentence { font-size: 16px; line-height: 2.1; }
+  .sentence :global(.w) { color: var(--text-2); }
+  .sentence :global(.chip) { display: inline-block; padding: 2px 9px; border-radius: 7px; background: #26262E; line-height: 1.6; }
+  .sentence :global(.chip.then) { background: rgba(212, 255, 63, 0.12); color: var(--beam); }
+  .sentence :global(.chip.trash) { background: rgba(255, 122, 102, 0.12); color: var(--sensitive); }
+  .matches { display: flex; align-items: center; gap: 10px; font-size: 12px; color: var(--text-3); font-variant-numeric: tabular-nums; }
+  .strip { display: flex; padding-left: 6px; }
+  .strip :global(.thumb) { margin-left: -6px; }
+  .pill {
+    display: inline-flex; align-items: center; gap: 8px; height: 34px; padding: 0 5px 0 10px; max-width: 100%;
+    border-radius: 999px; background: #24242C; border: 1px solid #33333C; white-space: nowrap;
+  }
+  .pill[hidden] { display: none; }
+  .dot { flex-shrink: 0; width: 8px; height: 8px; border-radius: 50%; background: var(--beam); }
+  .pill-text { font-size: 12px; font-weight: 500; overflow: hidden; text-overflow: ellipsis; }
+  .arrow { color: var(--beam); }
+  .undo {
+    flex-shrink: 0; height: 24px; padding: 0 10px; border: 0; border-radius: 999px; background: #33333C; color: var(--text);
+    font-size: 11px; cursor: pointer; transition: background-color 120ms ease-out;
+  }
+  .undo:hover { background: #3E3E48; }
+  .flow { color: var(--beam); }
+  .folders { flex: 1 1 260px; min-width: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .fold {
+    display: flex; flex-direction: column; gap: 6px; padding: 16px; border-radius: 14px; background: var(--card);
+    border: 1px solid var(--line); color: var(--info);
+    transition: transform 220ms cubic-bezier(.2, .8, .2, 1), border-color 220ms ease-out, background-color 220ms ease-out, box-shadow 220ms ease-out, color 220ms ease-out;
+  }
+  .fold b { font-size: 14px; color: var(--text); }
+  .count { font-size: 12px; color: var(--text-3); font-variant-numeric: tabular-nums; }
+  .fold.on { color: var(--beam); background: rgba(212, 255, 63, 0.08); border-color: var(--beam); transform: translateY(-3px); box-shadow: 0 10px 30px rgba(212, 255, 63, 0.12); }
+  .fold.on.trashy { color: var(--sensitive); background: rgba(255, 122, 102, 0.07); border-color: var(--sensitive); box-shadow: 0 10px 30px rgba(255, 122, 102, 0.1); }
+  @media (max-width: 640px) { .flow { transform: rotate(90deg); margin: 22px 0; } }
+  @media (prefers-reduced-motion: reduce) { .file, .fold, .undo { transition: none; } .fold.on { transform: none; } }
+</style>
+
+<script>
+  import { rules, folders } from './rules-data';
+  import { thumbEl, reducedMotion } from '../../lib/thumb';
+
+  const root = document.querySelector<HTMLElement>('[data-rules]');
+  if (root) {
+    const reduced = reducedMotion();
+    const btns = [...root.querySelectorAll<HTMLButtonElement>('[data-rule]')];
+    const sentence = root.querySelector<HTMLElement>('[data-sentence]')!;
+    const strip = root.querySelector<HTMLElement>('[data-strip]')!;
+    const count = root.querySelector<HTMLElement>('[data-count]')!;
+    const pill = root.querySelector<HTMLElement>('[data-pill]')!;
+    const dest = root.querySelector<HTMLElement>('[data-dest]')!;
+    const folderEls = new Map([...root.querySelectorAll<HTMLElement>('[data-folder]')].map((el) => [el.dataset.folder!, el]));
+    let cur = rules[0].id;
+    let filed: string | null = null;
+
+    const pop = (el: HTMLElement) => {
+      if (reduced) return;
+      el.classList.remove('sl-pop');
+      void el.offsetWidth;
+      el.classList.add('sl-pop');
+    };
+    const span = (text: string, cls: string) => Object.assign(document.createElement('span'), { className: cls, textContent: text });
+
+    function render() {
+      const r = rules.find((x) => x.id === cur)!;
+      btns.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.rule === cur)));
+      sentence.replaceChildren(
+        span('When ', 'w'), span(r.when[0], 'chip'), span(' ', 'w'), span(r.when[1], 'chip'), span(' → ', 'w'),
+        span(r.then, 'chip ' + (r.trash ? 'trash' : 'then')),
+      );
+      strip.replaceChildren(...[0, 1, 2, 3].map(() => thumbEl(r.k, 22, 16)));
+      count.textContent = `Matches ${r.matches + (filed === r.id ? 1 : 0)} screenshots`;
+      const filedFolder = filed ? rules.find((x) => x.id === filed)!.folder : null;
+      for (const [id, , n, unit, to] of folders) {
+        const el = folderEls.get(id)!;
+        el.classList.toggle('on', id === filedFolder);
+        el.querySelector<HTMLElement>('[data-fcount]')!.textContent = `${n + (id === filedFolder ? 1 : 0)} ${unit}`;
+        if (id === r.folder) dest.textContent = to;
+      }
+      pill.hidden = filed !== r.id;
+    }
+
+    function pick(id: string) {
+      cur = id;
+      filed = id;
+      render();
+      pop(pill);
+    }
+
+    btns.forEach((b, i) => {
+      b.addEventListener('click', () => pick(b.dataset.rule!));
+      b.addEventListener('keydown', (e) => {
+        const d = e.key === 'ArrowDown' ? 1 : e.key === 'ArrowUp' ? -1 : 0;
+        const n = i + d;
+        if (!d || n < 0 || n >= btns.length) return;
+        e.preventDefault();
+        btns[n].focus();
+        pick(btns[n].dataset.rule!);
+      });
+    });
+    root.querySelector('[data-undo]')!.addEventListener('click', () => {
+      filed = null;
+      render();
+      btns.find((b) => b.dataset.rule === cur)?.focus();
+    });
+  }
+</script>

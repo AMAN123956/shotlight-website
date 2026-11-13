@@ -17,7 +17,7 @@ interface Props {
 }
 
 const DEFAULT_DESCRIPTION =
-  'Shotlight names every screenshot the moment you take it and finds any of them by the words inside. On-device, free, for Mac.';
+  'Shotlight names every screenshot the moment you take it, finds any of them by the words inside, files them by your rules and clears out duplicates. On-device, free, for Mac.';
 const { title, description = DEFAULT_DESCRIPTION, path = Astro.url.pathname, noindex = false } = Astro.props;
 const fullTitle = title ? `${title} · Shotlight` : 'Shotlight · Your screenshots, finally findable';
 const site = Astro.site ?? new URL('https://shotlight-website.vercel.app');
@@ -25,10 +25,10 @@ const canonical = new URL(path === '/' ? '/' : path.replace(/\/$/, ''), site).hr
 const ogImage = new URL('/og.png', site).href;
 const here = Astro.url.pathname.replace(/\/$/, '') || '/';
 const nav = [
-  ['/#search', 'Search'],
-  ['/#naming', 'Naming'],
-  ['/#guard', 'Guard'],
-  ['/#privacy', 'Privacy'],
+  ['/#name', 'Naming'],
+  ['/#find', 'Search'],
+  ['/#organize', 'Organize'],
+  ['/#protect', 'Privacy'],
   ['/#pricing', 'Pricing'],
 ];
 ---
