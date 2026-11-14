@@ -1,8 +1,8 @@
 {
-  "version": "0.2.0",
-  "date": "2026-11-13",
+  "version": "0.3.0",
+  "date": "2026-11-14",
   "sizeMB": 3.7,
-  "sha256": "88f5002767600d1d382b3e4f2864a9c022e60908954b65d81c0e1515403f0909",
+  "sha256": "4ec0c8f62c078630e760b28a596382c887bc2d6e7fac7643cf2c5e0bf1ca43f3",
   "minMacOS": "15",
   "arch": "Apple silicon",
   "signed": false
