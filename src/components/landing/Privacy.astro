@@ -1,12 +1,13 @@
 ---
-// Copy kept exactly as designed (owner's decision, 2026-11-13). See docs/website-plan.md in the app repo.
+// Lede changed 2026-11-15 (owner's decision): the app isn't sandboxed, so macOS enforces nothing. The claim is
+// "no networking code", with /verify showing how to check it. Don't bring back "no network permission".
 ---
 <section id="privacy" class="band" data-section="privacy">
   <div class="wrap section split" data-wifi>
     <div class="copy">
       <span class="eyebrow">Privacy</span>
       <h2 class="h2">It can’t leak what it can’t send.</h2>
-      <p class="lede">Shotlight has no network permission at all. macOS enforces that, not a promise in a policy. Turn your Wi‑Fi off and see: everything still works.</p>
+      <p class="lede">Shotlight has no networking code at all. Every release is checked for it before it ships, and you can <a href="/verify" data-track="privacy_verify">check it yourself</a>. Turn your Wi‑Fi off and see: everything still works.</p>
       <ul class="checks">
         <li>✓ No account, no email, no analytics</li>
         <li>✓ No screen-recording or accessibility permission</li>
