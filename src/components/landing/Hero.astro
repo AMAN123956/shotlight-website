@@ -3,9 +3,9 @@ import Thumb from '../Thumb.astro';
 import MenuGlyph from '../MenuGlyph.astro';
 import { seed } from './hero-data';
 ---
-<section id="top" class="hero">
+<section id="top" class="hero" data-section="hero">
   <div class="hero-copy">
-    <span class="badge"><span class="dot"></span>Mac app · 100% on-device<a class="new" href="/changelog#v0.2.0" aria-label="New in 0.2: rules, duplicates and recordings. See what’s new" title="Rules, duplicates, recordings and more">New in 0.2 <span aria-hidden="true">→</span></a></span>
+    <span class="badge"><span class="dot"></span>Mac app · 100% on-device<a class="new" href="/changelog#v0.2.0" data-track="hero_whats_new" aria-label="New in 0.2: rules, duplicates and recordings. See what’s new" title="Rules, duplicates, recordings and more">New in 0.2 <span aria-hidden="true">→</span></a></span>
     <h1>Your screenshots, finally findable.</h1>
     <div class="motif">
       <span class="old mono">Screenshot 2026-11-12 at 09.12.44.png</span>
@@ -13,11 +13,11 @@ import { seed } from './hero-data';
     </div>
     <p class="intro">Named the second you take it. Your old pile cleaned up in one click. Any screenshot found by the words inside it. Nothing ever leaves your Mac.</p>
     <div class="ctas">
-      <a href="/download" class="btn btn-beam btn-lg">
+      <a href="/download" class="btn btn-beam btn-lg" data-track="cta_download_hero">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v12M6 10l6 6 6-6M5 20h14"></path></svg>
         Download for Mac
       </a>
-      <button type="button" class="btn btn-ghost btn-lg snap" data-snap>
+      <button type="button" class="btn btn-ghost btn-lg snap" data-snap data-track="hero_try_screenshot">
         <span class="keys" aria-hidden="true"><kbd class="keycap">⇧</kbd><kbd class="keycap">⌘</kbd><kbd class="keycap">4</kbd></span>
         Take a screenshot
       </button>

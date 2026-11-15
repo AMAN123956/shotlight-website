@@ -6,3 +6,4 @@ export const NEW_ISSUE = `${RELEASES_REPO}/issues/new/choose`;
 export const ISSUES = `${RELEASES_REPO}/issues`;
 export const VERCEL_PRIVACY = 'https://vercel.com/legal/privacy-policy';
 export const GITHUB_PRIVACY = 'https://docs.github.com/site-policy/privacy-policies/github-general-privacy-statement';
+export const CLARITY_PRIVACY = 'https://www.microsoft.com/privacy/privacystatement';

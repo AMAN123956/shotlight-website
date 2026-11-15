@@ -2,8 +2,8 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 
-// The public URL. Vercel URL for now; set SITE_URL (or change the default) when a domain is added.
-const site = process.env.SITE_URL ?? 'https://shotlight-website.vercel.app';
+// The public URL (custom domain; shotlight.lol redirects to www). SITE_URL overrides it.
+const site = process.env.SITE_URL ?? 'https://www.shotlight.lol';
 
 export default defineConfig({
   site,

@@ -4,7 +4,7 @@
 // in place of <Pricing />, and update the hero note, FAQ and /download copy that say "free".
 import pricing from '../../data/pricing.json';
 ---
-<section id="pricing" class="band">
+<section id="pricing" class="band" data-section="pricing">
   <div class="wrap section stack" style="gap: 40px;">
     <div class="stack head">
       <span class="eyebrow">Pricing</span>
@@ -21,7 +21,7 @@ import pricing from '../../data/pricing.json';
           </div>
           {t.features.length > 0 && <ul class="feats">{t.features.map((f) => <li>✓ {f}</li>)}</ul>}
           <div style="flex: 1;"></div>
-          <a href={t.cta.href} class:list={['btn', 'tier-btn', t.style === 'featured' ? 'btn-beam' : 'btn-ghost']}>{t.cta.label}</a>
+          <a href={t.cta.href} data-track={`cta_pricing_${t.name.toLowerCase()}`} class:list={['btn', 'tier-btn', t.style === 'featured' ? 'btn-beam' : 'btn-ghost']}>{t.cta.label}</a>
         </div>
       ))}
     </div>

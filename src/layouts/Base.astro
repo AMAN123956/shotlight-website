@@ -20,10 +20,12 @@ const DEFAULT_DESCRIPTION =
   'Shotlight names every screenshot the moment you take it, finds any of them by the words inside, files them by your rules and clears out duplicates. On-device, free, for Mac.';
 const { title, description = DEFAULT_DESCRIPTION, path = Astro.url.pathname, noindex = false } = Astro.props;
 const fullTitle = title ? `${title} · Shotlight` : 'Shotlight · Your screenshots, finally findable';
-const site = Astro.site ?? new URL('https://shotlight-website.vercel.app');
-const canonical = new URL(path === '/' ? '/' : path.replace(/\/$/, ''), site).href;
+const site = Astro.site ?? new URL('https://www.shotlight.lol');
+// Pages build as /name.html (build.format 'file') but are served as /name, so drop the extension.
+const clean = path.replace(/(\/index)?\.html$/, '').replace(/\/$/, '') || '/';
+const canonical = new URL(clean, site).href;
 const ogImage = new URL('/og.png', site).href;
-const here = Astro.url.pathname.replace(/\/$/, '') || '/';
+const here = Astro.url.pathname.replace(/(\/index)?\.html$/, '').replace(/\/$/, '') || '/';
 const nav = [
   ['/#name', 'Naming'],
   ['/#find', 'Search'],
@@ -73,7 +75,7 @@ const nav = [
         <nav class="nav" aria-label="Main">
           {nav.map(([href, label]) => <a href={href}>{label}</a>)}
         </nav>
-        <a href="/download" class="btn btn-beam btn-md" aria-current={here === '/download' ? 'page' : undefined}>Download free</a>
+        <a href="/download" class="btn btn-beam btn-md" data-track="cta_download_header" aria-current={here === '/download' ? 'page' : undefined}>Download free</a>
       </div>
     </header>
 
@@ -91,6 +93,10 @@ const nav = [
         </nav>
       </div>
     </footer>
+    <script>
+      import { initAnalytics } from '../lib/analytics';
+      initAnalytics();
+    </script>
   </body>
 </html>
 

@@ -18,13 +18,13 @@ const quarantine = 'xattr -dr com.apple.quarantine /Applications/Shotlight.app';
         macOS {release.minMacOS} or later · {release.arch}
       </p>
       <div class="actions">
-        <a href={DOWNLOAD_LATEST} class="btn btn-beam btn-lg" data-download>
+        <a href={DOWNLOAD_LATEST} class="btn btn-beam btn-lg" data-download data-track="download_dmg">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v12M6 10l6 6 6-6M5 20h14"></path></svg>
           Download Shotlight {release.version}
         </a>
-        <a href="/changelog" class="btn btn-ghost btn-lg">What’s new</a>
+        <a href="/changelog" class="btn btn-ghost btn-lg" data-track="download_whats_new">What’s new</a>
       </div>
-      <p class="started" data-started hidden role="status">Downloading. Next: <a href="#first-open">open it the first time</a> (one extra step).</p>
+      <p class="started" data-started hidden role="status">Downloading. Next: <a href="#first-open" data-track="download_first_open_link">open it the first time</a> (one extra step).</p>
       <p class="privacy-line">Free while in early access. No account, and Shotlight never connects to the internet.</p>
     </div>
     <div class="facts panel">
@@ -35,14 +35,14 @@ const quarantine = 'xattr -dr com.apple.quarantine /Applications/Shotlight.app';
         <span>SHA-256</span>
         <span class="sha-row">
           <code class="mono" data-sha>{release.sha256}</code>
-          <button type="button" class="copy" data-copy={release.sha256} aria-label="Copy SHA-256">Copy</button>
+          <button type="button" class="copy" data-copy={release.sha256} aria-label="Copy SHA-256" data-track="copy_sha256">Copy</button>
         </span>
       </div>
-      <a class="all" href={RELEASES_PAGE}>All versions on GitHub</a>
+      <a class="all" href={RELEASES_PAGE} data-track="download_all_versions">All versions on GitHub</a>
     </div>
   </section>
 
-  <section id="first-open" class="band">
+  <section id="first-open" class="band" data-section="first_open">
     <div class="wrap section">
       <div class="head">
         <span class="eyebrow">Opening it the first time</span>
@@ -116,7 +116,7 @@ const quarantine = 'xattr -dr com.apple.quarantine /Applications/Shotlight.app';
           <li>You do this once per version. After an update, macOS may also ask again for access to your Desktop. Both go away once Shotlight is signed by Apple.</li>
           <li>
             Prefer Terminal? After step 1, this does the same as steps 2 and 3:
-            <span class="cmd"><code data-cmd>{quarantine}</code><button type="button" class="copy" data-copy={quarantine} aria-label="Copy Terminal command">Copy</button></span>
+            <span class="cmd"><code data-cmd>{quarantine}</code><button type="button" class="copy" data-copy={quarantine} aria-label="Copy Terminal command" data-track="copy_terminal_command">Copy</button></span>
           </li>
           <li>To check the download, run <code>shasum -a 256 ~/Downloads/Shotlight.dmg</code> and compare it with the SHA-256 above.</li>
         </ul>

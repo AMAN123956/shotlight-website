@@ -12,7 +12,7 @@ const faqs: { q: string; a: string; open?: boolean }[] = [
   { q: 'Why does macOS ask me to confirm when I first open it?', a: 'This early build isn’t signed by Apple yet. See the steps on the <a href="/download#first-open">download page</a>; you only do it once per version.' },
 ];
 ---
-<section id="faq" class="faq">
+<section id="faq" class="faq" data-section="faq">
   <h2>Questions people actually ask</h2>
   <div class="list">
     {faqs.map((f) => (
