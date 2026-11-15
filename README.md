@@ -1,7 +1,24 @@
-# Shotlight website
+<div align="center">
+
+<img src=".github/assets/hero.svg" alt="The shotlight.lol landing page in a browser window, with a cursor clicking Download for Mac." width="100%">
+
+<br>
+
+[![Live](https://img.shields.io/website?url=https%3A%2F%2Fwww.shotlight.lol&style=flat-square&labelColor=0A0A0C&up_color=D4FF3F&up_message=online&label=www.shotlight.lol)](https://www.shotlight.lol)
+[![Astro 7](https://img.shields.io/badge/Astro-7-0A0A0C?style=flat-square&logo=astro&logoColor=D4FF3F&labelColor=0A0A0C)](https://astro.build)
+[![Vercel](https://img.shields.io/badge/deployed_on-Vercel-0A0A0C?style=flat-square&logo=vercel&logoColor=D4FF3F&labelColor=0A0A0C)](https://vercel.com)
+[![Latest app version](https://img.shields.io/github/v/release/AMAN123956/shotlight-releases?style=flat-square&color=D4FF3F&labelColor=0A0A0C&label=app)](https://github.com/AMAN123956/shotlight-releases/releases/latest)
+
+**[Visit the site](https://www.shotlight.lol)** · **[Downloads](https://github.com/AMAN123956/shotlight-releases)** · **[Changelog](https://www.shotlight.lol/changelog)**
+
+</div>
+
+---
 
 The public site for [Shotlight](https://github.com/AMAN123956/shotlight-releases), the Mac app that names every
-screenshot and finds it by the words inside. Static [Astro](https://astro.build) site, deployed on Vercel.
+screenshot and finds it by the words inside. A static [Astro](https://astro.build) site, deployed on Vercel.
+
+## Quick start
 
 ```bash
 npm install
@@ -10,34 +27,86 @@ npm run build     # → dist/
 npm run preview
 ```
 
+## What the site shows
+
+<img src=".github/assets/features.svg" alt="Six features: named on capture, found by any word, secrets stay secret, Tidy Up the old pile, folders that fill themselves, recordings you can search." width="100%">
+
+Each landing section has a small live demo (plain TypeScript islands, no framework) so visitors can try the app
+before downloading it.
+
+| Page | What's on it |
+|---|---|
+| `/` | Landing: hero, naming playground, ⌥Space search demo, Tidy Up, Rules, Duplicates, Recordings, Guard, privacy, FAQ |
+| `/download` | The one place that links the `.dmg`, plus the first-open steps |
+| `/changelog` | One entry per release, from `src/content/changelog/` |
+| `/privacy` | What the app collects (nothing) and what the site measures (Clarity) |
+| `/support` | Bug reports and contact |
+
 ## Rules
 
-- **One third party: Microsoft Clarity** (visit analytics, disclosed on `/privacy`). No other external scripts,
-  fonts or embeds. Fonts are self-hosted (`@fontsource/geist-sans`, `@fontsource/geist-mono`). `vercel.json` sets a
-  Content-Security-Policy that allows same-origin resources plus Clarity's domains, and `astro.config.mjs` stops Vite
-  from inlining scripts so the CSP holds.
-- **Analytics** live in `src/lib/analytics.ts`. Clarity (project ID in that file) loads only on `www.shotlight.lol` /
-  `shotlight.lol`, never on localhost or Vercel preview deployments. Events: give an element
-  `data-track="name"` (Download buttons use `cta_download_<where>`; the real `.dmg` link is `download_dmg`). Landing
-  sections carry `data-section="name"` for `view_<name>` and `demo_<name>` events. Nav, footer, chapter, outbound
-  links and FAQ answers are recorded automatically. The full event list is at the top of `analytics.ts`.
-- **Don't advertise what isn't built.** Check `docs/PRODUCT.md` in the app repo before adding a feature to the copy.
+> [!IMPORTANT]
+> **One third party: Microsoft Clarity** (visit analytics, disclosed on `/privacy`). No other external scripts,
+> fonts or embeds. Fonts are self-hosted (`@fontsource/geist-sans`, `@fontsource/geist-mono`). `vercel.json` sets a
+> Content-Security-Policy that allows same-origin resources plus Clarity's domains, and `astro.config.mjs` stops Vite
+> from inlining scripts so the CSP holds.
+
+> [!WARNING]
+> **Don't advertise what isn't built.** Check `docs/PRODUCT.md` in the app repo before adding a feature to the copy.
+
 - **Every Download button goes to `/download`**, so people see the first-open steps. Only `/download` links to the
   `.dmg` (`src/lib/links.ts`).
-- Design source: board 07 of the Shotlight design canvas. Tokens and motion are in `src/styles/global.css`.
+- **Design source:** board 07 of the Shotlight design canvas. Tokens and motion are in `src/styles/global.css`.
+
+<details>
+<summary><b>Analytics events</b></summary>
+
+<br>
+
+Analytics live in `src/lib/analytics.ts`. Clarity (project ID in that file) loads only on `www.shotlight.lol` /
+`shotlight.lol`, never on localhost or Vercel preview deployments.
+
+| To record | Do this |
+|---|---|
+| A click | Give the element `data-track="name"` |
+| A Download button | `cta_download_<where>` (the real `.dmg` link is `download_dmg`) |
+| A landing section | `data-section="name"` gives `view_<name>` and `demo_<name>` events |
+| Nav, footer, chapters, outbound links, FAQ answers | Recorded automatically |
+
+The full event list is at the top of `analytics.ts`.
+
+</details>
 
 ## Map
 
 ```
-src/pages/            index (landing), download, privacy, support, changelog, 404
-src/components/landing/  one component per landing section; demos are small <script> islands (plain TS)
-src/data/release.json    the current version shown on /download (written by the app's scripts/release.sh)
-src/data/pricing.json    the designed pricing tiers, not shown while Shotlight is free (PricingTiers.astro)
-src/content/changelog/   one Markdown file per release
-public/               favicon, apple-touch-icon, og.png, robots.txt
+src/
+├── pages/                index (landing), download, privacy, support, changelog, 404
+├── components/landing/   one component per landing section; demos are small <script> islands (plain TS)
+├── data/release.json     the current version shown on /download (written by the app's scripts/release.sh)
+├── data/pricing.json     the designed pricing tiers, not shown while Shotlight is free (PricingTiers.astro)
+├── content/changelog/    one Markdown file per release
+├── lib/                  analytics, links, small helpers
+└── styles/global.css     tokens and motion
+public/                   favicon, apple-touch-icon, og.png, robots.txt
 ```
 
 ## Releasing a new app version
+
+```mermaid
+flowchart LR
+    A["App repo<br/><code>scripts/release.sh X.Y.Z</code>"] --> B["GitHub Release<br/>shotlight-releases"]
+    A --> C["<code>build/release-X.Y.Z.json</code>"]
+    C --> D["<code>src/data/release.json</code>"]
+    E["Release notes"] --> F["<code>src/content/changelog/X.Y.Z.md</code>"]
+    D --> G["Push to main"]
+    F --> G
+    G --> H["Vercel deploys<br/>www.shotlight.lol"]
+
+    classDef beam fill:#D4FF3F,stroke:#A9DA12,color:#0A0A0C
+    classDef dark fill:#141418,stroke:#2A2A33,color:#F4F4F6
+    class A,H beam
+    class B,C,D,E,F,G dark
+```
 
 After `scripts/release.sh X.Y.Z` in the app repo has published the GitHub Release:
 
@@ -45,10 +114,16 @@ After `scripts/release.sh X.Y.Z` in the app repo has published the GitHub Releas
 2. Add `src/content/changelog/X.Y.Z.md` (front matter: `version`, `date`, `summary`; body: the release notes).
 3. Commit and push. Vercel deploys `main`.
 
-The `/download` button uses GitHub's `releases/latest/download/Shotlight.dmg` link, so it never needs editing.
+> [!NOTE]
+> The `/download` button uses GitHub's `releases/latest/download/Shotlight.dmg` link, so it never needs editing.
 
 ## Domain
 
 https://www.shotlight.lol (Vercel; `shotlight.lol` redirects to `www`). The old `shotlight-website.vercel.app` and
 `shotlight-sand.vercel.app` addresses redirect there (`vercel.json`). The URL is set in `astro.config.mjs` (`SITE_URL`
 overrides it) and in the sitemap line of `public/robots.txt`.
+
+<div align="center">
+<br>
+<sub>Part of <a href="https://www.shotlight.lol">Shotlight</a>: every screenshot, named and findable. Never leaves your Mac.</sub>
+</div>

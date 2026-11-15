@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="540" viewBox="0 0 1200 540" role="img" aria-labelledby="t d">
+<title id="t">Shotlight website</title><desc id="d">The shotlight.lol landing page in a browser window, with a cursor clicking Download for Mac.</desc>
+<defs>
+  <path id="sq" d="M90.00 50.00 L89.99 60.96 L89.95 64.45 L89.89 66.99 L89.80 69.05 L89.69 70.80 L89.55 72.35 L89.39 73.74 L89.21 75.01 L88.99 76.17 L88.75 77.24 L88.49 78.24 L88.20 79.17 L87.88 80.04 L87.53 80.85 L87.15 81.62 L86.75 82.34 L86.31 83.02 L85.85 83.66 L85.35 84.26 L84.82 84.82 L84.26 85.35 L83.66 85.85 L83.02 86.31 L82.34 86.75 L81.62 87.15 L80.85 87.53 L80.04 87.88 L79.17 88.20 L78.24 88.49 L77.24 88.75 L76.17 88.99 L75.01 89.21 L73.74 89.39 L72.35 89.55 L70.80 89.69 L69.05 89.80 L66.99 89.89 L64.45 89.95 L60.96 89.99 L50.00 90.00 L39.04 89.99 L35.55 89.95 L33.01 89.89 L30.95 89.80 L29.20 89.69 L27.65 89.55 L26.26 89.39 L24.99 89.21 L23.83 88.99 L22.76 88.75 L21.76 88.49 L20.83 88.20 L19.96 87.88 L19.15 87.53 L18.38 87.15 L17.66 86.75 L16.98 86.31 L16.34 85.85 L15.74 85.35 L15.18 84.82 L14.65 84.26 L14.15 83.66 L13.69 83.02 L13.25 82.34 L12.85 81.62 L12.47 80.85 L12.12 80.04 L11.80 79.17 L11.51 78.24 L11.25 77.24 L11.01 76.17 L10.79 75.01 L10.61 73.74 L10.45 72.35 L10.31 70.80 L10.20 69.05 L10.11 66.99 L10.05 64.45 L10.01 60.96 L10.00 50.00 L10.01 39.04 L10.05 35.55 L10.11 33.01 L10.20 30.95 L10.31 29.20 L10.45 27.65 L10.61 26.26 L10.79 24.99 L11.01 23.83 L11.25 22.76 L11.51 21.76 L11.80 20.83 L12.12 19.96 L12.47 19.15 L12.85 18.38 L13.25 17.66 L13.69 16.98 L14.15 16.34 L14.65 15.74 L15.18 15.18 L15.74 14.65 L16.34 14.15 L16.98 13.69 L17.66 13.25 L18.38 12.85 L19.15 12.47 L19.96 12.12 L20.83 11.80 L21.76 11.51 L22.76 11.25 L23.83 11.01 L24.99 10.79 L26.26 10.61 L27.65 10.45 L29.20 10.31 L30.95 10.20 L33.01 10.11 L35.55 10.05 L39.04 10.01 L50.00 10.00 L60.96 10.01 L64.45 10.05 L66.99 10.11 L69.05 10.20 L70.80 10.31 L72.35 10.45 L73.74 10.61 L75.01 10.79 L76.17 11.01 L77.24 11.25 L78.24 11.51 L79.17 11.80 L80.04 12.12 L80.85 12.47 L81.62 12.85 L82.34 13.25 L83.02 13.69 L83.66 14.15 L84.26 14.65 L84.82 15.18 L85.35 15.74 L85.85 16.34 L86.31 16.98 L86.75 17.66 L87.15 18.38 L87.53 19.15 L87.88 19.96 L88.20 20.83 L88.49 21.76 L88.75 22.76 L88.99 23.83 L89.21 24.99 L89.39 26.26 L89.55 27.65 L89.69 29.20 L89.80 30.95 L89.89 33.01 L89.95 35.55 L89.99 39.04Z"/>
+  <linearGradient id="lime" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ECFF8C"/><stop offset=".5" stop-color="#D4FF3F"/><stop offset="1" stop-color="#A9DA12"/></linearGradient>
+  <linearGradient id="beamBar" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#D4FF3F" stop-opacity="0"/><stop offset=".8" stop-color="#D4FF3F" stop-opacity=".55"/><stop offset="1" stop-color="#F4FFC8" stop-opacity="1"/></linearGradient>
+  <pattern id="dots" width="22" height="22" patternUnits="userSpaceOnUse"><circle cx="1.5" cy="1.5" r="1.1" fill="#fff" fill-opacity=".07"/></pattern>
+  <filter id="shadow" x="-10%" y="-10%" width="120%" height="130%"><feDropShadow dx="0" dy="18" stdDeviation="22" flood-color="#000" flood-opacity=".55"/></filter>
+  <filter id="glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="6"/></filter>
+  <filter id="blur4" x="-10%" y="-40%" width="120%" height="180%"><feGaussianBlur stdDeviation="4"/></filter><radialGradient id="g1" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(160 -40) scale(620 420)"><stop offset="0" stop-color="#D4FF3F" stop-opacity=".16"/><stop offset="1" stop-color="#D4FF3F" stop-opacity="0"/></radialGradient>
+  <radialGradient id="g2" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(1080 600) scale(560 380)"><stop offset="0" stop-color="#7CC4FF" stop-opacity=".09"/><stop offset="1" stop-color="#7CC4FF" stop-opacity="0"/></radialGradient></defs>
+<style>
+text{font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif}
+.mono{font-family:ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace}
+.sb{font-weight:600}
+@keyframes cur{0.000%{transform:translate(0,0)} 14.286%{transform:translate(0,0)} 31.429%{transform:translate(-300px,-58px)} 42.857%{transform:translate(-300px,-58px)} 62.857%{transform:translate(0,0)} 100.000%{transform:translate(0,0)}}
+.cur{animation:cur 7.0s infinite cubic-bezier(.45,0,.2,1)}
+@keyframes clk{0.000%{opacity:0;transform:scale(.4)} 32.143%{opacity:0;transform:scale(.4)} 32.857%{opacity:.9;transform:scale(.6)} 41.429%{opacity:0;transform:scale(1.8)} 100.000%{opacity:0;transform:scale(1.8)}}
+.clk{transform-box:fill-box;transform-origin:center;animation:clk 7.0s infinite ease-out}
+@keyframes btn{0.000%{transform:scale(1)} 32.143%{transform:scale(1)} 33.571%{transform:scale(.95)} 35.714%{transform:scale(1)} 100.000%{transform:scale(1)}}
+.btn{transform-box:fill-box;transform-origin:center;animation:btn 7.0s infinite}
+@keyframes w0old{0.000%{opacity:1} 12.500%{opacity:1} 16.875%{opacity:0} 91.250%{opacity:0} 96.250%{opacity:1} 100.000%{opacity:1}}
+@keyframes w0cov{0.000%{transform:translateX(0)} 12.500%{transform:translateX(0)} 26.250%{transform:translateX(448px)} 93.750%{transform:translateX(448px)} 93.875%{transform:translateX(0)} 100.000%{transform:translateX(0)}}
+@keyframes w0beam{0.000%{opacity:0;transform:translateX(0)} 12.500%{opacity:0;transform:translateX(0)} 13.500%{opacity:1;transform:translateX(0)} 25.250%{opacity:1;transform:translateX(400px)} 28.125%{opacity:0;transform:translateX(448px)} 100.000%{opacity:0;transform:translateX(448px)}}
+@keyframes w0new{0.000%{opacity:1} 88.750%{opacity:1} 93.125%{opacity:0} 94.375%{opacity:1} 100.000%{opacity:1}}
+@keyframes w0chk{0.000%{opacity:0;transform:scale(.3)} 25.000%{opacity:0;transform:scale(.3)} 28.125%{opacity:1;transform:scale(1.15)} 30.625%{opacity:1;transform:scale(1)} 88.750%{opacity:1;transform:scale(1)} 92.500%{opacity:0;transform:scale(.6)} 100.000%{opacity:0;transform:scale(.3)}}
+.w0old{animation:w0old 8.0s infinite} .w0cov{animation:w0cov 8.0s infinite cubic-bezier(.4,0,.2,1)} .w0beam{animation:w0beam 8.0s infinite cubic-bezier(.4,0,.2,1)} .w0new{animation:w0new 8.0s infinite} .w0chk{animation:w0chk 8.0s infinite;transform-box:fill-box;transform-origin:center}
+@keyframes w1old{0.000%{opacity:1} 25.000%{opacity:1} 29.375%{opacity:0} 91.250%{opacity:0} 96.250%{opacity:1} 100.000%{opacity:1}}
+@keyframes w1cov{0.000%{transform:translateX(0)} 25.000%{transform:translateX(0)} 38.750%{transform:translateX(448px)} 93.750%{transform:translateX(448px)} 93.875%{transform:translateX(0)} 100.000%{transform:translateX(0)}}
+@keyframes w1beam{0.000%{opacity:0;transform:translateX(0)} 25.000%{opacity:0;transform:translateX(0)} 26.000%{opacity:1;transform:translateX(0)} 37.750%{opacity:1;transform:translateX(400px)} 40.625%{opacity:0;transform:translateX(448px)} 100.000%{opacity:0;transform:translateX(448px)}}
+@keyframes w1new{0.000%{opacity:1} 88.750%{opacity:1} 93.125%{opacity:0} 94.375%{opacity:1} 100.000%{opacity:1}}
+@keyframes w1chk{0.000%{opacity:0;transform:scale(.3)} 37.500%{opacity:0;transform:scale(.3)} 40.625%{opacity:1;transform:scale(1.15)} 43.125%{opacity:1;transform:scale(1)} 88.750%{opacity:1;transform:scale(1)} 92.500%{opacity:0;transform:scale(.6)} 100.000%{opacity:0;transform:scale(.3)}}
+.w1old{animation:w1old 8.0s infinite} .w1cov{animation:w1cov 8.0s infinite cubic-bezier(.4,0,.2,1)} .w1beam{animation:w1beam 8.0s infinite cubic-bezier(.4,0,.2,1)} .w1new{animation:w1new 8.0s infinite} .w1chk{animation:w1chk 8.0s infinite;transform-box:fill-box;transform-origin:center}
+@media (prefers-reduced-motion: reduce){.w0old,.w0cov,.w0beam,.w1old,.w1cov,.w1beam{display:none}}
+@media (prefers-reduced-motion: reduce){*{animation:none!important}}
+</style>
+<rect x=".5" y=".5" width="1199" height="539" rx="28" fill="#0A0A0C" stroke="#1C1C22"/>
+  <rect x=".5" y=".5" width="1199" height="539" rx="28" fill="url(#dots)"/>
+  <rect x=".5" y=".5" width="1199" height="539" rx="28" fill="url(#g1)"/><rect x=".5" y=".5" width="1199" height="539" rx="28" fill="url(#g2)"/>
+  <g transform="translate(58.50 54.50) scale(0.5500)">
+    <use href="#sq" fill="url(#lime)"/>
+    <path d="M64 28H28v13M36 72h36V59" fill="none" stroke="#0A0A0C" stroke-width="5.6" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M34.5 45.2L65.5 54.8" stroke="#0A0A0C" stroke-width="5.6" stroke-linecap="round"/>
+  </g>
+  <text x="122" y="90" font-size="22" class="sb" fill="#F4F4F6" letter-spacing="-.3">Shotlight <tspan fill="#82828E" font-weight="400">website</tspan></text>
+  <text class="mono" x="64" y="176" font-size="16" fill="#D4FF3F">www.shotlight.lol</text>
+  <text x="64" y="232" font-size="46" class="sb" fill="#F4F4F6" letter-spacing="-1.6">The page that sells</text>
+  <text x="64" y="284" font-size="46" class="sb" fill="#F4F4F6" letter-spacing="-1.6">a private app.</text>
+  <text x="64" y="334" font-size="18" fill="#A6A6B3">Live demos of every feature, a download page</text>
+  <text x="64" y="360" font-size="18" fill="#A6A6B3">with first-open steps, and a changelog.</text>
+  <g><rect x="64" y="396" width="77" height="30" rx="15.0" fill="#141418" stroke="#2A2A33"/>
+    <text x="77" y="415.7" font-size="13" fill="#A6A6B3">Astro 7</text></g><g><rect x="148.96" y="396" width="70" height="30" rx="15.0" fill="#141418" stroke="#2A2A33"/>
+    <text x="161.96" y="415.7" font-size="13" fill="#A6A6B3">Vercel</text></g><g><rect x="226.64000000000001" y="396" width="150" height="30" rx="15.0" fill="#141418" stroke="#2A2A33"/>
+    <text x="239.64000000000001" y="415.7" font-size="13" fill="#A6A6B3">Self-hosted fonts</text></g><g><rect x="384.4" y="396" width="99" height="30" rx="15.0" fill="#141418" stroke="#2A2A33"/>
+    <text x="397.4" y="415.7" font-size="13" fill="#A6A6B3">Strict CSP</text></g>
+  <g filter="url(#shadow)"><rect x="560" y="56" width="600" height="428" rx="16" fill="#0A0A0C" stroke="#2A2A33"/></g>
+  <path d="M576 56h568a16 16 0 0 1 16 16v30h-600v-30a16 16 0 0 1 16-16z" fill="#141418"/>
+  <circle cx="582" cy="79" r="6" fill="#FF5F57"/><circle cx="602" cy="79" r="6" fill="#FEBC2E"/><circle cx="622" cy="79" r="6" fill="#28C840"/>
+  <rect x="710" y="66" width="300" height="26" rx="8" fill="#1C1C22"/>
+  <path d="M726 78v-3a4 4 0 0 1 8 0v3" fill="none" stroke="#82828E" stroke-width="1.5"/><rect x="724" y="77" width="12" height="9" rx="2" fill="#82828E"/>
+  <text class="mono" x="860.0" y="84" font-size="12.5" fill="#A6A6B3" text-anchor="middle">www.shotlight.lol</text>
+  <rect x="560" y="102" width="600" height="1" fill="#2A2A33"/>
+  <g transform="translate(597.25 123.25) scale(0.2750)">
+    <use href="#sq" fill="url(#lime)"/>
+    <path d="M64 28H28v13M36 72h36V59" fill="none" stroke="#0A0A0C" stroke-width="5.6" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M34.5 45.2L65.5 54.8" stroke="#0A0A0C" stroke-width="5.6" stroke-linecap="round"/>
+  </g><text x="630" y="142" font-size="14" class="sb" fill="#F4F4F6">Shotlight</text>
+  <text x="1120" y="142" font-size="12.5" fill="#A6A6B3" text-anchor="end">Support</text><text x="1058" y="142" font-size="12.5" fill="#A6A6B3" text-anchor="end">Privacy</text><text x="998" y="142" font-size="12.5" fill="#A6A6B3" text-anchor="end">Changelog</text>
+  <text x="600" y="196" font-size="32" class="sb" fill="#F4F4F6" letter-spacing="-1">Your screenshots,</text>
+  <text x="600" y="234" font-size="32" class="sb" fill="#F4F4F6" letter-spacing="-1">finally findable.</text>
+  <g class="btn"><rect x="600" y="252" width="186" height="38" rx="19" fill="#D4FF3F"/>
+  <text x="693" y="276" font-size="14" class="sb" fill="#0A0A0C" text-anchor="middle">Download for Mac</text></g>
+  <text x="800" y="276" font-size="12.5" fill="#82828E">Free · macOS 15+</text>
+  <rect x="600" y="302" width="520" height="148" rx="14" fill="#111115" stroke="#2A2A33"/>
+  <clipPath id="wclip"><rect x="600" y="306" width="520" height="140"/></clipPath><g clip-path="url(#wclip)"><rect x="620" y="319.0" width="44" height="44" rx="9.7" fill="#1D2433" stroke="#fff" stroke-opacity=".08"/><rect x="626.6" y="326.7" width="30.8" height="6.6" rx="1.7" fill="#A78BFA" fill-opacity="1"/><rect x="626.6" y="336.6" width="14.3" height="18.7" rx="1.7" fill="#7CC4FF" fill-opacity="0.8"/><rect x="643.1" y="336.6" width="14.3" height="8.8" rx="1.7" fill="#D4FF3F" fill-opacity="0.9"/><rect x="643.1" y="347.6" width="14.3" height="7.7" rx="1.7" fill="#FF7A66" fill-opacity="0.8"/>
+<text class="mono w0new" x="672" y="339.0" font-size="13" fill="#F4F4F6">Figma – Pricing hero v3.png</text>
+<rect class="w0cov" x="668" y="314" width="448" height="54" fill="#111115"/>
+<text class="mono w0old" x="672" y="339.0" font-size="13" fill="#82828E">Screenshot 2026-11-12 at 09.12.44.png</text>
+<text x="672" y="359.0" font-size="12" fill="#82828E">Figma · 2.1 MB</text>
+<g class="w0beam"><rect x="622" y="318" width="48" height="46" fill="url(#beamBar)"/><rect x="668" y="314" width="3" height="54" rx="1.5" fill="#D4FF3F" filter="url(#glow)"/><rect x="668" y="314" width="2" height="54" rx="1" fill="#F4FFC8"/></g>
+<g class="w0chk"><circle cx="1090" cy="341.0" r="10" fill="#D4FF3F"/>
+    <path d="M1085.8 341.2 l3.0 3.0 l5.5 -6.0" fill="none" stroke="#0A0A0C" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round"/></g>
+<rect x="616" y="376" width="488" height="1" fill="#1C1C22"/>
+<rect x="620" y="389.0" width="44" height="44" rx="9.7" fill="#16161B" stroke="#fff" stroke-opacity=".08"/><rect x="626.6" y="397.8" width="11.0" height="2.6" rx="1.7" fill="#FF7A66" fill-opacity="1"/><rect x="639.8" y="397.8" width="15.4" height="2.6" rx="1.7" fill="#A6A6B3" fill-opacity="1"/><rect x="629.9" y="404.4" width="17.6" height="2.6" rx="1.7" fill="#7CC4FF" fill-opacity="1"/><rect x="629.9" y="411.0" width="23.1" height="2.6" rx="1.7" fill="#D4FF3F" fill-opacity="1"/><rect x="626.6" y="417.6" width="13.2" height="2.6" rx="1.7" fill="#A6A6B3" fill-opacity="1"/><rect x="626.6" y="424.2" width="26.4" height="2.6" rx="1.7" fill="#FF7A66" fill-opacity="0.7"/>
+<text class="mono w1new" x="672" y="409.0" font-size="13" fill="#F4F4F6">Xcode – Build failed, GRDB.png</text>
+<rect class="w1cov" x="668" y="384" width="448" height="54" fill="#111115"/>
+<text class="mono w1old" x="672" y="409.0" font-size="13" fill="#82828E">Screenshot 2026-11-10 at 18.47.02.png</text>
+<text x="672" y="429.0" font-size="12" fill="#82828E">Xcode · 840 KB</text>
+<g class="w1beam"><rect x="622" y="388" width="48" height="46" fill="url(#beamBar)"/><rect x="668" y="384" width="3" height="54" rx="1.5" fill="#D4FF3F" filter="url(#glow)"/><rect x="668" y="384" width="2" height="54" rx="1" fill="#F4FFC8"/></g>
+<g class="w1chk"><circle cx="1090" cy="411.0" r="10" fill="#D4FF3F"/>
+    <path d="M1085.8 411.2 l3.0 3.0 l5.5 -6.0" fill="none" stroke="#0A0A0C" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round"/></g></g>
+  <circle class="clk" cx="693" cy="271" r="18" fill="none" stroke="#D4FF3F" stroke-width="2"/>
+  <g class="cur"><path transform="translate(992 328)" d="M0 0 L0 22 L6 17 L10 26 L14 24 L10 15 L18 15 Z" fill="#F4F4F6" stroke="#0A0A0C" stroke-width="1.5" stroke-linejoin="round"/></g>
+
+</svg>
