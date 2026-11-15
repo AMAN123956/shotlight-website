@@ -2,7 +2,7 @@
 // While Shotlight is free: one "early access" card. The designed three-tier layout is PricingTiers.astro, fed by
 // src/data/pricing.json; to switch, render <PricingTiers /> here instead (see docs/website-plan.md §10).
 ---
-<section id="pricing" class="band">
+<section id="pricing" class="band" data-section="pricing">
   <div class="wrap section stack" style="gap: 40px;">
     <div class="stack head">
       <span class="eyebrow">Pricing</span>
@@ -25,7 +25,7 @@
         <li>✓ Full naming control that learns from your edits</li>
       </ul>
       <div class="cta">
-        <a href="/download" class="btn btn-beam btn-lg">Download for Mac</a>
+        <a href="/download" class="btn btn-beam btn-lg" data-track="cta_download_pricing">Download for Mac</a>
         <span class="fine">We’ll decide on pricing later. What you download now keeps working.</span>
       </div>
     </div>

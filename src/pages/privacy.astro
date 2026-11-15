@@ -1,14 +1,14 @@
 ---
 import Base from '../layouts/Base.astro';
-import { ISSUES, NEW_ISSUE, VERCEL_PRIVACY, GITHUB_PRIVACY } from '../lib/links';
-const updated = '13 November 2026';
+import { ISSUES, NEW_ISSUE, VERCEL_PRIVACY, GITHUB_PRIVACY, CLARITY_PRIVACY } from '../lib/links';
+const updated = '15 November 2026';
 ---
-<Base title="Privacy" description="Shotlight collects nothing. No account, no analytics, no network code. What the app and this website do with your data.">
+<Base title="Privacy" description="The Shotlight app collects nothing: no account, no analytics, no network code. What the app and this website do with your data.">
   <div class="wrap page">
     <header class="head">
       <span class="eyebrow">Privacy</span>
-      <h1>Shotlight collects nothing.</h1>
-      <p class="lede">Short version: the app never goes online, and this website doesn’t track you. Here are the details.</p>
+      <h1>The app collects nothing.</h1>
+      <p class="lede">Short version: the app never goes online and never sends anything anywhere. This website counts visits, to see which parts people find useful. Here are the details.</p>
       <p class="updated">Last updated {updated}</p>
     </header>
 
@@ -25,7 +25,8 @@ const updated = '13 November 2026';
 
       <h2>This website</h2>
       <ul>
-        <li><strong>No cookies, no analytics, no third-party scripts, fonts or embeds.</strong> Everything on this site, including the fonts, is served from this site.</li>
+        <li><strong>Visit analytics.</strong> This site uses <a href={CLARITY_PRIVACY}>Microsoft Clarity</a> to see how many people visit, where they came from, and which pages and buttons they use, such as the Download button. Clarity records clicks, scrolling and mouse movement on these pages, and may set cookies to tell a returning visitor from a new one. It isn’t used for ads, and it sees nothing from the app or your Mac. Content blockers stop it, and the site works the same without it.</li>
+        <li><strong>Everything else is served from this site.</strong> No other third-party scripts, fonts or embeds.</li>
         <li><strong>Hosting.</strong> The site is hosted on Vercel. Like any web host, Vercel may keep server logs (such as IP addresses) for security and operations. See <a href={VERCEL_PRIVACY}>Vercel’s privacy policy</a>.</li>
         <li><strong>Downloads.</strong> The app is downloaded from GitHub Releases, and bug reports go to GitHub Issues, so GitHub’s <a href={GITHUB_PRIVACY}>privacy statement</a> applies there.</li>
       </ul>

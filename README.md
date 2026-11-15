@@ -12,9 +12,15 @@ npm run preview
 
 ## Rules
 
-- **No third parties.** No analytics, cookies, external scripts, fonts or embeds. Fonts are self-hosted
-  (`@fontsource/geist-sans`, `@fontsource/geist-mono`). `vercel.json` sets a Content-Security-Policy that only allows
-  same-origin resources, and `astro.config.mjs` stops Vite from inlining scripts so the CSP holds.
+- **One third party: Microsoft Clarity** (visit analytics, disclosed on `/privacy`). No other external scripts,
+  fonts or embeds. Fonts are self-hosted (`@fontsource/geist-sans`, `@fontsource/geist-mono`). `vercel.json` sets a
+  Content-Security-Policy that allows same-origin resources plus Clarity's domains, and `astro.config.mjs` stops Vite
+  from inlining scripts so the CSP holds.
+- **Analytics** live in `src/lib/analytics.ts`. Clarity (project ID in that file) loads only on `www.shotlight.lol` /
+  `shotlight.lol`, never on localhost or Vercel preview deployments. Events: give an element
+  `data-track="name"` (Download buttons use `cta_download_<where>`; the real `.dmg` link is `download_dmg`). Landing
+  sections carry `data-section="name"` for `view_<name>` and `demo_<name>` events. Nav, footer, chapter, outbound
+  links and FAQ answers are recorded automatically. The full event list is at the top of `analytics.ts`.
 - **Don't advertise what isn't built.** Check `docs/PRODUCT.md` in the app repo before adding a feature to the copy.
 - **Every Download button goes to `/download`**, so people see the first-open steps. Only `/download` links to the
   `.dmg` (`src/lib/links.ts`).
@@ -43,5 +49,6 @@ The `/download` button uses GitHub's `releases/latest/download/Shotlight.dmg` li
 
 ## Domain
 
-The site runs on its Vercel URL for now. When a domain is added in Vercel, set `SITE_URL` (or the default in
-`astro.config.mjs`) and the sitemap line in `public/robots.txt`.
+https://www.shotlight.lol (Vercel; `shotlight.lol` redirects to `www`). The old `shotlight-website.vercel.app` and
+`shotlight-sand.vercel.app` addresses redirect there (`vercel.json`). The URL is set in `astro.config.mjs` (`SITE_URL`
+overrides it) and in the sitemap line of `public/robots.txt`.
