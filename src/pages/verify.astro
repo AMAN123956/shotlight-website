@@ -1,0 +1,97 @@
+---
+import Base from '../layouts/Base.astro';
+import release from '../data/release.json';
+import { NEW_ISSUE } from '../lib/links';
+
+const BIN = '/Applications/Shotlight.app/Contents/MacOS/Shotlight';
+// The same things scripts/release.sh in the app repo refuses to ship, in a form anyone can paste.
+const symbols = `nm -u ${BIN} | grep -E 'NSURLSession|NSURLConnection|_nw_|getaddrinfo|_socket$|_connect$|CFSocket'`;
+const frameworks = `otool -L ${BIN} | grep -E 'Network|WebKit|CFNetwork'`;
+const hash = 'shasum -a 256 ~/Downloads/Shotlight.dmg';
+---
+<Base title="Verify" description="Shotlight says it never goes online. Here is how to check that yourself: a firewall, Wi-Fi off, and two Terminal commands on the app.">
+  <div class="wrap page">
+    <header class="head">
+      <span class="eyebrow">Verify</span>
+      <h1>Don’t take our word for it.</h1>
+      <p class="lede">Shotlight is closed source and isn’t sandboxed, so macOS doesn’t stop it from using the network. The promise holds because the app contains no networking code. Here is how to check that on your own Mac.</p>
+    </header>
+
+    <div class="prose">
+      <h2>1. Watch it with a firewall</h2>
+      <p>Install an outgoing firewall such as <strong>Little Snitch</strong> or the free <strong>LuLu</strong>, then use Shotlight as usual: take screenshots, search, run Tidy Up. These tools show every connection an app tries to make. Shotlight never appears in the list.</p>
+
+      <h2>2. Turn Wi‑Fi off</h2>
+      <p>Naming, search, Tidy Up, the guard and speech transcripts all work the same with no connection. Nothing waits and nothing is sent later when you reconnect, because the app has nowhere to send it.</p>
+
+      <h2>3. Look inside the app</h2>
+      <p>A Mac app has to ask macOS for networking functions by name, and those names are readable in the app file. These two commands list them. They need Apple’s Command Line Tools (macOS offers to install them the first time).</p>
+      <div class="cmd">
+        <pre><code>{symbols}</code></pre>
+        <button type="button" class="copy" data-copy={symbols} aria-label="Copy the symbols command" data-track="verify_copy_symbols">Copy</button>
+      </div>
+      <div class="cmd">
+        <pre><code>{frameworks}</code></pre>
+        <button type="button" class="copy" data-copy={frameworks} aria-label="Copy the frameworks command" data-track="verify_copy_frameworks">Copy</button>
+      </div>
+      <p><strong>Both print nothing.</strong> The first looks for the functions an app uses to open a connection. The second looks for Apple’s networking and web frameworks. That one file is all the code there is: right-click Shotlight in Applications, choose Show Package Contents, and you’ll find no helper apps or bundled frameworks beside it.</p>
+
+      <h2>4. Check the download</h2>
+      <p>To make sure the file you downloaded is the one we published, compare its SHA-256 with the one on the <a href="/download">download page</a>.</p>
+      <div class="cmd">
+        <pre><code>{hash}</code></pre>
+        <button type="button" class="copy" data-copy={hash} aria-label="Copy the checksum command" data-track="verify_copy_hash">Copy</button>
+      </div>
+      <p>For version {release.version} it should print <code>{release.sha256}</code>.</p>
+
+      <h2>How we keep it that way</h2>
+      <ul>
+        <li><strong>A test fails the build.</strong> If any networking API, or a web address that isn’t a link for you to click, shows up in the code, the tests fail and nothing can be released.</li>
+        <li><strong>The release script checks again.</strong> It runs the checks from step 3 on the finished app and refuses to publish if they find anything.</li>
+        <li><strong>Nothing needs the internet.</strong> There’s no updater, no license check and no analytics in the app, so there is no feature that would ever need a connection.</li>
+      </ul>
+
+      <h2>What these checks don’t cover</h2>
+      <ul>
+        <li><strong>Apple’s parts of macOS.</strong> Shotlight reads screenshots with Apple Vision, names them with Apple Intelligence where it’s available, and transcribes speech with Apple’s on-device model. Those belong to macOS. Shotlight only asks them for on-device work and never asks macOS to download a model.</li>
+        <li><strong>Links you click.</strong> Links in the app, like the one to this website, open in your browser.</li>
+        <li><strong>This website.</strong> The site does count visits. The <a href="/privacy">privacy page</a> says how.</li>
+      </ul>
+      <p>Found something that doesn’t match this page? <a href={NEW_ISSUE}>Open an issue</a>. We’d want to know first.</p>
+    </div>
+  </div>
+</Base>
+
+<style>
+  .page { max-width: 820px; padding-top: 80px; padding-bottom: 96px; }
+  .head { display: flex; flex-direction: column; gap: 14px; margin-bottom: 16px; }
+  h1 { font-size: clamp(36px, 4.5vw, 56px); line-height: 1.04; letter-spacing: -0.04em; font-weight: 600; }
+  .cmd {
+    display: flex; align-items: flex-start; gap: 10px; margin: 0 0 14px; padding: 12px 12px 12px 16px; border-radius: 12px;
+    background: var(--surface-2); border: 1px solid var(--line);
+  }
+  .cmd pre { flex: 1; min-width: 0; margin: 0; overflow-x: auto; padding: 4px 0; }
+  .cmd pre code { padding: 0; border: 0; background: none; font-size: 13px; white-space: pre; overflow-wrap: normal; }
+  .copy {
+    flex-shrink: 0; padding: 6px 12px; border-radius: 8px; font: inherit; font-size: 13px; cursor: pointer;
+    color: var(--text); background: var(--surface-3); border: 1px solid var(--line);
+    transition: border-color 120ms ease-out, transform 120ms ease-out;
+  }
+  .copy:hover { border-color: var(--line-strong); }
+  .copy:active { transform: scale(0.97); }
+  .copy:focus-visible { outline: 2px solid var(--beam); outline-offset: 3px; }
+  @media (max-width: 640px) { .page { padding-top: 48px; padding-bottom: 72px; } }
+  @media (prefers-reduced-motion: reduce) { .copy { transition: none; } }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('button.copy[data-copy]').forEach((b) => {
+    b.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(b.dataset.copy!);
+        b.textContent = 'Copied';
+        setTimeout(() => { b.textContent = 'Copy'; }, 1600);
+      } catch { /* clipboard blocked: the command is selectable */ }
+    });
+  });
+</script>
