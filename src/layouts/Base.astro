@@ -95,13 +95,8 @@ const nav = [
             <span data-like-label aria-hidden="true">Like</span>
             <span class="like-count mono" aria-hidden="true"><span data-like-count>0</span></span>
           </button>
-          <a class="btn btn-ghost btn-md coffee" href={BUY_ME_A_COFFEE} data-track="footer_coffee">
-            <svg class="cup" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
-              <path class="steam" d="M8.5 2.5c-.7.9-.7 2.1 0 3M12.5 2.5c-.7.9-.7 2.1 0 3" />
-              <path d="M4 9h12v4.5A5.5 5.5 0 0 1 10.5 19h-1A5.5 5.5 0 0 1 4 13.5V9z" />
-              <path d="M16 10.5h1.5a2.75 2.75 0 0 1 0 5.5H15.6" />
-            </svg>
-            Buy me a coffee
+          <a class="coffee" href={BUY_ME_A_COFFEE} data-track="footer_coffee">
+            <img src="/bmc-button.png" alt="Buy me a coffee" width="136" height="38" decoding="async" />
           </a>
         </div>
       </div>
@@ -151,18 +146,18 @@ const nav = [
   }
   .footer-cta p { font-size: 14px; color: var(--text-2); text-wrap: balance; }
   .cta-actions { display: flex; flex-wrap: wrap; gap: 10px; }
-  .like, .coffee { gap: 8px; font-size: 13px; color: var(--text-soft); }
-  .like:hover, .coffee:hover { color: var(--text); }
+  .like { --heart: #FF3B5C; gap: 8px; font-size: 13px; color: var(--text-soft); }
+  .like:hover { color: var(--text); border-color: rgba(255, 59, 92, 0.4); }
 
   .like[hidden] { display: none; }
   .like { opacity: 0; transition: opacity 240ms ease-out, transform 120ms ease-out, filter 120ms ease-out, border-color 120ms ease-out, background-color 160ms ease-out; }
   .like.is-in { opacity: 1; }
   .heart { position: relative; display: grid; place-items: center; }
-  .heart svg { fill: transparent; stroke: var(--text-2); stroke-width: 1.8; stroke-linejoin: round; transition: fill 160ms ease-out, stroke 160ms ease-out; }
-  .like:hover .heart svg { stroke: var(--text); }
+  .heart svg { fill: transparent; stroke: var(--heart); stroke-width: 1.8; stroke-linejoin: round; transition: fill 160ms ease-out, transform 160ms ease-out; }
+  .like:hover .heart svg { fill: rgba(255, 59, 92, 0.25); transform: scale(1.08); }
   .heart::after {
     content: ''; position: absolute; inset: -6px; border-radius: 50%;
-    border: 1.5px solid var(--beam); opacity: 0; pointer-events: none;
+    border: 1.5px solid var(--heart); opacity: 0; pointer-events: none;
   }
   .like-count {
     display: inline-block; overflow: hidden; min-width: 1ch; padding-left: 9px; margin-left: 1px;
@@ -170,9 +165,9 @@ const nav = [
   }
   .like-count > span { display: inline-block; }
 
-  .like[aria-pressed='true'] { border-color: rgba(212, 255, 63, 0.35); background: rgba(212, 255, 63, 0.06); }
-  .like[aria-pressed='true'] .heart svg { fill: var(--beam); stroke: var(--beam); }
-  .like[aria-pressed='true'] .like-count { color: var(--beam); border-color: rgba(212, 255, 63, 0.3); }
+  .like[aria-pressed='true'] { border-color: rgba(255, 59, 92, 0.45); background: rgba(255, 59, 92, 0.08); }
+  .like[aria-pressed='true'] .heart svg { fill: var(--heart); transform: none; }
+  .like[aria-pressed='true'] .like-count { color: #FF8099; border-color: rgba(255, 59, 92, 0.35); }
 
   .like.is-pop .heart svg { animation: heartpop 380ms cubic-bezier(0.3, 1.6, 0.5, 1); }
   .like.is-pop .heart::after { animation: heartring 480ms ease-out; }
@@ -183,14 +178,14 @@ const nav = [
   @keyframes countup { from { transform: translateY(70%); opacity: 0; } to { transform: none; opacity: 1; } }
   @keyframes countdown { from { transform: translateY(-70%); opacity: 0; } to { transform: none; opacity: 1; } }
 
-  .cup { fill: none; stroke: var(--text-2); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; transition: stroke 120ms ease-out; }
-  .coffee:hover .cup { stroke: var(--text); }
-  .cup .steam { opacity: 0.55; }
-  .coffee:hover .steam { animation: steam 1.2s ease-in-out infinite; }
-  @keyframes steam { 0%, 100% { transform: translateY(0); opacity: 0.55; } 50% { transform: translateY(-1.5px); opacity: 1; } }
+  .coffee { display: inline-flex; border-radius: 10px; transition: transform 120ms ease-out, filter 120ms ease-out; }
+  .coffee img { height: 38px; width: auto; border-radius: 10px; }
+  .coffee:hover { filter: brightness(1.06); transform: translateY(-1px); }
+  .coffee:active { transform: scale(0.97); }
 
   @media (prefers-reduced-motion: reduce) {
-    .like, .heart svg, .cup { transition: none; }
-    .like.is-pop .heart svg, .like.is-pop .heart::after, .like-count > span, .coffee:hover .steam { animation: none !important; }
+    .like, .heart svg, .coffee { transition: none; }
+    .like:hover .heart svg, .coffee:hover { transform: none; }
+    .like.is-pop .heart svg, .like.is-pop .heart::after, .like-count > span { animation: none !important; }
   }
 </style>
