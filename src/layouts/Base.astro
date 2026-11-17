@@ -76,7 +76,17 @@ const nav = [
         <nav class="nav" aria-label="Main">
           {nav.map(([href, label]) => <a href={href}>{label}</a>)}
         </nav>
-        <a href="/download" class="btn btn-beam btn-md" data-track="cta_download_header" aria-current={here === '/download' ? 'page' : undefined}>Download free</a>
+        <div class="header-actions">
+          <a href={BUY_ME_A_COFFEE} class="support" data-track="nav_coffee">
+            <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+              <path class="steam" d="M8.5 2.5c-.7.9-.7 2.1 0 3M12.5 2.5c-.7.9-.7 2.1 0 3" />
+              <path d="M4 9h12v4.5A5.5 5.5 0 0 1 10.5 19h-1A5.5 5.5 0 0 1 4 13.5V9z" />
+              <path d="M16 10.5h1.5a2.75 2.75 0 0 1 0 5.5H15.6" />
+            </svg>
+            Support
+          </a>
+          <a href="/download" class="btn btn-beam btn-md" data-track="cta_download_header" aria-current={here === '/download' ? 'page' : undefined}>Download free</a>
+        </div>
       </div>
     </header>
 
@@ -132,6 +142,20 @@ const nav = [
   .nav { display: flex; gap: 26px; font-size: 14px; flex-wrap: wrap; }
   .nav a { color: var(--text-2); text-decoration: none; border-radius: 4px; transition: color 120ms ease-out; }
   .nav a:hover, .nav a[aria-current='page'] { color: var(--text); }
+  .header-actions { display: flex; align-items: center; gap: 22px; }
+  .support {
+    display: inline-flex; align-items: center; gap: 7px; font-size: 14px; color: var(--text-2);
+    text-decoration: none; border-radius: 4px; white-space: nowrap; transition: color 120ms ease-out;
+  }
+  .support:hover { color: var(--text); }
+  .support svg { fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  .support .steam { opacity: 0.55; }
+  .support:hover .steam { animation: steam 1.2s ease-in-out infinite; }
+  @keyframes steam { 0%, 100% { transform: translateY(0); opacity: 0.55; } 50% { transform: translateY(-1.5px); opacity: 1; } }
+  @media (prefers-reduced-motion: reduce) { .support:hover .steam { animation: none; } }
+  @media (max-width: 960px) {
+    .support { display: none; }
+  }
   @media (max-width: 760px) {
     .header-row .nav { display: none; }
   }
