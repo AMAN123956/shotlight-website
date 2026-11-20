@@ -1,0 +1,86 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import DownloadButton from '../components/DownloadButton.astro';
+import release from '../data/release.json';
+
+const faqs = [
+  { q: 'Is Shotlight free?', a: 'Yes. It is free while in early access, and every copy has every feature. If that changes, payment would happen on this website before the download, never inside the app.' },
+  { q: 'Does Shotlight upload my screenshots?', a: 'No. It reads them on your Mac with Apple’s own tools and keeps its index in a file on your disk. The app has no networking code at all, and you can check that yourself.' },
+  { q: 'Which Macs does it run on?', a: `A Mac with ${release.arch} and macOS ${release.minMacOS} or later. On macOS 26 with Apple Intelligence turned on, names are richer. Otherwise Shotlight names a screenshot from the text it reads in it.` },
+  { q: 'Does it rename my old screenshots?', a: 'Only if you ask. Tidy Up shows a proposed name for every old screenshot in a folder. You review the list, uncheck what you want to keep, and one Undo reverses the whole batch.' },
+];
+const origin = (Astro.site ?? new URL('https://www.shotlight.lol')).href.replace(/\/$/, '');
+const ld = [
+  {
+    '@context': 'https://schema.org', '@type': 'FAQPage',
+    mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+  },
+  {
+    '@context': 'https://schema.org', '@type': 'BreadcrumbList',
+    itemListElement: [{ '@type': 'ListItem', position: 1, name: 'What is Shotlight', item: `${origin}/what-is-shotlight` }],
+  },
+];
+---
+<Base title="What is Shotlight?" description="Shotlight is a free Mac app that names every screenshot the moment you take it and finds any of them by the words inside. Everything runs on your Mac.">
+  {ld.map((o) => <script type="application/ld+json" slot="head" set:html={JSON.stringify(o)}></script>)}
+  <div class="blob b-lime" style="width:480px;height:300px;left:-120px;top:80px;opacity:.7"></div>
+  <div class="blob b-sky" style="width:480px;height:300px;right:-120px;top:40px;opacity:.7"></div>
+
+  <header class="wrap-s top">
+    <span class="pill">About</span>
+    <h1 class="display">What is <span class="serif">Shotlight?</span></h1>
+    <div class="answer"><span class="lab"><Icon name="search" class="ic ic-sm" />In one sentence</span><p>Shotlight is a free Mac app that names every screenshot the moment you take it and finds any of them by the words inside. Everything runs on your Mac.</p></div>
+  </header>
+
+  <section class="wrap-s prose body">
+    <h2>What it does</h2>
+    <p>Mac screenshots are named with a date and a time, so a folder of hundreds tells you nothing. Shotlight gives each new screenshot a clear name from what is on the screen, and lets you find any screenshot by typing words that were in it.</p>
+    <ul>
+      <li>Names new screenshots and screen recordings as you take them, with Edit and Undo in a small pill.</li>
+      <li>Searches the text inside every screenshot, plus the app, the website and the date. Press ⌥Space to open it.</li>
+      <li>Guards secrets. Keys, card numbers and one-time codes are blurred and kept out of names and search.</li>
+      <li>Files screenshots with rules you write as sentences, and can move old or unwanted ones to the Trash after a set number of days.</li>
+      <li>Tidies a backlog. Tidy Up renames old screenshots after you review the list, and finds duplicates and retakes.</li>
+    </ul>
+
+    <h2>Who it is for</h2>
+    <p>Anyone who takes a lot of screenshots and loses them: people who capture receipts, error messages, designs, chats and instructions, and need to find one again weeks later.</p>
+
+    <h2>What it needs</h2>
+    <ul>
+      <li>A Mac with {release.arch} and macOS {release.minMacOS} or later.</li>
+      <li>About {release.sizeMB} MB of disk space. There is no model to download.</li>
+      <li>Apple Intelligence on macOS 26 is optional. It makes names richer.</li>
+    </ul>
+
+    <h2>Privacy</h2>
+    <p>Shotlight has no networking code, no account and no analytics. It reads screenshots with Apple’s on-device tools and only looks at the folders you pick. The <a href="/privacy">privacy page</a> has the details, and <a href="/verify">this page</a> shows how to check the claim on your own Mac.</p>
+
+    <h2>Price</h2>
+    <p>Free while in early access. Every copy has every feature.</p>
+
+    <h2>Questions</h2>
+    <div class="faq">
+      {faqs.map((f, i) => (
+        <details open={i === 0}><summary>{f.q}</summary><div class="ans">{f.a}</div></details>
+      ))}
+    </div>
+
+    <div class="card cta">
+      <div class="stack" style="gap:4px"><b>Version {release.version} for Mac</b><span class="small muted">Free, on-device, no account.</span></div>
+      <DownloadButton where="what_is" label="Download for Mac" class="btn btn-beam btn-md" />
+    </div>
+  </section>
+</Base>
+
+<style>
+  .top { padding-top: 72px; position: relative; z-index: 1; }
+  .top .display { font-size: clamp(42px, 5.4vw, 72px); margin: 22px 0 26px; }
+  .answer { border-radius: 24px; background: var(--beam-tint); border: 1px solid rgba(77, 107, 0, 0.28); padding: 22px 26px; }
+  .answer .lab { display: inline-flex; align-items: center; gap: 8px; font-size: 12.5px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--beam-ink); margin-bottom: 8px; }
+  .answer p { font-size: 19px; line-height: 1.55; color: var(--text); }
+  .body { position: relative; z-index: 1; padding-top: 24px; padding-bottom: 112px; font-size: 17.5px; }
+  .body h2 { font-size: 30px; letter-spacing: -0.03em; margin: 48px 0 12px; }
+  .cta { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px; padding: 22px 26px; margin-top: 56px; }
+</style>

@@ -39,15 +39,17 @@ const checks = [
       <div class="cmpwrap">
         <div class="cmpx" role="table" aria-label="Shotlight compared with cloud screenshot apps">
           <div class="hl" aria-hidden="true"></div>
-          <div class="c h" role="columnheader"><span class="sr-only">Feature</span></div>
-          <div class="c h us" role="columnheader">Shotlight</div>
-          <div class="c h them" role="columnheader">Cloud apps</div>
+          <div class="row-c" role="row">
+            <div class="c h" role="columnheader"><span class="sr-only">Feature</span></div>
+            <div class="c h us" role="columnheader">Shotlight</div>
+            <div class="c h them" role="columnheader">Cloud apps</div>
+          </div>
           {rows.map(([label, us, them]) => (
-            <>
+            <div class="row-c" role="row">
               <div class="c lab" role="rowheader">{label}</div>
               <div class="c us" role="cell"><Icon name="check" class="ic" />{us}</div>
               <div class="c them" role="cell"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 12h12"></path></svg>{them}</div>
-            </>
+            </div>
           ))}
         </div>
         <p class="foot">General comparison. Individual apps differ.</p>
@@ -90,6 +92,7 @@ const checks = [
 
   .cmpwrap { border-radius: 22px; background: #141418; border: 1px solid #2c2c35; padding: 8px 8px 0; }
   .cmpx { position: relative; display: grid; grid-template-columns: 1.3fr 1fr 1fr; }
+  .row-c { display: contents; }
   .hl { position: absolute; top: 0; bottom: 0; left: 0; margin-left: calc(100% * 1.3 / 3.3); width: calc(100% / 3.3); border-radius: 16px; background: linear-gradient(180deg, rgba(212, 255, 63, 0.16), rgba(212, 255, 63, 0.06)); border: 1px solid rgba(212, 255, 63, 0.38); pointer-events: none; }
   .c { position: relative; display: flex; align-items: center; gap: 8px; min-height: 48px; padding: 8px 14px; border-top: 1px solid #2a2a33; font-size: 14.5px; }
   .h { min-height: 44px; border-top: 0; font-size: 13px; font-weight: 600; letter-spacing: 0.02em; }

@@ -1,7 +1,9 @@
 import { getCollection } from 'astro:content';
 
 // Drafts show in `npm run dev` and are left out of every build.
-const visible = ({ data }: { data: { draft: boolean } }) => import.meta.env.DEV || !data.draft;
+// PUBLIC_SHOW_DRAFTS=1 builds them too (for a QA build into another folder, never for deploying).
+const visible = ({ data }: { data: { draft: boolean } }) =>
+  import.meta.env.DEV || import.meta.env.PUBLIC_SHOW_DRAFTS === '1' || !data.draft;
 
 export async function publishedGuides() {
   const all = (await getCollection('guides', visible)) as Awaited<ReturnType<typeof getCollection<'guides'>>>;

@@ -49,13 +49,13 @@ if (d.faq.length) {
   <div class="blob b-lime" style="width:480px;height:300px;left:-120px;top:80px;opacity:.7"></div>
   <div class="blob b-sky" style="width:480px;height:300px;right:-120px;top:40px;opacity:.7"></div>
 
-  <header class="wrap-s top">
+  <header class="wrap top">
     <nav aria-label="Breadcrumb" class="crumbs small muted"><a href="/guides">Guides</a><span aria-hidden="true">/</span><span class="here">{cat.label}</span></nav>
     <div class="row meta"><span class={`tag ${cat.tag}`}>{cat.label}</span><span class="small muted">{d.minutes} min read</span></div>
     <h1 class="display">{d.title}</h1>
     <div class="row byline">
       <span class="avatar"></span>
-      <div class="small"><b>{site.author.name ? `By ${site.author.name}` : 'By Shotlight'}</b>, {site.author.role.toLowerCase()}<br /><span class="muted">Published {fmtDate(d.date)} · Updated {fmtDate(d.updated)}</span></div>
+      <div class="small">{site.author.name ? <><b>By {site.author.name}</b>, {site.author.role}</> : <b>By Shotlight</b>}<br /><span class="muted">Published {fmtDate(d.date)} · Updated {fmtDate(d.updated)}</span></div>
     </div>
   </header>
 
@@ -84,7 +84,7 @@ if (d.faq.length) {
 
       <aside>
         <nav class="toc" aria-label="On this page">
-          <h4>On this page</h4>
+          <p class="toc-h">On this page</p>
           {toc.map((h) => <a href={`#${h.slug}`}>{h.text}</a>)}
           {d.faq.length > 0 && <a href="#questions">Questions</a>}
           <div class="card-flat side">
@@ -106,7 +106,9 @@ if (d.faq.length) {
 </Base>
 
 <style>
-  .top { padding-top: 64px; position: relative; z-index: 1; }
+  /* The header sits on the same 1072 px frame as the article grid below, so their left edges line up. */
+  .top { max-width: 1120px; padding-top: 64px; position: relative; z-index: 1; }
+  .top > * { max-width: 800px; }
   .crumbs { display: flex; flex-wrap: wrap; gap: 8px; }
   .crumbs a { color: var(--text-3); }
   .crumbs .here { color: var(--text); }
@@ -116,7 +118,7 @@ if (d.faq.length) {
   .body { padding-top: 56px; position: relative; z-index: 1; }
   .article-grid { display: grid; grid-template-columns: minmax(0, 720px) 280px; gap: 72px; justify-content: center; }
   .toc { position: sticky; top: 104px; display: flex; flex-direction: column; gap: 6px; font-size: 14.5px; }
-  .toc h4 { font-size: 12.5px; letter-spacing: 0.07em; text-transform: uppercase; color: var(--text-3); margin-bottom: 8px; font-weight: 600; }
+  .toc .toc-h { font-size: 12.5px; letter-spacing: 0.07em; text-transform: uppercase; color: var(--text-3); margin-bottom: 8px; font-weight: 600; }
   .toc a:not(.btn) { display: block; padding: 7px 12px; border-radius: 10px; text-decoration: none; color: var(--text-3); font-weight: 400; }
   .toc a:not(.btn):hover { background: rgba(10, 10, 12, 0.06); color: var(--text); }
   .side { margin-top: 22px; padding: 20px; display: flex; flex-direction: column; gap: 10px; align-items: flex-start; border-radius: 24px; }
@@ -142,8 +144,19 @@ if (d.faq.length) {
   .md :global(ul) { padding-left: 22px; }
   .md :global(code) { font-family: var(--mono); font-size: 0.86em; background: rgba(10, 10, 12, 0.07); padding: 2px 7px; border-radius: 7px; color: var(--text); overflow-wrap: anywhere; }
   .md :global(a) { color: var(--beam-ink); font-weight: 500; }
-  .md :global(img) { border-radius: 22px; border: 1px solid var(--line-strong); box-shadow: 0 16px 40px rgba(10, 10, 12, 0.07); }
+  .md :global(pre) { margin-top: 18px; padding: 16px 20px; border-radius: 16px; overflow-x: auto; font-family: var(--mono); font-size: 14px; line-height: 1.65; border: 1px solid #2A2A33; background-color: var(--app) !important; }
+  .md :global(pre code) { padding: 0 !important; border: 0 !important; background: none !important; color: #E6E6EC !important; font-size: inherit; white-space: pre; }
+  .md :global(img) { width: 100%; height: auto; border-radius: 22px; border: 1px solid var(--line-strong); box-shadow: 0 16px 40px rgba(10, 10, 12, 0.07); }
+  .md :global(table) { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 16px; line-height: 1.5; border: 1px solid var(--line-strong); border-radius: 20px; overflow: hidden; background: rgba(255, 255, 255, 0.7); margin-top: 28px; }
+  .md :global(th), .md :global(td) { padding: 14px 18px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--line); }
+  .md :global(th) { font-size: 13px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--text-3); background: rgba(10, 10, 12, 0.03); }
+  .md :global(td:first-child) { font-weight: 600; color: var(--text); white-space: nowrap; }
+  .md :global(tr:last-child td) { border-bottom: 0; }
 
   @media (max-width: 980px) { .article-grid { grid-template-columns: minmax(0, 1fr); } .toc { display: none; } }
-  @media (max-width: 640px) { .md :global(h2), .faqwrap h2 { font-size: 28px; } .md { font-size: 17px; } }
+  @media (max-width: 640px) {
+    .md :global(h2), .faqwrap h2 { font-size: 28px; } .md { font-size: 17px; }
+    .md :global(table) { display: block; overflow-x: auto; font-size: 15px; }
+    .md :global(td:first-child) { white-space: normal; }
+  }
 </style>

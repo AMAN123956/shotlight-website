@@ -27,9 +27,18 @@ const app = {
   url: site + '/',
   offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
 };
+const org = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'Shotlight',
+  url: site + '/',
+  logo: site + '/apple-touch-icon.png',
+  sameAs: ['https://github.com/AMAN123956/shotlight-releases'],
+};
+const webSite = { '@context': 'https://schema.org', '@type': 'WebSite', name: 'Shotlight', url: site + '/' };
 ---
 <Base path="/">
-  <script type="application/ld+json" slot="head" set:html={JSON.stringify(app)}></script>
+  {[app, org, webSite].map((o) => <script type="application/ld+json" slot="head" set:html={JSON.stringify(o)}></script>)}
   <Hero />
   <Proof />
   <Features />

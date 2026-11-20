@@ -7,10 +7,8 @@ import { publishedGuides, publishedCompare } from '../lib/content';
 // Preload the faces used above the fold, so the headline doesn't reflow (and shift the hero) when fonts arrive.
 import sans400 from '@fontsource/geist-sans/files/geist-sans-latin-400-normal.woff2?url';
 import sans600 from '@fontsource/geist-sans/files/geist-sans-latin-600-normal.woff2?url';
-import mono400 from '@fontsource/geist-mono/files/geist-mono-latin-400-normal.woff2?url';
-import mono500 from '@fontsource/geist-mono/files/geist-mono-latin-500-normal.woff2?url';
 import serif400 from '@fontsource/instrument-serif/files/instrument-serif-latin-400-italic.woff2?url';
-const preloads = [sans400, sans600, mono400, mono500, serif400];
+const preloads = [sans400, sans600, serif400];
 
 interface Props {
   title?: string;
@@ -132,16 +130,17 @@ const isHere = (href: string) => (href.startsWith('/#') ? false : here === href 
             <p>Names every Mac screenshot and finds it by the words inside. On your Mac, nowhere else.</p>
           </div>
           <div>
-            <h4>Product</h4>
+            <p class="foot-h">Product</p>
             <ul>
               <li><a href="/#features">Features</a></li>
+              <li><a href="/what-is-shotlight">What is Shotlight</a></li>
               <li><a href="/download">Download</a></li>
               <li><a href="/download#first-open">First-open steps</a></li>
               <li><a href="/changelog">Changelog</a></li>
             </ul>
           </div>
           <div>
-            <h4>Learn</h4>
+            <p class="foot-h">Learn</p>
             <ul>
               {hasGuides && <li><a href="/guides">Guides</a></li>}
               {hasCompare && <li><a href="/compare">Compare</a></li>}
@@ -150,7 +149,7 @@ const isHere = (href: string) => (href.startsWith('/#') ? false : here === href 
             </ul>
           </div>
           <div>
-            <h4>Company</h4>
+            <p class="foot-h">Company</p>
             <ul>
               <li><a href="/privacy">Privacy</a></li>
               <li><a href={RELEASES_PAGE}>Releases on GitHub</a></li>
@@ -222,7 +221,7 @@ const isHere = (href: string) => (href.startsWith('/#') ? false : here === href 
   .foot-cols { display: grid; grid-template-columns: 1.6fr repeat(3, 1fr); gap: 40px; padding: 56px 0 8px; }
   .foot-brand { display: flex; flex-direction: column; gap: 14px; max-width: 320px; font-size: 14.5px; color: var(--text-3); }
   .foot-brand .brand { margin-right: 0; }
-  .foot-cols h4 { font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text); margin-bottom: 14px; font-weight: 600; }
+  .foot-cols .foot-h { font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text); margin-bottom: 14px; font-weight: 600; }
   .foot-cols ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; font-size: 14.5px; }
   .foot-cols a { color: var(--text-3); text-decoration: none; }
   .foot-cols a:hover { color: var(--text); }
