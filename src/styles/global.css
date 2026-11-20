@@ -56,8 +56,13 @@ html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; scroll-padding-t
 body {
   margin: 0; background: var(--bg); color: var(--text);
   font-family: var(--sans); font-size: 16px; line-height: 1.5;
-  -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; overflow-x: hidden;
+  -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; overflow-x: clip;
 }
+/* The colour blobs behind each page header are wider than a phone screen. Clip them where they are drawn
+   (main is their containing block), and the page itself, so nothing can be dragged sideways. `clip`, unlike
+   `hidden`, makes no scroll container, so position: sticky (the nav, the guide contents) keeps working. */
+html { overflow-x: clip; }
+main { position: relative; overflow-x: clip; }
 img, svg { display: block; max-width: 100%; }
 button, input { font: inherit; color: inherit; }
 a { color: var(--beam-ink); text-underline-offset: 3px; }
