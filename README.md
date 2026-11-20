@@ -40,6 +40,8 @@ The site uses the "Paper and beam" design: a warm paper ground, ink text and one
 | `/download` | The .dmg download, the first-open steps, SHA-256, and the Buy me a coffee button |
 | `/guides`, `/guides/<slug>` | How-to guides from `src/content/guides/`. Hidden until a guide is published (see below) |
 | `/compare`, `/compare/<slug>` | "Shotlight vs X" pages from `src/content/compare/`. Hidden until published |
+| `/what-is-shotlight` | The plain definition page (what it does, who it is for, what it needs, price, FAQ) for readers and AI assistants |
+| `/llms.txt` | A plain-text map of the site for AI assistants, built from the same data as the pages |
 | `/changelog` | One entry per release, from `src/content/changelog/` |
 | `/privacy` | What the app collects (nothing) and what the site measures (Clarity) |
 | `/support` | Bug reports and contact |
@@ -62,6 +64,8 @@ The site uses the "Paper and beam" design: a warm paper ground, ink text and one
 - **Buy me a coffee stays in the footer, the header and `/download`** (`BUY_ME_A_COFFEE` in `src/lib/links.ts`).
 - **Drafts.** A guide with `draft: true` shows in `npm run dev` only. It is left out of the build, the navigation and
   the sitemap until it is verified on a real Mac. Compare pages stay drafts until every cell has a source and a date.
+- **Guide screenshots.** Put real captures in `public/guides/<slug>/` and reference them from the Markdown as `![What it shows](/guides/<slug>/name.png)`. Take them on a Mac with a scratch library (never your own), at 2x, and compress them (WebP or a small PNG). Give each image a descriptive alt text.
+- **Core Web Vitals.** Check changes with Lighthouse against `npm run build` + `npm run preview`, not the dev server. Last run (mobile): performance 97 or higher, accessibility 100, SEO 100, LCP about 2.3 s, CLS under 0.02, TBT 0 ms.
 - **Design source:** the website redesign canvas (Design system board). Tokens are in `src/styles/global.css`.
 
 <details>
