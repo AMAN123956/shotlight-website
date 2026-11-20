@@ -7,7 +7,6 @@ date: 2026-11-21
 updated: 2026-11-21
 minutes: 6
 art: a2
-draft: true
 faq:
   - q: Can I change the default name Mac gives to screenshots?
     a: You can change the start of the name with the Terminal command in this guide. The date and time that follow stay.
@@ -53,7 +52,7 @@ This changes only the first word. The name cannot describe the screenshot, becau
 
 ## Method 3: Name each screenshot from what it shows, with Shotlight
 
-Shotlight reads each new screenshot on your Mac and renames it the moment you take it. A small pill appears for a couple of seconds with the new name, an **Edit** button and an **Undo** button.
+[Shotlight](/what-is-shotlight) reads each new screenshot on your Mac and renames it the moment you take it. A small pill appears for a couple of seconds with the new name, an **Edit** button and an **Undo** button.
 
 A screenshot of an invoice might become `Stripe invoice March 2026.png`. On macOS 26 with Apple Intelligence turned on, the name comes from Apple's on-device model. Without it, Shotlight builds the name from the text it finds in the image.
 
@@ -73,6 +72,8 @@ If you name files yourself, a few rules keep the names useful a year later:
 - Put the app or website first when you will have many from the same place, such as `Figma onboarding flow`.
 - Add a date only when order matters. Finder already sorts by date, so the date in the name is often noise.
 - Keep it short enough to read in a narrow window, and leave out anything private. A name is visible in every list, preview and share sheet.
+
+A name only does so much. When you need to [find an old screenshot](/guides/find-old-screenshots-mac), the words inside the image are a better handle than the file name, and once you have found it you can [copy that text](/guides/copy-text-from-screenshot-mac) instead of retyping it.
 
 ## What this does not cover
 

@@ -7,7 +7,6 @@ date: 2026-11-21
 updated: 2026-11-21
 minutes: 5
 art: a3
-draft: true
 faq:
   - q: Why does the copied text come out wrong?
     a: Small type, low contrast, handwriting and stylized fonts are hard to read. Zoom in on the image before you select the text, and check what you pasted.
@@ -37,13 +36,13 @@ Select the screenshot in Finder and press <kbd class="key">Space</kbd> to open Q
 
 ## Method 3: Keep the text searchable, with Shotlight
 
-Live Text works on one image at a time, so it is no use when you remember a word and have no idea which screenshot it was in. Shotlight reads every screenshot in the folders you choose and keeps the text on your Mac.
+Live Text works on one image at a time, so it is no use when you remember a word and have no idea which screenshot it was in. [Shotlight](/what-is-shotlight) reads every screenshot in the folders you choose and keeps the text on your Mac.
 
 1. Press <kbd class="key">⌥</kbd> <kbd class="key">Space</kbd> and type a word you remember.
 2. Open the result in the Library.
 3. Find the text Shotlight read from the image and choose **Copy all**.
 
-Because the text is saved, a search for `invoice number` can find the screenshot that shows one, even when its file name says nothing. Shotlight reads screenshots with Apple's own text recognition on your Mac, and it blanks anything that looks like a password or a key before it stores a word. It is free while in early access, and the [download page](/download) has the install steps.
+Because the text is saved, a search for `invoice number` can find the screenshot that shows one, even when its file name says nothing. That is the quickest way to [find an old screenshot on Mac](/guides/find-old-screenshots-mac) when you only remember a word. Shotlight can also [rename each screenshot](/guides/rename-screenshots-mac) from the text it reads. Shotlight reads screenshots with Apple's own text recognition on your Mac, and it blanks anything that looks like a password or a key before it stores a word. It is free while in early access, and the [download page](/download) has the install steps.
 
 ## Tips for cleaner results
 

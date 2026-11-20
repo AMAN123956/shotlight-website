@@ -8,7 +8,6 @@ updated: 2026-11-21
 minutes: 6
 art: a1
 featured: true
-draft: true
 faq:
   - q: Where does my Mac save screenshots?
     a: On the Desktop by default. Press Shift, Command and 5, open Options, and read the Save to line.
@@ -46,20 +45,20 @@ Whether Spotlight also finds words inside an image depends on your macOS version
 
 ## Method 3: Search the words inside, with Shotlight
 
-Shotlight reads the text in each screenshot on your Mac and keeps it in an index, so you can search for what the image shows.
+[Shotlight](/what-is-shotlight) reads the text in each screenshot on your Mac and keeps it in an index, so you can search for what the image shows.
 
 1. Install Shotlight and choose the folder with your screenshots.
 2. In setup, choose **Only make searchable**. Shotlight reads the old screenshots in the background and leaves their names alone.
 3. Press <kbd class="key">⌥</kbd> <kbd class="key">Space</kbd> and type a word you remember, like `uber receipt`.
 4. Press <kbd class="key">Space</kbd> to preview a result, or drag it straight into another app.
 
-Results also match the app a screenshot came from and the website it showed, so `figma onboarding` can find a design you captured last month. Everything is read on your Mac, and nothing is uploaded. Shotlight is free while it is in early access, and the [download page](/download) has the install steps.
+Results also match the app a screenshot came from and the website it showed, so `figma onboarding` can find a design you captured last month. Once you have found it, you can [copy the text out of the screenshot](/guides/copy-text-from-screenshot-mac) instead of typing it again. Everything is read on your Mac, and nothing is uploaded. Shotlight is free while it is in early access, and the [download page](/download) has the install steps.
 
 ## Keep them from piling up again
 
 Most of the pain comes from everything landing on the Desktop. Press <kbd class="key">⇧</kbd> <kbd class="key">⌘</kbd> <kbd class="key">5</kbd>, open **Options**, and under **Save to** choose a folder such as Pictures, or a new folder called Screenshots. The Desktop stays clear, and every screenshot is in one place you can search.
 
-Shotlight's setup offers to move new screenshots to a Screenshots folder inside Pictures. You can also write a rule, such as "when the text mentions receipt, move it to Receipts", so the screenshots you will want again are filed as they arrive.
+Shotlight's setup offers to move new screenshots to a Screenshots folder inside Pictures. You can also write a rule, such as "when the text mentions receipt, move it to Receipts", so the screenshots you will want again are filed as they arrive. Names that say what is in each screenshot help as well, and [this guide shows how to rename screenshots on Mac](/guides/rename-screenshots-mac).
 
 ## What this does not cover
 
