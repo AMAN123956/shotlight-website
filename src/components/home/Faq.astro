@@ -1,0 +1,27 @@
+---
+// Answers are shared with the privacy and download pages: keep them true to the app (docs/PRODUCT.md in the app repo).
+const faqs: { q: string; a: string; open?: boolean }[] = [
+  { q: 'How do I find my screenshots later?', a: 'Press ⌥ Space and type anything you remember: a word in the image, the app, roughly when.', open: true },
+  { q: 'Does it rename the old ones, or only new screenshots?', a: 'Both. Tidy Up previews new names for every old screenshot in a folder. Nothing changes until you approve, and one Undo reverses it.' },
+  { q: 'How does the naming format work?', a: 'By default a name says what is on screen. In Settings › Naming you can add the app or the date, choose short or detailed, and change the separator or the case. A live preview shows each change.' },
+  { q: 'Can it put screenshots into folders for me?', a: 'Yes. Write a rule in Settings › Rules, like “When text mentions receipt, move to Receipts”. New screenshots are filed right after they’re named, and “Apply to these…” files the ones you already have, after you review the list. Everything can be undone.' },
+  { q: 'Does it delete my duplicates?', a: 'Only when you say so. Library › Duplicates shows each set with one screenshot picked to keep. The others go to the Trash, never deleted for good, and ⌘Z brings them back.' },
+  { q: 'Does transcribing recordings download anything?', a: 'No. Shotlight uses a speech model only if macOS already has one for your language. It never downloads a model and needs no microphone or speech permission. Spoken codes are blanked out.' },
+  { q: 'What does it learn from my edits, and where is it kept?', a: 'Only the names you type, plus the app, website and tags. Never the text in the screenshot. It stays on your Mac, and Settings › Naming lets you remove any of it or forget everything.' },
+  { q: 'Does anything leave my Mac?', a: 'No. Shotlight has no networking code and never goes online, not even to check for updates. You can <a href="/verify">check that yourself</a>. This website does count visits, as the <a href="/privacy">privacy page</a> explains. The app has no analytics.' },
+  { q: 'Which Macs does it run on?', a: 'A Mac with Apple silicon and macOS 15 or later. On macOS 26 with Apple Intelligence on, names are richer; otherwise Shotlight names from the text it reads in each screenshot.' },
+  { q: 'Why does macOS ask me to confirm when I first open it?', a: 'This early build isn’t signed by Apple yet. See the steps on the <a href="/download#first-open">download page</a>; you only do it once per version.' },
+  { q: 'Will it always be free?', a: 'It is free while in early access, and every copy has every feature. If that changes, payment would happen on this website before the download, never inside the app.' },
+];
+---
+<section id="faq" class="sec-s wrap-s" data-section="faq">
+  <div class="sec-head" style="margin-bottom:32px"><span class="pill">FAQ</span><h2 class="h2">Questions people <span class="serif">actually ask.</span></h2></div>
+  <div class="faq">
+    {faqs.map((f) => (
+      <details open={f.open}>
+        <summary>{f.q}</summary>
+        <div class="ans" set:html={f.a}></div>
+      </details>
+    ))}
+  </div>
+</section>

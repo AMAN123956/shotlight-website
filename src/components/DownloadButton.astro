@@ -1,0 +1,19 @@
+---
+// The one Download button. A real link to the .dmg (one tap downloads it), plus the how-to-open flow in
+// src/lib/download.ts. `where` says which button was used (a Clarity tag); all of them count as download_dmg.
+import release from '../data/release.json';
+import { DOWNLOAD_LATEST } from '../lib/links';
+interface Props { label?: string; where: string; class?: string }
+const { label = 'Download for Mac', where, class: cls = 'btn btn-beam btn-lg' } = Astro.props;
+---
+<a
+  href={DOWNLOAD_LATEST}
+  class={cls}
+  data-download
+  data-after={release.signed ? 'none' : 'steps'}
+  data-where={where}
+  data-track="download_dmg"
+>
+  <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"></path></svg>
+  {label}
+</a>

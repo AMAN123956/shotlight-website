@@ -31,13 +31,15 @@ npm run preview
 
 <img src=".github/assets/features.svg" alt="Six features: named on capture, found by any word, secrets stay secret, Tidy Up the old pile, folders that fill themselves, recordings you can search." width="100%">
 
-Each landing section has a small live demo (plain TypeScript islands, no framework) so visitors can try the app
-before downloading it.
+The site uses the "Paper and beam" design: a warm paper ground, ink text and one lime accent, with mockups of the
+(dark) app. The home page is static, so it stays fast and needs no scripts to read.
 
 | Page | What's on it |
 |---|---|
-| `/` | Landing: hero, naming playground, ⌥Space search demo, Tidy Up, Rules, Duplicates, Recordings, Guard, privacy, FAQ |
-| `/download` | The one place that links the `.dmg`, plus the first-open steps |
+| `/` | Landing: hero, feature cards, privacy comparison, how it works, download card, FAQ |
+| `/download` | The .dmg download, the first-open steps, SHA-256, and the Buy me a coffee button |
+| `/guides`, `/guides/<slug>` | How-to guides from `src/content/guides/`. Hidden until a guide is published (see below) |
+| `/compare`, `/compare/<slug>` | "Shotlight vs X" pages from `src/content/compare/`. Hidden until published |
 | `/changelog` | One entry per release, from `src/content/changelog/` |
 | `/privacy` | What the app collects (nothing) and what the site measures (Clarity) |
 | `/support` | Bug reports and contact |
@@ -53,9 +55,14 @@ before downloading it.
 > [!WARNING]
 > **Don't advertise what isn't built.** Check `docs/PRODUCT.md` in the app repo before adding a feature to the copy.
 
-- **Every Download button goes to `/download`**, so people see the first-open steps. Only `/download` links to the
-  `.dmg` (`src/lib/links.ts`).
-- **Design source:** board 07 of the Shotlight design canvas. Tokens and motion are in `src/styles/global.css`.
+- **One tap downloads.** Every Download button is the `DownloadButton` component: a real link to the `.dmg`
+  (`src/lib/links.ts`). `src/lib/download.ts` then moves the person to the first-open steps: on `/download` it scrolls
+  to them, anywhere else it opens `/download#first-open` after 1.6 s (long enough for the download to start). When
+  `signed` is `true` in `src/data/release.json`, the steps, the scroll and the redirect all switch off.
+- **Buy me a coffee stays in the footer, the header and `/download`** (`BUY_ME_A_COFFEE` in `src/lib/links.ts`).
+- **Drafts.** A guide with `draft: true` shows in `npm run dev` only. It is left out of the build, the navigation and
+  the sitemap until it is verified on a real Mac. Compare pages stay drafts until every cell has a source and a date.
+- **Design source:** the website redesign canvas (Design system board). Tokens are in `src/styles/global.css`.
 
 <details>
 <summary><b>Analytics events</b></summary>
@@ -68,8 +75,8 @@ Analytics live in `src/lib/analytics.ts`. Clarity (project ID in that file) load
 | To record | Do this |
 |---|---|
 | A click | Give the element `data-track="name"` |
-| A Download button | `cta_download_<where>` (the real `.dmg` link is `download_dmg`) |
-| A landing section | `data-section="name"` gives `view_<name>` and `demo_<name>` events |
+| A Download button | Use `<DownloadButton where="...">`: it records `download_dmg` and tags `download_from` |
+| A landing section | `data-section="name"` gives `view_<name>` events (and `demo_<name>` for buttons inside it) |
 | Nav, footer, chapters, outbound links, FAQ answers | Recorded automatically |
 
 The full event list is at the top of `analytics.ts`.
@@ -80,12 +87,15 @@ The full event list is at the top of `analytics.ts`.
 
 ```
 src/
-├── pages/                index (landing), download, privacy, support, changelog, 404
-├── components/landing/   one component per landing section; demos are small <script> islands (plain TS)
+├── pages/                index, download, guides, compare, privacy, verify, support, changelog, 404
+├── components/home/      one component per home-page section
+├── components/           DownloadButton, GuideCard, Icon, AppIcon, Logo
 ├── data/release.json     the current version shown on /download (written by the app's scripts/release.sh)
-├── data/pricing.json     the designed pricing tiers, not shown while Shotlight is free (PricingTiers.astro)
+├── data/site.json        the guide byline (leave the name empty to show "Shotlight")
 ├── content/changelog/    one Markdown file per release
-├── lib/                  analytics, links, small helpers
+├── content/guides/       one Markdown file per guide (front matter: see src/content.config.ts)
+├── content/compare/      one Markdown file per comparison
+├── lib/                  analytics, links, download flow, content helpers
 └── styles/global.css     tokens and motion
 public/                   favicon, apple-touch-icon, og.png, robots.txt
 ```

@@ -1,0 +1,20 @@
+---
+import { CATEGORIES } from '../lib/content';
+interface Props { post: any }
+const { post } = Astro.props;
+const d = post.data;
+const cat = CATEGORIES[d.category as keyof typeof CATEGORIES];
+const short = new Date(d.date).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' });
+// Card art: two small "screenshot sheets" over the guide's gradient. Decorative only.
+---
+<a class="post" href={`/guides/${post.id}`} data-track={`guide_card_${post.id}`}>
+  <div class={`art ${d.art}`} aria-hidden="true">
+    <div class="sheet" style="width:200px;left:20%;top:24%;transform:rotate(-4deg)"><span class="fn">{d.title.length > 26 ? 'Screenshot 2026-11-12.png' : d.title + '.png'}</span><i></i><i class="s"></i></div>
+    <div class="sheet" style="width:190px;right:16%;top:44%;transform:rotate(3deg)"><i class="h"></i><i></i><i class="s"></i></div>
+  </div>
+  <div class="body">
+    <div class="meta"><span class={`tag ${cat.tag}`}>{cat.label}</span>{short} · {d.minutes} min</div>
+    <h3>{d.title}</h3>
+    <p>{d.description}</p>
+  </div>
+</a>

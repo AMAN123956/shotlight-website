@@ -1,0 +1,149 @@
+---
+import { render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+import DownloadButton from '../../components/DownloadButton.astro';
+import GuideCard from '../../components/GuideCard.astro';
+import { publishedGuides, CATEGORIES, fmtDate } from '../../lib/content';
+import site from '../../data/site.json';
+
+export async function getStaticPaths() {
+  const posts = await publishedGuides();
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}
+
+const { post } = Astro.props;
+const d = post.data;
+const { Content, headings } = await render(post);
+const toc = headings.filter((h) => h.depth === 2);
+const cat = CATEGORIES[d.category];
+const related = (await publishedGuides()).filter((p) => p.id !== post.id).slice(0, 3);
+const origin = (Astro.site ?? new URL('https://www.shotlight.lol')).href.replace(/\/$/, '');
+const url = `${origin}/guides/${post.id}`;
+const author = site.author.name
+  ? { '@type': 'Person', name: site.author.name }
+  : { '@type': 'Organization', name: 'Shotlight', url: origin };
+const ld: object[] = [
+  {
+    '@context': 'https://schema.org', '@type': 'Article', headline: d.title, description: d.description,
+    datePublished: d.date.toISOString().slice(0, 10), dateModified: d.updated.toISOString().slice(0, 10),
+    author, publisher: { '@type': 'Organization', name: 'Shotlight', url: origin }, mainEntityOfPage: url,
+  },
+  {
+    '@context': 'https://schema.org', '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Guides', item: `${origin}/guides` },
+      { '@type': 'ListItem', position: 2, name: d.title, item: url },
+    ],
+  },
+];
+if (d.faq.length) {
+  ld.push({
+    '@context': 'https://schema.org', '@type': 'FAQPage',
+    mainEntity: d.faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+  });
+}
+---
+<Base title={d.title} description={d.description} path={`/guides/${post.id}`} ogType="article">
+  {ld.map((o) => <script type="application/ld+json" slot="head" set:html={JSON.stringify(o)}></script>)}
+  <div class="blob b-lime" style="width:480px;height:300px;left:-120px;top:80px;opacity:.7"></div>
+  <div class="blob b-sky" style="width:480px;height:300px;right:-120px;top:40px;opacity:.7"></div>
+
+  <header class="wrap-s top">
+    <nav aria-label="Breadcrumb" class="crumbs small muted"><a href="/guides">Guides</a><span aria-hidden="true">/</span><span class="here">{cat.label}</span></nav>
+    <div class="row meta"><span class={`tag ${cat.tag}`}>{cat.label}</span><span class="small muted">{d.minutes} min read</span></div>
+    <h1 class="display">{d.title}</h1>
+    <div class="row byline">
+      <span class="avatar"></span>
+      <div class="small"><b>{site.author.name ? `By ${site.author.name}` : 'By Shotlight'}</b>, {site.author.role.toLowerCase()}<br /><span class="muted">Published {fmtDate(d.date)} · Updated {fmtDate(d.updated)}</span></div>
+    </div>
+  </header>
+
+  <section class="wrap body">
+    <div class="article-grid">
+      <article class="post-prose">
+        <div class="answer"><span class="lab"><Icon name="search" class="ic ic-sm" />Short answer</span><p>{d.answer}</p></div>
+        <div class="md"><Content /></div>
+
+        <div class="card cta-card">
+          <div class="stack" style="gap:4px"><b>Shotlight is free and runs on your Mac.</b><span class="small muted">No account. Nothing leaves your computer.</span></div>
+          <DownloadButton where="guide" label="Download for Mac" class="btn btn-beam btn-md" />
+        </div>
+
+        {d.faq.length > 0 && (
+          <div class="faqwrap">
+            <h2 id="questions">Questions people ask</h2>
+            <div class="faq">
+              {d.faq.map((f, i) => (
+                <details open={i === 0}><summary>{f.q}</summary><div class="ans">{f.a}</div></details>
+              ))}
+            </div>
+          </div>
+        )}
+      </article>
+
+      <aside>
+        <nav class="toc" aria-label="On this page">
+          <h4>On this page</h4>
+          {toc.map((h) => <a href={`#${h.slug}`}>{h.text}</a>)}
+          {d.faq.length > 0 && <a href="#questions">Questions</a>}
+          <div class="card-flat side">
+            <b>Find any screenshot in a few words</b>
+            <span class="small muted">Free for Mac. On-device.</span>
+            <DownloadButton where="guide_side" label="Download" class="btn btn-beam btn-sm" />
+          </div>
+        </nav>
+      </aside>
+    </div>
+  </section>
+
+  {related.length > 0 && (
+    <section class="wrap related">
+      <h2 class="h3" style="font-size:28px;margin-bottom:28px">Keep reading</h2>
+      <div class="cards3">{related.map((p) => <GuideCard post={p} />)}</div>
+    </section>
+  )}
+</Base>
+
+<style>
+  .top { padding-top: 64px; position: relative; z-index: 1; }
+  .crumbs { display: flex; flex-wrap: wrap; gap: 8px; }
+  .crumbs a { color: var(--text-3); }
+  .crumbs .here { color: var(--text); }
+  .meta { gap: 10px; margin-top: 28px; }
+  .top .display { font-size: clamp(40px, 5vw, 64px); margin-top: 18px; line-height: 1.04; }
+  .byline { gap: 14px; margin-top: 30px; flex-wrap: wrap; }
+  .body { padding-top: 56px; position: relative; z-index: 1; }
+  .article-grid { display: grid; grid-template-columns: minmax(0, 720px) 280px; gap: 72px; justify-content: center; }
+  .toc { position: sticky; top: 104px; display: flex; flex-direction: column; gap: 6px; font-size: 14.5px; }
+  .toc h4 { font-size: 12.5px; letter-spacing: 0.07em; text-transform: uppercase; color: var(--text-3); margin-bottom: 8px; font-weight: 600; }
+  .toc a:not(.btn) { display: block; padding: 7px 12px; border-radius: 10px; text-decoration: none; color: var(--text-3); font-weight: 400; }
+  .toc a:not(.btn):hover { background: rgba(10, 10, 12, 0.06); color: var(--text); }
+  .side { margin-top: 22px; padding: 20px; display: flex; flex-direction: column; gap: 10px; align-items: flex-start; border-radius: 24px; }
+  .side b { font-size: 16px; }
+  .answer { border-radius: 24px; background: var(--beam-tint); border: 1px solid rgba(77, 107, 0, 0.28); padding: 24px 28px; margin-bottom: 28px; }
+  .answer .lab { display: inline-flex; align-items: center; gap: 8px; font-size: 12.5px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--beam-ink); margin-bottom: 8px; }
+  .answer p { font-size: 19px; line-height: 1.55; color: var(--text); }
+  .cta-card { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px; padding: 22px 26px; margin-top: 48px; }
+  .cta-card b { font-size: 18px; }
+  .faqwrap { margin-top: 64px; }
+  .faqwrap h2 { font-size: 36px; line-height: 1.1; letter-spacing: -0.035em; font-weight: 600; margin-bottom: 8px; scroll-margin-top: 96px; }
+  .related { padding-top: 104px; padding-bottom: 112px; }
+
+  /* The article body: Markdown renders here, so its elements are styled with :global */
+  .md { font-size: 18.5px; line-height: 1.72; color: var(--text-2); }
+  .md :global(> * + *) { margin-top: 22px; }
+  .md :global(h2) { font-size: 36px; line-height: 1.1; letter-spacing: -0.035em; font-weight: 600; color: var(--text); margin-top: 64px; scroll-margin-top: 96px; }
+  .md :global(h3) { font-size: 24px; letter-spacing: -0.025em; color: var(--text); margin-top: 40px; }
+  .md :global(strong) { color: var(--text); font-weight: 600; }
+  .md :global(ol) { list-style: none; padding: 0; counter-reset: s; display: flex; flex-direction: column; gap: 18px; }
+  .md :global(ol li) { counter-increment: s; position: relative; padding-left: 52px; }
+  .md :global(ol li::before) { content: counter(s); position: absolute; left: 0; top: 2px; width: 34px; height: 34px; border-radius: 50%; background: var(--ink); color: var(--bg); font: 600 14.5px/34px var(--sans); text-align: center; }
+  .md :global(ul) { padding-left: 22px; }
+  .md :global(code) { font-family: var(--mono); font-size: 0.86em; background: rgba(10, 10, 12, 0.07); padding: 2px 7px; border-radius: 7px; color: var(--text); overflow-wrap: anywhere; }
+  .md :global(a) { color: var(--beam-ink); font-weight: 500; }
+  .md :global(img) { border-radius: 22px; border: 1px solid var(--line-strong); box-shadow: 0 16px 40px rgba(10, 10, 12, 0.07); }
+
+  @media (max-width: 980px) { .article-grid { grid-template-columns: minmax(0, 1fr); } .toc { display: none; } }
+  @media (max-width: 640px) { .md :global(h2), .faqwrap h2 { font-size: 28px; } .md { font-size: 17px; } }
+</style>

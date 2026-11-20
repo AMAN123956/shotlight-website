@@ -1,62 +1,42 @@
 ---
 import Base from '../layouts/Base.astro';
-import Hero from '../components/landing/Hero.astro';
-import Steps from '../components/landing/Steps.astro';
-import Chapter from '../components/landing/Chapter.astro';
-import Naming from '../components/landing/Naming.astro';
-import Search from '../components/landing/Search.astro';
-import Recordings from '../components/landing/Recordings.astro';
-import Tidy from '../components/landing/Tidy.astro';
-import Rules from '../components/landing/Rules.astro';
-import Duplicates from '../components/landing/Duplicates.astro';
-import AlsoNew from '../components/landing/AlsoNew.astro';
-import Guard from '../components/landing/Guard.astro';
-import Privacy from '../components/landing/Privacy.astro';
-import Pricing from '../components/landing/Pricing.astro';
-import Faq from '../components/landing/Faq.astro';
-import FinalCta from '../components/landing/FinalCta.astro';
-// Four chapters, a screenshot's life: Name → Find → Organize → Protect. Sections alternate band / plain
-// (the .tone wrappers), so neighbours never share a background.
+import Hero from '../components/home/Hero.astro';
+import Proof from '../components/home/Proof.astro';
+import Features from '../components/home/Features.astro';
+import PrivacySection from '../components/home/PrivacySection.astro';
+import HowItWorks from '../components/home/HowItWorks.astro';
+import GuidesTeaser from '../components/home/GuidesTeaser.astro';
+import DownloadCard from '../components/home/DownloadCard.astro';
+import Faq from '../components/home/Faq.astro';
+import ClosingBand from '../components/home/ClosingBand.astro';
+import release from '../data/release.json';
+import { publishedGuides } from '../lib/content';
+import { DOWNLOAD_LATEST } from '../lib/links';
+
+const guides = await publishedGuides();
+const site = (Astro.site ?? new URL('https://www.shotlight.lol')).href.replace(/\/$/, '');
+const app = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'Shotlight',
+  description: 'A Mac app that names every screenshot the moment you take it and finds any of them by the words inside. Everything runs on your Mac.',
+  applicationCategory: 'UtilitiesApplication',
+  operatingSystem: `macOS ${release.minMacOS} or later`,
+  softwareVersion: release.version,
+  downloadUrl: DOWNLOAD_LATEST,
+  url: site + '/',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+};
 ---
 <Base path="/">
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(app)}></script>
   <Hero />
-  <Steps />
-
-  <div class="tone tone-band" id="name">
-    <Chapter current="name" />
-    <Naming />
-  </div>
-
-  <div class="tone" id="find">
-    <Chapter current="find" />
-    <Search />
-  </div>
-  <div class="tone tone-band">
-    <Recordings />
-    <AlsoNew items={['spotlight']} label="Also new in 0.2" />
-  </div>
-
-  <div class="tone" id="organize">
-    <Chapter current="organize" />
-    <Tidy />
-  </div>
-  <div class="tone tone-band">
-    <Rules />
-  </div>
-  <div class="tone">
-    <Duplicates />
-    <AlsoNew items={['folders', 'tags', 'week']} label="Also new in 0.2" />
-  </div>
-
-  <div class="tone tone-band" id="protect">
-    <Chapter current="protect" />
-    <Guard />
-  </div>
-  <div class="tone">
-    <Privacy />
-  </div>
-
-  <Pricing />
+  <Proof />
+  <Features />
+  <PrivacySection />
+  <HowItWorks />
+  <GuidesTeaser posts={guides} />
+  <DownloadCard />
   <Faq />
-  <FinalCta />
+  <ClosingBand />
 </Base>

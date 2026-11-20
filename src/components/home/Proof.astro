@@ -1,0 +1,23 @@
+---
+// A feature marquee and a strip of facts that are true today. No invented counters: ratings and download
+// counts appear only when real ones exist.
+const items = ['Names new screenshots', 'Search by words inside', '⌥Space anywhere', 'Guard for secrets', 'Rules that file for you', 'Tidy Up old captures', 'Duplicates and retakes', 'Recordings with transcripts', 'Spotlight and Finder tags', 'Undo everything'];
+---
+<section class="proof" aria-label="What Shotlight does">
+  <div class="marquee">
+    <div class="track">
+      {[0, 1].map((n) => items.map((t) => <span class="mq" aria-hidden={n === 1 ? 'true' : undefined}><i></i>{t}</span>))}
+    </div>
+  </div>
+  <div class="wrap stats">
+    <div class="stat"><b>0</b><span>bytes sent to any server</span></div>
+    <div class="stat"><b>⌥Space</b><span>to search all of it</span></div>
+    <div class="stat"><b>100%</b><span>read on your Mac</span></div>
+    <div class="stat"><b>Free</b><span>no account, early access</span></div>
+  </div>
+</section>
+
+<style>
+  .proof { padding: 112px 0 8px; }
+  .stats { margin-top: 72px; }
+</style>

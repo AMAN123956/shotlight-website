@@ -1,0 +1,52 @@
+---
+import Icon from '../Icon.astro';
+---
+<section id="features" class="sec wrap" data-section="features">
+  <div class="sec-head">
+    <span class="pill">Features</span>
+    <h2 class="h2">Everything your screenshots need, <span class="serif">and nothing</span> they don't.</h2>
+    <p class="lead">Take a screenshot like always. Shotlight does the boring part and stays out of the way until you press a key.</p>
+  </div>
+  <div class="bento">
+    <article class="card c7">
+      <div class="viz"><span class="old">Screenshot 2026-11-12 at 9.41.07 PM.png</span><Icon name="arrow-down" class="ic muted" /><span class="new">Stripe invoice March 2026.png</span></div>
+      <div><h3>Named the moment you take it</h3><p>Shotlight reads the screenshot on your Mac and gives it a clear name. A small pill confirms it, with Edit and Undo. The original name is kept, so nothing is lost.</p></div>
+    </article>
+    <article class="card c5">
+      <div class="viz">
+        <div class="field"><Icon name="search" class="ic muted" />wifi password<span class="key" style="margin-left:auto">⌥ Space</span></div>
+        <div class="hit"><span class="g-e"></span>Router settings page.png</div>
+      </div>
+      <div><h3>Found by the words inside</h3><p>Press ⌥Space and type what you remember. Text in the image, the app, the site and the date are all searchable.</p></div>
+    </article>
+    <article class="card c5">
+      <div class="viz">
+        <div class="blurbox"><div class="blurlines"><i style="width:80%"></i><i style="width:55%"></i><i style="width:68%"></i></div></div>
+        <div class="guard"><Icon name="lock" class="ic ic-sm" />Looks like an API key<span class="l"><span>Show once</span><span>Trash</span></span></div>
+      </div>
+      <div><h3>Guard keeps secrets out</h3><p>Keys, card numbers and one-time codes are blurred, hidden from search and kept out of the file name. Move them to the Trash after a few days if you like.</p></div>
+    </article>
+    <article class="card c7">
+      <div class="viz"><div class="sent"><span>When text mentions</span><span class="slot">receipt, invoice</span><span>move to</span><span class="slot">Receipts</span><span>and tag</span><span class="slot beam">Receipt</span></div><p class="small muted">3 screenshots match today. Apply to these…</p></div>
+      <div><h3>Rules that file for you</h3><p>Write a rule as a sentence. New captures are filed, tagged or sent to the Trash after N days, and any rule can be put back with one key.</p></div>
+    </article>
+    <article class="card c6">
+      <div class="viz"><div class="tidy">
+        <div class="r"><span class="cb"><Icon name="check" /></span>Screenshot 2025-03-02 at 4.12.50 PM.png → Notion roadmap Q2.png</div>
+        <div class="r"><span class="cb"><Icon name="check" /></span>Screenshot 2025-03-02 at 4.14.01 PM.png → Flight Delhi to Berlin.png</div>
+        <div class="row" style="gap:10px;margin-top:4px"><span class="btn btn-beam btn-sm" aria-hidden="true">Rename 214 <span class="key" style="height:22px;min-width:22px">⌘↩</span></span><span class="small muted">Undo all <span class="key" style="height:22px;min-width:22px">⌘Z</span></span></div>
+      </div></div>
+      <div><h3>Tidy Up the backlog</h3><p>Rename hundreds of old screenshots in one go. Review the list, uncheck what you want to keep, and undo the whole batch if you change your mind.</p></div>
+    </article>
+    <article class="card c6">
+      <div class="viz"><div class="frames"><i class="g-a"></i><i class="g-b"></i><i class="g-c"></i><i class="g-e"></i></div><div class="bar"><b></b></div><p class="small" style="color:var(--text-2)">0:16 “…then the total changes after the coupon…”</p></div>
+      <div><h3>Recordings, too</h3><p>Screen recordings get names from four frames and a transcript made on your Mac. Move across a card to scrub, and search what was said.</p></div>
+    </article>
+  </div>
+</section>
+
+<style>
+  .field { display: flex; align-items: center; gap: 10px; background: #fff; border: 1px solid var(--line-strong); border-radius: 14px; height: 48px; padding: 0 14px; font-size: 16px; }
+  .hit { display: flex; align-items: center; gap: 10px; font: 500 13px var(--mono); }
+  .hit span { width: 44px; height: 32px; border-radius: 7px; flex: none; }
+</style>

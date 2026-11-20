@@ -1,13 +1,16 @@
 ---
 import '../styles/global.css';
 import Logo from '../components/Logo.astro';
-import { BUY_ME_A_COFFEE } from '../lib/links';
+import DownloadButton from '../components/DownloadButton.astro';
+import { BUY_ME_A_COFFEE, RELEASES_PAGE } from '../lib/links';
+import { publishedGuides, publishedCompare } from '../lib/content';
 // Preload the faces used above the fold, so the headline doesn't reflow (and shift the hero) when fonts arrive.
 import sans400 from '@fontsource/geist-sans/files/geist-sans-latin-400-normal.woff2?url';
 import sans600 from '@fontsource/geist-sans/files/geist-sans-latin-600-normal.woff2?url';
 import mono400 from '@fontsource/geist-mono/files/geist-mono-latin-400-normal.woff2?url';
 import mono500 from '@fontsource/geist-mono/files/geist-mono-latin-500-normal.woff2?url';
-const preloads = [sans400, sans600, mono400, mono500];
+import serif400 from '@fontsource/instrument-serif/files/instrument-serif-latin-400-italic.woff2?url';
+const preloads = [sans400, sans600, mono400, mono500, serif400];
 
 interface Props {
   title?: string;
@@ -15,11 +18,13 @@ interface Props {
   /** Path of the page, for the canonical URL. Defaults to the current path. */
   path?: string;
   noindex?: boolean;
+  /** Open Graph type: 'article' for guides. */
+  ogType?: 'website' | 'article';
 }
 
 const DEFAULT_DESCRIPTION =
   'Shotlight names every screenshot the moment you take it, finds any of them by the words inside, files them by your rules and clears out duplicates. On-device, free, for Mac.';
-const { title, description = DEFAULT_DESCRIPTION, path = Astro.url.pathname, noindex = false } = Astro.props;
+const { title, description = DEFAULT_DESCRIPTION, path = Astro.url.pathname, noindex = false, ogType = 'website' } = Astro.props;
 const fullTitle = title ? `${title} · Shotlight` : 'Shotlight · Your screenshots, finally findable';
 const site = Astro.site ?? new URL('https://www.shotlight.lol');
 // Pages build as /name.html (build.format 'file') but are served as /name, so drop the extension.
@@ -27,13 +32,18 @@ const clean = path.replace(/(\/index)?\.html$/, '').replace(/\/$/, '') || '/';
 const canonical = new URL(clean, site).href;
 const ogImage = new URL('/og.png', site).href;
 const here = Astro.url.pathname.replace(/(\/index)?\.html$/, '').replace(/\/$/, '') || '/';
-const nav = [
-  ['/#name', 'Naming'],
-  ['/#find', 'Search'],
-  ['/#organize', 'Organize'],
-  ['/#protect', 'Privacy'],
-  ['/#pricing', 'Pricing'],
+
+// Guides and comparisons only appear in the navigation once at least one is published.
+const hasGuides = (await publishedGuides()).length > 0;
+const hasCompare = (await publishedCompare()).length > 0;
+const nav: [string, string][] = [
+  ['/#features', 'Features'],
+  ['/privacy', 'Privacy'],
+  ...(hasGuides ? ([['/guides', 'Guides']] as [string, string][]) : []),
+  ...(hasCompare ? ([['/compare', 'Compare']] as [string, string][]) : []),
+  ['/changelog', 'Changelog'],
 ];
+const isHere = (href: string) => (href.startsWith('/#') ? false : here === href || here.startsWith(href + '/'));
 ---
 <!doctype html>
 <html lang="en">
@@ -45,13 +55,13 @@ const nav = [
     <link rel="canonical" href={canonical} />
     {noindex && <meta name="robots" content="noindex" />}
     {preloads.map((href) => <link rel="preload" href={href} as="font" type="font/woff2" crossorigin />)}
-    <meta name="theme-color" content="#0A0A0C" />
-    <meta name="color-scheme" content="dark" />
+    <meta name="theme-color" content="#F7F5EF" />
+    <meta name="color-scheme" content="light" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="sitemap" href="/sitemap-index.xml" />
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={ogType} />
     <meta property="og:site_name" content="Shotlight" />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
@@ -64,30 +74,28 @@ const nav = [
     <meta name="twitter:title" content={fullTitle} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
+    <slot name="head" />
   </head>
   <body>
     <a class="skip" href="#main">Skip to content</a>
     <header class="site-header">
-      <div class="wrap header-row">
+      <nav class="pillnav" aria-label="Main">
         <a href="/" class="brand" aria-label="Shotlight home">
-          <Logo />
+          <Logo size={26} />
           <b>Shotlight</b>
         </a>
-        <nav class="nav" aria-label="Main">
-          {nav.map(([href, label]) => <a href={href}>{label}</a>)}
-        </nav>
-        <div class="header-actions">
-          <a href={BUY_ME_A_COFFEE} class="support" data-track="nav_coffee">
-            <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
-              <path class="steam" d="M8.5 2.5c-.7.9-.7 2.1 0 3M12.5 2.5c-.7.9-.7 2.1 0 3" />
-              <path d="M4 9h12v4.5A5.5 5.5 0 0 1 10.5 19h-1A5.5 5.5 0 0 1 4 13.5V9z" />
-              <path d="M16 10.5h1.5a2.75 2.75 0 0 1 0 5.5H15.6" />
-            </svg>
-            Support
-          </a>
-          <a href="/download" class="btn btn-beam btn-md" data-track="cta_download_header" aria-current={here === '/download' ? 'page' : undefined}>Download free</a>
+        <div class="links">
+          {nav.map(([href, label]) => <a href={href} aria-current={isHere(href) ? 'page' : undefined}>{label}</a>)}
         </div>
-      </div>
+        <a href={BUY_ME_A_COFFEE} class="coffee-icon" data-track="nav_coffee" aria-label="Support Shotlight: buy me a coffee" title="Buy me a coffee">
+          <svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true">
+            <path class="steam" d="M8.5 2.5c-.7.9-.7 2.1 0 3M12.5 2.5c-.7.9-.7 2.1 0 3" />
+            <path d="M4 9h12v4.5A5.5 5.5 0 0 1 10.5 19h-1A5.5 5.5 0 0 1 4 13.5V9z" />
+            <path d="M16 10.5h1.5a2.75 2.75 0 0 1 0 5.5H15.6" />
+          </svg>
+        </a>
+        <DownloadButton where="header" label="Download" class="btn btn-beam btn-md" />
+      </nav>
     </header>
 
     <main id="main">
@@ -95,104 +103,147 @@ const nav = [
     </main>
 
     <footer class="site-footer">
-      <div class="wrap footer-cta">
-        <p>Shotlight is free. If it helps you, leave a like or buy me a coffee.</p>
-        <div class="cta-actions">
-          <button type="button" class="btn btn-ghost btn-md like" data-like aria-pressed="false" hidden>
-            <span class="heart" aria-hidden="true">
-              <svg viewBox="0 0 24 24" width="16" height="16"><path d="M12 20.5s-7.5-4.6-9.3-9.2C1.4 8 3.3 4.5 6.8 4.5c2 0 3.6 1.1 5.2 3 1.6-1.9 3.2-3 5.2-3 3.5 0 5.4 3.5 4.1 6.8-1.8 4.6-9.3 9.2-9.3 9.2z" /></svg>
-            </span>
-            <span data-like-label aria-hidden="true">Like</span>
-            <span class="like-count mono" aria-hidden="true"><span data-like-count>0</span></span>
-          </button>
-          <a class="coffee" href={BUY_ME_A_COFFEE} data-track="footer_coffee">
-            <img src="/bmc-button.png" alt="Buy me a coffee" width="136" height="38" decoding="async" />
-          </a>
+      <div class="wrap">
+        <div class="support">
+          <div class="cup" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path class="steam" d="M8.5 2.5c-.7.9-.7 2.1 0 3M12.5 2.5c-.7.9-.7 2.1 0 3" /><path d="M4 9h12v4.5A5.5 5.5 0 0 1 10.5 19h-1A5.5 5.5 0 0 1 4 13.5V9z" /><path d="M16 10.5h1.5a2.75 2.75 0 0 1 0 5.5H15.6" /></svg>
+          </div>
+          <div class="msg">
+            <b>Shotlight is free, and made by one person.</b>
+            <span>If it saves you time, a coffee keeps it going. A like helps too.</span>
+          </div>
+          <div class="cta-actions">
+            <button type="button" class="btn btn-ghost btn-md like" data-like aria-pressed="false" hidden>
+              <span class="heart" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="16" height="16"><path d="M12 20.5s-7.5-4.6-9.3-9.2C1.4 8 3.3 4.5 6.8 4.5c2 0 3.6 1.1 5.2 3 1.6-1.9 3.2-3 5.2-3 3.5 0 5.4 3.5 4.1 6.8-1.8 4.6-9.3 9.2-9.3 9.2z" /></svg>
+              </span>
+              <span data-like-label aria-hidden="true">Like</span>
+              <span class="like-count mono" aria-hidden="true"><span data-like-count>0</span></span>
+            </button>
+            <a class="coffee" href={BUY_ME_A_COFFEE} data-track="footer_coffee">
+              <img src="/bmc-button.png" alt="Buy me a coffee" width="136" height="38" decoding="async" />
+            </a>
+          </div>
         </div>
-      </div>
-      <div class="wrap footer-row">
-        <span>© 2026 Shotlight. Made for Mac.</span>
-        <nav class="nav" aria-label="Footer">
-          <a href="/privacy" aria-current={here === '/privacy' ? 'page' : undefined}>Privacy</a>
-          <a href="/verify" aria-current={here === '/verify' ? 'page' : undefined}>Verify</a>
-          <a href="/support" aria-current={here === '/support' ? 'page' : undefined}>Support</a>
-          <a href="/changelog" aria-current={here === '/changelog' ? 'page' : undefined}>Changelog</a>
-        </nav>
+
+        <div class="foot-cols">
+          <div class="foot-brand">
+            <a href="/" class="brand" aria-label="Shotlight home"><Logo size={28} /><b>Shotlight</b></a>
+            <p>Names every Mac screenshot and finds it by the words inside. On your Mac, nowhere else.</p>
+          </div>
+          <div>
+            <h4>Product</h4>
+            <ul>
+              <li><a href="/#features">Features</a></li>
+              <li><a href="/download">Download</a></li>
+              <li><a href="/download#first-open">First-open steps</a></li>
+              <li><a href="/changelog">Changelog</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4>Learn</h4>
+            <ul>
+              {hasGuides && <li><a href="/guides">Guides</a></li>}
+              {hasCompare && <li><a href="/compare">Compare</a></li>}
+              <li><a href="/verify">Verify it yourself</a></li>
+              <li><a href="/support">Support</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4>Company</h4>
+            <ul>
+              <li><a href="/privacy">Privacy</a></li>
+              <li><a href={RELEASES_PAGE}>Releases on GitHub</a></li>
+              <li><a href={BUY_ME_A_COFFEE}>Buy me a coffee</a></li>
+            </ul>
+          </div>
+        </div>
+        <p class="legal small">© 2026 Shotlight. Made for Mac. Not affiliated with Apple. Mac and macOS are trademarks of Apple Inc.</p>
       </div>
     </footer>
     <script>
       import { initAnalytics } from '../lib/analytics';
       import { initLike } from '../lib/like';
+      import { initDownload } from '../lib/download';
       initAnalytics();
       initLike();
+      initDownload();
     </script>
   </body>
 </html>
 
 <style>
-  .site-header {
-    position: sticky; top: 0; z-index: 20;
-    background: rgba(10, 10, 12, 0.78);
-    -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px);
-    border-bottom: 1px solid var(--line-soft);
+  .site-header { position: sticky; top: 14px; z-index: 30; display: flex; justify-content: center; padding: 0 12px; pointer-events: none; }
+  .pillnav {
+    pointer-events: auto; display: flex; align-items: center; gap: 2px; width: fit-content; max-width: 100%;
+    margin-top: 14px; padding: 6px 6px 6px 12px; border-radius: 999px;
+    background: rgba(255, 255, 255, 0.78); -webkit-backdrop-filter: blur(18px) saturate(1.4); backdrop-filter: blur(18px) saturate(1.4);
+    border: 1px solid var(--line); box-shadow: 0 1px 0 rgba(255, 255, 255, 0.95) inset, 0 8px 28px rgba(10, 10, 12, 0.06);
   }
-  .header-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-top: 14px; padding-bottom: 14px; }
-  .brand { display: flex; align-items: center; gap: 10px; color: var(--text); text-decoration: none; border-radius: 8px; }
-  .brand b { font-size: 17px; letter-spacing: -0.01em; }
-  .nav { display: flex; gap: 26px; font-size: 14px; flex-wrap: wrap; }
-  .nav a { color: var(--text-2); text-decoration: none; border-radius: 4px; transition: color 120ms ease-out; }
-  .nav a:hover, .nav a[aria-current='page'] { color: var(--text); }
-  .header-actions { display: flex; align-items: center; gap: 22px; }
-  .support {
-    display: inline-flex; align-items: center; gap: 7px; font-size: 14px; color: var(--text-2);
-    text-decoration: none; border-radius: 4px; white-space: nowrap; transition: color 120ms ease-out;
+  .brand { display: flex; align-items: center; gap: 8px; color: var(--text); text-decoration: none; border-radius: 10px; margin-right: 22px; }
+  .brand b { font-size: 15.5px; font-weight: 600; letter-spacing: -0.02em; }
+  .links { display: flex; }
+  .links a { padding: 7px 12px; border-radius: 999px; font-size: 14px; font-weight: 500; color: var(--text-2); text-decoration: none; transition: background-color 120ms ease-out, color 120ms ease-out; }
+  .links a:hover, .links a[aria-current='page'] { background: rgba(10, 10, 12, 0.06); color: var(--text); }
+  .coffee-icon {
+    display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; margin-left: 4px; border-radius: 50%;
+    color: var(--text-2); transition: background-color 120ms ease-out, color 120ms ease-out;
   }
-  .support:hover { color: var(--text); }
-  .support svg { fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
-  .support .steam { opacity: 0.55; }
-  .support:hover .steam { animation: steam 1.2s ease-in-out infinite; }
+  .coffee-icon:hover { background: rgba(10, 10, 12, 0.06); color: var(--text); }
+  .coffee-icon svg { fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  .coffee-icon .steam { opacity: 0.55; }
+  .coffee-icon:hover .steam { animation: steam 1.2s ease-in-out infinite; }
   @keyframes steam { 0%, 100% { transform: translateY(0); opacity: 0.55; } 50% { transform: translateY(-1.5px); opacity: 1; } }
-  @media (prefers-reduced-motion: reduce) { .support:hover .steam { animation: none; } }
-  @media (max-width: 960px) {
-    .support { display: none; }
-  }
-  @media (max-width: 760px) {
-    .header-row .nav { display: none; }
-  }
-  .site-footer { border-top: 1px solid var(--line-soft); }
-  .footer-row { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16px; padding-top: 32px; padding-bottom: 32px; font-size: 13px; color: var(--text-3); }
-  .footer-row .nav { gap: 20px; font-size: 13px; }
+  @media (prefers-reduced-motion: reduce) { .coffee-icon:hover .steam { animation: none; } .links a { transition: none; } }
+  @media (max-width: 760px) { .links { display: none; } .brand { margin-right: 12px; } }
+  @media (max-width: 380px) { .coffee-icon { display: none; } }
 
-  /* Like + coffee */
-  .footer-cta {
-    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px 24px;
-    padding-top: 28px; padding-bottom: 28px; border-bottom: 1px solid var(--line-soft);
+  .site-footer { border-top: 1px solid var(--line); margin-top: 24px; padding: 56px 0 40px; }
+  .support {
+    display: grid; grid-template-columns: auto 1fr auto; gap: 24px; align-items: center; max-width: 1040px; margin: 0 auto;
+    padding: 22px 26px 22px 22px; border-radius: 32px;
+    background: linear-gradient(115deg, #FFF3B8 0%, #FFFBE6 42%, #FFFFFF 100%);
+    border: 1px solid rgba(214, 184, 40, 0.45); box-shadow: 0 18px 50px rgba(185, 150, 0, 0.1), 0 1px 0 #fff inset;
   }
-  .footer-cta p { font-size: 14px; color: var(--text-2); text-wrap: balance; }
-  .cta-actions { display: flex; flex-wrap: wrap; gap: 10px; }
-  .like { --heart: #FF3B5C; gap: 8px; font-size: 13px; color: var(--text-soft); }
-  .like:hover { color: var(--text); border-color: rgba(255, 59, 92, 0.4); }
+  .cup { width: 64px; height: 64px; border-radius: 50%; background: #FFDD00; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 0 8px rgba(255, 221, 0, 0.28); }
+  .cup svg { width: 30px; height: 30px; fill: none; stroke: var(--ink); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  .cup .steam { opacity: 0.55; animation: cupsteam 2.4s ease-in-out infinite; }
+  @keyframes cupsteam { 0%, 100% { transform: translateY(0); opacity: 0.5; } 50% { transform: translateY(-2px); opacity: 1; } }
+  .msg { display: flex; flex-direction: column; gap: 4px; }
+  .msg b { font-size: 19px; letter-spacing: -0.02em; font-weight: 600; text-wrap: balance; }
+  .msg span { font-size: 15.5px; color: var(--text-3); }
+  .cta-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+  .cta-actions .btn { height: 46px; padding: 0 18px; font-size: 14.5px; }
+  @media (max-width: 860px) {
+    .support { grid-template-columns: auto 1fr; padding: 20px; gap: 18px; }
+    .cta-actions { grid-column: 1 / -1; }
+  }
+  @media (prefers-reduced-motion: reduce) { .cup .steam { animation: none; } }
+  .foot-cols { display: grid; grid-template-columns: 1.6fr repeat(3, 1fr); gap: 40px; padding: 56px 0 8px; }
+  .foot-brand { display: flex; flex-direction: column; gap: 14px; max-width: 320px; font-size: 14.5px; color: var(--text-3); }
+  .foot-brand .brand { margin-right: 0; }
+  .foot-cols h4 { font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text); margin-bottom: 14px; font-weight: 600; }
+  .foot-cols ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; font-size: 14.5px; }
+  .foot-cols a { color: var(--text-3); text-decoration: none; }
+  .foot-cols a:hover { color: var(--text); }
+  .legal { margin-top: 40px; padding-top: 24px; border-top: 1px solid var(--line); color: var(--text-3); }
+  @media (max-width: 760px) { .foot-cols { grid-template-columns: repeat(2, minmax(0, 1fr)); } .foot-brand { grid-column: span 2; } }
 
+  /* Like button */
+  .like { --heart: #E0314F; gap: 8px; font-size: 13px; }
+  .like:hover { border-color: rgba(224, 49, 79, 0.45); }
   .like[hidden] { display: none; }
-  .like { opacity: 0; transition: opacity 240ms ease-out, transform 120ms ease-out, filter 120ms ease-out, border-color 120ms ease-out, background-color 160ms ease-out; }
+  .like { opacity: 0; transition: opacity 240ms ease-out, transform 120ms ease-out, border-color 120ms ease-out, background-color 160ms ease-out; }
   .like.is-in { opacity: 1; }
   .heart { position: relative; display: grid; place-items: center; }
   .heart svg { fill: transparent; stroke: var(--heart); stroke-width: 1.8; stroke-linejoin: round; transition: fill 160ms ease-out, transform 160ms ease-out; }
-  .like:hover .heart svg { fill: rgba(255, 59, 92, 0.25); transform: scale(1.08); }
-  .heart::after {
-    content: ''; position: absolute; inset: -6px; border-radius: 50%;
-    border: 1.5px solid var(--heart); opacity: 0; pointer-events: none;
-  }
-  .like-count {
-    display: inline-block; overflow: hidden; min-width: 1ch; padding-left: 9px; margin-left: 1px;
-    border-left: 1px solid var(--line); color: var(--text-2); font-size: 12px; line-height: 18px;
-  }
+  .like:hover .heart svg { fill: rgba(224, 49, 79, 0.2); transform: scale(1.08); }
+  .heart::after { content: ''; position: absolute; inset: -6px; border-radius: 50%; border: 1.5px solid var(--heart); opacity: 0; pointer-events: none; }
+  .like-count { display: inline-block; overflow: hidden; min-width: 1ch; padding-left: 9px; margin-left: 1px; border-left: 1px solid var(--line-strong); color: var(--text-2); font-size: 12px; line-height: 18px; }
   .like-count > span { display: inline-block; }
-
-  .like[aria-pressed='true'] { border-color: rgba(255, 59, 92, 0.45); background: rgba(255, 59, 92, 0.08); }
+  .like[aria-pressed='true'] { border-color: rgba(224, 49, 79, 0.5); background: rgba(224, 49, 79, 0.07); }
   .like[aria-pressed='true'] .heart svg { fill: var(--heart); transform: none; }
-  .like[aria-pressed='true'] .like-count { color: #FF8099; border-color: rgba(255, 59, 92, 0.35); }
-
+  .like[aria-pressed='true'] .like-count { color: #B3243D; border-color: rgba(224, 49, 79, 0.35); }
   .like.is-pop .heart svg { animation: heartpop 380ms cubic-bezier(0.3, 1.6, 0.5, 1); }
   .like.is-pop .heart::after { animation: heartring 480ms ease-out; }
   .like-count.is-up > span { animation: countup 260ms ease-out; }
@@ -203,10 +254,9 @@ const nav = [
   @keyframes countdown { from { transform: translateY(-70%); opacity: 0; } to { transform: none; opacity: 1; } }
 
   .coffee { display: inline-flex; border-radius: 10px; transition: transform 120ms ease-out, filter 120ms ease-out; }
-  .coffee img { height: 38px; width: auto; border-radius: 10px; }
+  .coffee img { height: 46px; width: auto; border-radius: 12px; }
   .coffee:hover { filter: brightness(1.06); transform: translateY(-1px); }
   .coffee:active { transform: scale(0.97); }
-
   @media (prefers-reduced-motion: reduce) {
     .like, .heart svg, .coffee { transition: none; }
     .like:hover .heart svg, .coffee:hover { transform: none; }

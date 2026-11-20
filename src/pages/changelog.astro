@@ -40,9 +40,9 @@ const fmt = (d: Date) => d.toLocaleDateString('en-GB', { day: 'numeric', month: 
   .entry { display: grid; grid-template-columns: 180px minmax(0, 1fr); gap: 24px; padding: 32px 0; border-top: 1px solid var(--line); }
   .when { display: flex; flex-direction: column; gap: 6px; align-items: flex-start; }
   .ver { font-size: 20px; font-weight: 600; color: var(--text); text-decoration: none; border-radius: 4px; }
-  .ver:hover { color: var(--beam); }
+  .ver:hover { color: var(--beam-ink); }
   time { font-size: 13px; color: var(--text-3); }
-  .latest { font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 6px; background: rgba(212, 255, 63, 0.12); color: var(--beam); }
+  .latest { font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 6px; background: var(--beam-tint); color: var(--beam-ink); }
   .summary { color: var(--text); font-weight: 500; }
   @media (max-width: 640px) {
     .page { padding-top: 48px; padding-bottom: 72px; }
