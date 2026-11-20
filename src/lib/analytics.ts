@@ -5,8 +5,10 @@
 // PUBLIC_CLARITY_ID at build time overrides the project ID.
 //
 // Events (names as they appear in Clarity › Filters › Custom events):
-//   download_dmg            the real .dmg download on /download (the conversion; the session is also upgraded)
-//   cta_<where>             any element with data-track="cta_…" (Download buttons in the header, hero, pricing…)
+//   download_dmg            any Download button (header, hero, download page, closing band): each is a real link to
+//                           the .dmg, so a click is a download (the conversion; the session is also upgraded).
+//                           Tag download_from says which button (header, hero, download, closing, ...)
+//   cta_<where>             any element with data-track="cta_…"
 //   <data-track>            any other element with data-track
 //   nav_<label>, footer_<label>, chapter_<id>   navigation clicks
 //   outbound_<host>         links that leave the site (GitHub releases, issues)
@@ -89,6 +91,7 @@ function onClick(e: MouseEvent) {
   if (name) track(name);
   if (name === 'download_dmg') {
     tag('downloaded', 'yes');
+    tag('download_from', el.closest<HTMLElement>('[data-where]')?.dataset.where ?? '');
     clarity('upgrade', 'download'); // keep this session's recording
   }
 

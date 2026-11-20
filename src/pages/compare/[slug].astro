@@ -1,0 +1,78 @@
+---
+import { render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+import DownloadButton from '../../components/DownloadButton.astro';
+import { publishedCompare } from '../../lib/content';
+
+export async function getStaticPaths() {
+  const items = await publishedCompare();
+  return items.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+const { entry } = Astro.props;
+const d = entry.data;
+const { Content } = await render(entry);
+const hasVerify = d.rows.some((r) => r.verify);
+---
+<Base title={d.title} description={d.description} path={`/compare/${entry.id}`} noindex={d.draft}>
+  <div class="blob b-lime" style="width:520px;height:320px;left:-120px;top:100px;opacity:.7"></div>
+  <div class="blob b-lav" style="width:520px;height:320px;right:-120px;top:60px;opacity:.7"></div>
+
+  <header class="wrap-s center top">
+    <span class="pill">Compare</span>
+    <h1 class="display">Shotlight vs <span class="serif">{d.other}</span></h1>
+    <p class="lead">Details checked on <span class:list={['date', { vf: d.checked.startsWith('[') }]}>{d.checked}</span>. Prices and features change, so check the other app's own page too.</p>
+  </header>
+
+  <section class="wrap-s verdict"><div class="answer"><span class="lab">Short verdict</span><p>{d.verdict}</p></div></section>
+
+  <section class="wrap tablewrap">
+    <div class="card">
+      <table class="cmp">
+        <thead><tr><th><span class="sr-only">Feature</span></th><th class="us">Shotlight</th><th>{d.other}</th></tr></thead>
+        <tbody>
+          {d.rows.map((r) => (
+            <tr>
+              <th scope="row">{r.label}</th>
+              <td class="us">{r.us}</td>
+              <td>{r.them}{r.verify && <> <span class="vf">verify</span></>}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      {hasVerify && <p class="small muted note">Cells marked “verify” are not confirmed yet. This page stays hidden from search until each one has a source and a date.</p>}
+    </div>
+  </section>
+
+  <section class="wrap picks">
+    <div class="steps3 two">
+      <div class="card stack" style="gap:14px"><h2 class="h3">Choose Shotlight if</h2><ul class="picklist">{d.pickUs.map((t) => <li><Icon name="check" class="ic ic-ok" />{t}</li>)}</ul></div>
+      <div class="card stack" style="gap:14px"><h2 class="h3">Choose {d.other} if</h2><ul class="picklist">{d.pickThem.map((t) => <li><Icon name="check" class="ic" style="color:var(--text-3)" />{t}</li>)}</ul></div>
+    </div>
+  </section>
+
+  <section class="wrap-s prose body"><Content /></section>
+
+  <section class="wrap closing"><div class="cta-band"><h2 class="h2" style="max-width:660px;margin:0 auto">Try it on <span class="serif">your own screenshots.</span></h2><div style="margin-top:28px"><DownloadButton where="compare" class="btn btn-ink btn-lg" /></div></div></section>
+</Base>
+
+<style>
+  .top { padding-top: 84px; position: relative; z-index: 1; }
+  .top .display { font-size: clamp(42px, 5.4vw, 72px); margin-top: 24px; }
+  .top .lead { margin: 22px auto 0; max-width: 600px; }
+  .verdict { padding-top: 48px; position: relative; z-index: 1; }
+  .answer { border-radius: 24px; background: var(--beam-tint); border: 1px solid rgba(77, 107, 0, 0.28); padding: 24px 28px; }
+  .answer .lab { display: inline-block; font-size: 12.5px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--beam-ink); margin-bottom: 8px; }
+  .answer p { font-size: 19px; line-height: 1.55; color: var(--text); }
+  .tablewrap { max-width: 1000px; padding-top: 56px; position: relative; z-index: 1; }
+  .note { padding: 8px 20px 12px; }
+  .vf { display: inline-flex; align-items: center; height: 22px; padding: 0 8px; border-radius: 7px; background: #FFF3CC; color: #7A5200; font-size: 12px; font-weight: 600; }
+  .picks { max-width: 1000px; padding-top: 72px; }
+  .two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .picklist { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 10px; color: var(--text-2); }
+  .picklist li { display: flex; gap: 10px; align-items: flex-start; }
+  .picklist .ic { margin-top: 4px; }
+  .body { padding-top: 56px; }
+  .closing { padding-top: 96px; padding-bottom: 112px; }
+  @media (max-width: 980px) { .two { grid-template-columns: minmax(0, 1fr); } .cmp th, .cmp td { padding: 12px 10px; font-size: 14px; } }
+</style>

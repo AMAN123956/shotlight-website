@@ -1,0 +1,28 @@
+---
+import Base from '../../layouts/Base.astro';
+import { publishedCompare } from '../../lib/content';
+const items = await publishedCompare();
+---
+<Base title="Compare" noindex={items.length === 0} description="How Shotlight compares with other Mac screenshot tools, with the date each fact was checked.">
+  <header class="wrap-s center top">
+    <span class="pill">Compare</span>
+    <h1 class="display">Shotlight, <span class="serif">side by side.</span></h1>
+    <p class="lead">Fair comparisons with other Mac screenshot tools. Each one says what the other app does better, and when we checked.</p>
+  </header>
+  <section class="wrap list">
+    <div class="steps3">
+      {items.map((c) => (
+        <a class="card stack item" href={`/compare/${c.id}`} data-track={`compare_${c.id}`}><h2 class="h3">{c.data.title}</h2><p class="muted">{c.data.description}</p></a>
+      ))}
+    </div>
+  </section>
+</Base>
+
+<style>
+  .top { padding-top: 84px; }
+  .top .display { font-size: clamp(42px, 5.4vw, 72px); margin-top: 24px; }
+  .top .lead { margin: 22px auto 0; max-width: 560px; }
+  .list { padding-top: 56px; padding-bottom: 112px; }
+  .item { gap: 10px; text-decoration: none; color: inherit; }
+  .item:hover { color: inherit; border-color: var(--line-strong); }
+</style>

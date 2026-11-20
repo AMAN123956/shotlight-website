@@ -1,0 +1,58 @@
+---
+import DownloadButton from '../DownloadButton.astro';
+import Icon from '../Icon.astro';
+import release from '../../data/release.json';
+---
+<header id="top" class="hero wrap center" data-section="hero">
+  <div class="blob b-lime" style="width:560px;height:420px;left:-120px;top:20px"></div>
+  <div class="blob b-peach" style="width:620px;height:460px;right:-160px;top:-20px"></div>
+  <div class="blob b-lav" style="width:520px;height:400px;left:36%;top:380px"></div>
+
+  <a class="pill" href="/changelog" data-track="hero_whats_new">v{release.version} · Free for Mac<Icon name="arrow" class="ic ic-sm" /></a>
+  <h1 class="display">Every screenshot,<br />named and <span class="serif">findable.</span></h1>
+  <p class="lead">Shotlight names each screenshot the moment you take it, then finds any of them by the words inside. Everything runs on your Mac.</p>
+  <div class="ctas">
+    <DownloadButton where="hero" />
+    <a class="btn btn-ghost btn-lg" href="#features" data-track="hero_see_how">See how it works</a>
+  </div>
+  <ul class="trust">
+    <li><Icon name="check" class="ic ic-sm ic-ok" />Free while in early access</li>
+    <li><Icon name="check" class="ic ic-sm ic-ok" />No account</li>
+    <li><Icon name="check" class="ic ic-sm ic-ok" />Works offline</li>
+    <li><Icon name="check" class="ic ic-sm ic-ok" />macOS {release.minMacOS} or later, {release.arch}</li>
+  </ul>
+
+  <div class="stage">
+    <div class="win" role="img" aria-label="Shotlight search window showing results for the words invoice and stripe">
+      <div class="win-bar"><i></i><i></i><i></i></div>
+      <div class="win-search"><Icon name="search" /><span class="typed">invoice stripe</span><span class="key key-d">⌥</span><span class="key key-d">Space</span></div>
+      <div class="win-chips"><span class="chip-d on">All</span><span class="chip-d">Receipts</span><span class="chip-d">Code and errors</span><span class="chip-d">Recordings</span><span class="chip-d">Sensitive</span></div>
+      <div class="win-rows">
+        <div class="win-row sel"><span class="th g-a"></span><div><div class="fname"><mark>Stripe</mark> <mark>invoice</mark> March 2026.png</div><div class="fmeta">Safari · Today, 9:41 AM · Receipt</div></div><span class="key key-d">⌘1</span></div>
+        <div class="win-row"><span class="th g-b"></span><div><div class="fname">Figma onboarding flow v3.png</div><div class="fmeta">Figma · Yesterday · text: …send the <mark>invoice</mark> after the <mark>Stripe</mark> webhook…</div></div><span class="key key-d">⌘2</span></div>
+        <div class="win-row"><span class="th g-d"></span><div><div class="fname">Terminal Stripe webhook error.png</div><div class="fmeta">Terminal · 3 days ago · Code and errors</div></div><span class="key key-d">⌘3</span></div>
+        <div class="win-row"><span class="th g-c"></span><div><div class="fname">Checkout bug recording.mov</div><div class="fmeta">Screen recording · 0:42 · speech: “…the <mark>invoice</mark> total is wrong…”</div></div><span class="key key-d">⌘4</span></div>
+      </div>
+      <div class="win-foot"><span class="row" style="gap:6px"><span class="key key-d">↩</span> Open</span><span class="row" style="gap:6px"><span class="key key-d">Space</span> Preview</span><span class="row" style="gap:6px"><span class="key key-d">⌘E</span> Rename</span><span style="margin-left:auto">On this Mac · offline</span></div>
+    </div>
+    <div class="toast pill-toast">
+      <span class="th g-a" style="width:44px;height:32px;border-radius:7px;flex:none"></span>
+      <div style="min-width:0"><div style="font-size:12px;color:var(--app-mut)">Renamed on this Mac</div><div class="fname" style="font-size:13px">Stripe invoice March 2026.png</div></div>
+      <span class="ok" style="margin-left:auto"><Icon name="check" /></span>
+    </div>
+  </div>
+</header>
+
+<style>
+  .hero { padding-top: 88px; overflow: visible; }
+  .hero > :not(.blob) { position: relative; z-index: 1; }
+  .hero h1 { margin-top: 28px; }
+  .hero .lead { max-width: 660px; margin: 28px auto 0; }
+  .ctas { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; margin-top: 38px; }
+  .trust { list-style: none; padding: 0; margin: 30px 0 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px 28px; font-size: 14.5px; color: var(--text-3); }
+  .trust li { display: flex; align-items: center; gap: 7px; }
+  .stage { position: relative; max-width: 900px; margin: 72px auto 0; }
+  .pill-toast { position: absolute; right: -28px; bottom: -34px; width: 360px; }
+  @media (max-width: 980px) { .pill-toast { position: relative; right: auto; bottom: auto; width: auto; margin: -22px 12px 0; } }
+  @media (max-width: 640px) { .hero { padding-top: 56px; } .stage { margin-top: 48px; } .ctas .btn { width: 100%; } }
+</style>

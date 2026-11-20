@@ -1,0 +1,21 @@
+---
+import Icon from '../Icon.astro';
+import GuideCard from '../GuideCard.astro';
+interface Props { posts: any[] }
+const { posts } = Astro.props;
+---
+{posts.length > 0 && (
+  <section id="guides" class="sec-s wrap" data-section="guides">
+    <div class="head">
+      <div class="stack" style="gap:14px"><span class="pill">Guides</span><h2 class="h2" style="max-width:640px">Short how-tos for <span class="serif">Mac screenshots.</span></h2></div>
+      <a class="btn btn-ghost" href="/guides" data-track="guides_all">All guides<Icon name="arrow" class="ic ic-sm" /></a>
+    </div>
+    <div class="cards3">
+      {posts.slice(0, 3).map((p) => <GuideCard post={p} />)}
+    </div>
+  </section>
+)}
+
+<style>
+  .head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 20px; margin-bottom: 36px; }
+</style>

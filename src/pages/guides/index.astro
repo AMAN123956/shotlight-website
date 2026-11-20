@@ -1,0 +1,100 @@
+---
+import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+import GuideCard from '../../components/GuideCard.astro';
+import { publishedGuides, CATEGORIES, fmtDate } from '../../lib/content';
+import site from '../../data/site.json';
+
+const posts = await publishedGuides();
+const featured = posts.find((p) => p.data.featured) ?? posts[0];
+const rest = posts.filter((p) => p !== featured);
+const counts = Object.entries(CATEGORIES).map(([key, c]) => ({ key, ...c, n: posts.filter((p) => p.data.category === key).length })).filter((c) => c.n > 0);
+---
+<Base title="Guides" noindex={posts.length === 0} description="Short, tested how-tos for finding, naming and protecting Mac screenshots. The built-in macOS way first, then the faster one.">
+  <div class="blob b-peach" style="width:560px;height:360px;right:-120px;top:0;opacity:.8"></div>
+  <div class="blob b-lime" style="width:520px;height:320px;left:-120px;top:120px;opacity:.7"></div>
+
+  <header class="wrap center top">
+    <span class="pill">Guides</span>
+    <h1 class="display">Mac screenshot guides <span class="serif">that work.</span></h1>
+    <p class="lead">Short, tested how-tos for finding, naming and protecting your screenshots. The built-in macOS way first, then the faster one.</p>
+    {counts.length > 1 && (
+      <div class="filters" role="group" aria-label="Filter guides by topic">
+        <button type="button" class="chip on" data-filter="all" aria-pressed="true">All guides</button>
+        {counts.map((c) => <button type="button" class="chip" data-filter={c.key} aria-pressed="false">{c.label}</button>)}
+      </div>
+    )}
+  </header>
+
+  {featured && (
+    <section class="wrap feat-wrap" data-guide data-cat={featured.data.category}>
+      <a class="feat" href={`/guides/${featured.id}`} data-track="guide_featured">
+        <div class={`fart ${featured.data.art}`} aria-hidden="true">
+          <div class="win mini">
+            <div class="win-bar"><i></i><i></i><i></i></div>
+            <div class="win-search"><Icon name="search" /><span class="typed">old receipt</span></div>
+            <div class="win-rows">
+              <div class="win-row sel"><span class="th g-a"></span><div><div class="fname" style="font-size:13px">Uber trip receipt Oct 2026.png</div><div class="fmeta">Safari · Oct 14</div></div><span></span></div>
+              <div class="win-row"><span class="th g-c"></span><div><div class="fname" style="font-size:13px">Hotel booking Lisbon.png</div><div class="fmeta">Chrome · Sep 3</div></div><span></span></div>
+            </div>
+          </div>
+        </div>
+        <div class="fbody">
+          <div class="row" style="gap:10px"><span class={`tag ${CATEGORIES[featured.data.category].tag}`}>{CATEGORIES[featured.data.category].label}</span><span class="small muted">Featured · {featured.data.minutes} min read</span></div>
+          <h2 class="h2" style="font-size:clamp(30px,3.2vw,42px)">{featured.data.title}</h2>
+          <p class="lead">{featured.data.description}</p>
+          <div class="row byline"><span class="avatar" style="width:36px;height:36px"></span><span class="small">{site.author.name || 'Shotlight'}<br /><span class="muted">Updated {fmtDate(featured.data.updated)}</span></span><span class="btn btn-ink btn-sm read">Read the guide<Icon name="arrow" class="ic ic-sm" /></span></div>
+        </div>
+      </a>
+    </section>
+  )}
+
+  {rest.length > 0 && (
+    <section class="wrap latest">
+      <h2 class="h3" style="font-size:28px;margin-bottom:28px">Latest guides</h2>
+      <div class="cards3">
+        {rest.map((p) => <div data-guide data-cat={p.data.category}><GuideCard post={p} /></div>)}
+      </div>
+    </section>
+  )}
+
+  {posts.length === 0 && (
+    <section class="wrap center empty"><p class="lead">The first guides are on their way.</p></section>
+  )}
+  <div class="wrap closing"><a class="btn btn-ghost" href="/download" data-track="guides_download">Rather not do this by hand? Get Shotlight<Icon name="arrow" class="ic ic-sm" /></a></div>
+</Base>
+
+<style>
+  .top { padding-top: 84px; position: relative; z-index: 1; }
+  .top .display { font-size: clamp(44px, 5.6vw, 76px); margin-top: 24px; }
+  .top .lead { max-width: 600px; margin: 24px auto 0; }
+  .filters { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 34px; }
+  .filters .chip { cursor: pointer; font-family: inherit; }
+  .feat-wrap { padding-top: 64px; position: relative; z-index: 1; }
+  .feat { display: grid; grid-template-columns: 1.1fr 1fr; border-radius: 36px; overflow: hidden; background: rgba(255, 255, 255, 0.76); border: 1px solid var(--line); box-shadow: 0 18px 56px rgba(10, 10, 12, 0.06); text-decoration: none; color: inherit; transition: box-shadow 180ms ease-out; }
+  .feat:hover { box-shadow: 0 24px 64px rgba(10, 10, 12, 0.1); color: inherit; }
+  .fart { position: relative; min-height: 380px; display: flex; align-items: center; justify-content: center; }
+  .mini { width: 78%; transform: rotate(-2deg); }
+  .mini .win-search { height: 50px; font-size: 16px; }
+  .fbody { display: flex; flex-direction: column; justify-content: center; gap: 16px; padding: 48px; }
+  .byline { gap: 12px; margin-top: 6px; }
+  .read { margin-left: auto; }
+  .latest { padding-top: 88px; position: relative; z-index: 1; }
+  .empty { padding-top: 64px; }
+  .closing { display: flex; justify-content: center; padding: 72px 24px 112px; }
+  [data-guide][hidden] { display: none; }
+  @media (max-width: 980px) { .feat { grid-template-columns: minmax(0, 1fr); } .fbody { padding: 28px; } .fart { min-height: 260px; } }
+  @media (prefers-reduced-motion: reduce) { .feat { transition: none; } }
+</style>
+
+<script>
+  // Topic chips filter the cards on the page. Without scripts every guide stays visible.
+  const chips = document.querySelectorAll<HTMLButtonElement>('[data-filter]');
+  chips.forEach((chip) => {
+    chip.addEventListener('click', () => {
+      const f = chip.dataset.filter;
+      chips.forEach((c) => { const on = c === chip; c.classList.toggle('on', on); c.setAttribute('aria-pressed', String(on)); });
+      document.querySelectorAll<HTMLElement>('[data-guide]').forEach((el) => { el.hidden = f !== 'all' && el.dataset.cat !== f; });
+    });
+  });
+</script>

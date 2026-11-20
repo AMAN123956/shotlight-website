@@ -1,8 +1,0 @@
----
-// The one-color S the app shows in the menu bar (BrandMark.glyphPath in the app: 24-unit grid, 2.2 stroke).
-interface Props { size?: number; color?: string }
-const { size = 15, color = '#F4F4F6' } = Astro.props;
----
-<svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-  <path d="M15.5 5H5v4M8.5 19H19v-4M7.5 11.5l9 2.4"></path>
-</svg>
