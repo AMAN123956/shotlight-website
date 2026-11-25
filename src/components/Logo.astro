@@ -1,7 +1,34 @@
 ---
-// The brand mark: the app icon ("Split S" on the lime tile), same artwork as the Mac app and the favicon.
-import AppIcon from './AppIcon.astro';
-interface Props { size?: number }
-const { size = 30 } = Astro.props;
+// The brand mark: "Snap", a screenshot card with a face rising from the lime tile, framed by the
+// crop corners of the app's Split S. Below 24px it uses the favicon cut (eyes + corners, thicker strokes).
+// The Mac app's own icon is AppIcon.astro (used where the page shows the app itself).
+interface Props { size?: number; id?: string }
+const { size = 30, id = 'logo' } = Astro.props;
+const small = size < 24;
 ---
-<AppIcon size={size} id="logo" />
+<svg class="logo" width={size} height={size} viewBox="0 0 100 100" aria-hidden="true">
+  <defs><clipPath id={`${id}-tile`}><rect width="100" height="100" rx="23"></rect></clipPath></defs>
+  <g clip-path={`url(#${id}-tile)`}>
+    <rect width="100" height="100" fill="#D4FF3F"></rect>
+    {small ? (
+      <Fragment>
+        <path d="M12 34V20h14M88 34V20H74" fill="none" stroke="#0A0A0C" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"></path>
+        <rect x="18" y="38" width="64" height="80" rx="18" fill="#fff" stroke="#0A0A0C" stroke-width="9"></rect>
+        <ellipse cx="38" cy="65" rx="8.5" ry="11" fill="#0A0A0C"></ellipse>
+        <ellipse cx="62" cy="65" rx="8.5" ry="11" fill="#0A0A0C"></ellipse>
+      </Fragment>
+    ) : (
+      <Fragment>
+        <path d="M12 34V22h12M88 34V22H76" fill="none" stroke="#0A0A0C" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round"></path>
+        <rect x="17" y="34" width="66" height="84" rx="19" fill="#fff" stroke="#0A0A0C" stroke-width="5.5"></rect>
+        <ellipse cx="38.5" cy="61" rx="7" ry="9.2" fill="#0A0A0C"></ellipse>
+        <ellipse cx="61.5" cy="61" rx="7" ry="9.2" fill="#0A0A0C"></ellipse>
+        <circle cx="40.8" cy="57.2" r="2.8" fill="#fff"></circle>
+        <circle cx="63.8" cy="57.2" r="2.8" fill="#fff"></circle>
+        <ellipse cx="28" cy="75" rx="5.6" ry="3.2" fill="#FF8FA3" opacity=".55"></ellipse>
+        <ellipse cx="72" cy="75" rx="5.6" ry="3.2" fill="#FF8FA3" opacity=".55"></ellipse>
+        <path d="M45 75.5q5 4.4 10 0" fill="none" stroke="#0A0A0C" stroke-width="3.2" stroke-linecap="round"></path>
+      </Fragment>
+    )}
+  </g>
+</svg>
