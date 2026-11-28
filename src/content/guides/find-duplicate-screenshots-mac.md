@@ -64,7 +64,9 @@ This only finds files that are identical to the byte. Two captures of the same s
 - Exact copies are files with the same bytes.
 - Retakes are screenshots that look nearly the same, show nearly the same words, and were taken within 10 minutes of each other.
 
-Each set is shown together, with a line such as "4 takes of the same thing · 15 s apart". One screenshot in each set is marked **Keep**: the oldest of exact copies, and the latest of retakes.
+Each set is shown together, with a line such as "3 takes of the same thing · 30 s apart". One screenshot in each set is marked **Keep**: the oldest of exact copies, and the latest of retakes.
+
+![Shotlight Library, Duplicates section: two copies of the same invoice, and three takes of one analytics dashboard taken 30 seconds apart, with one of each marked Keep](../../assets/guides/shotlight-duplicates.png)
 
 1. Open the Library and click **Duplicates** under **Guard**.
 2. To keep a different screenshot from a set, select it and press <kbd class="key">K</kbd>.

@@ -86,6 +86,8 @@ Covering a secret works when you know it is there. Screenshots taken for yoursel
 3. The secret never goes into the file name or to the language model that writes names.
 4. You can move it to the Trash, or mark it as fine.
 
+![Shotlight Library, Sensitive section: a sign-in code and an API key screenshot, blurred, with a banner saying a one-time code was detected and buttons to show once, move to Trash or mark as fine](../../assets/guides/shotlight-sensitive.png)
+
 With **Expiring** turned on, screenshots with one-time codes move to the Trash after 1, 7 or 30 days, and you can add passwords, cards and keys. Shotlight does not change the image itself, so before you share a screenshot it flagged, cover the secret with Method 2. Shotlight is free while in early access, and the [download page](/download) has the install steps.
 
 ## What this does not cover

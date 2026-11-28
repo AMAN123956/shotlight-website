@@ -76,6 +76,8 @@ Most screenshots are useful for a day. Two jobs keep the folder small:
 4. The Library window shows every screenshot by day or by app, with sections for Today, Last 7 days, Recordings, Code and errors, and Receipts.
 5. <kbd class="key">⌥</kbd> <kbd class="key">Space</kbd> finds any screenshot by a word inside it, so you need fewer folders in the first place.
 
+![Shotlight Settings, Rules tab: a rule that moves screenshots mentioning receipt or invoice to a Receipts folder, and one that tags analytics reports and moves them to the Trash after 30 days](../../assets/guides/shotlight-rules.png)
+
 Duplicates and retakes have their own section, and rules can move old screenshots to the Trash after a number of days. Everything goes to the Trash, never straight to deletion, and every step can be undone. Shotlight is free while in early access, and the [download page](/download) has the install steps.
 
 ## What this does not cover
