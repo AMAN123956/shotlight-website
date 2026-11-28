@@ -4,7 +4,7 @@ description: Three ways to find an old Mac screenshot. Use Finder with a date, S
 category: find
 answer: Open the folder where your screenshots are saved, usually the Desktop, and sort by Date Created. Finder and Spotlight match names and dates, so they cannot find a screenshot by what it shows. To search the words inside an image, use an app that reads them, like Shotlight.
 date: 2026-11-21
-updated: 2026-11-21
+updated: 2026-11-28
 minutes: 6
 art: a1
 featured: true
@@ -33,7 +33,7 @@ Mac screenshots are named with a date and a time, like `Screenshot 2026-11-12 at
 3. Switch to List view with <kbd class="key">⌘</kbd> <kbd class="key">2</kbd>. If there is no **Date Created** column, right-click the column headings and turn it on.
 4. Click **Date Created** to sort, and scroll to the day you took the screenshot.
 
-If the folder is empty, your screenshots may be saved somewhere else. Press <kbd class="key">⇧</kbd> <kbd class="key">⌘</kbd> <kbd class="key">5</kbd>, open **Options**, and read the **Save to** line.
+If the folder is empty, your screenshots may be saved somewhere else. Press <kbd class="key">⇧</kbd> <kbd class="key">⌘</kbd> <kbd class="key">5</kbd>, open **Options**, and read the **Save to** line. The guide to [changing where screenshots are saved](/guides/change-screenshot-location-mac) explains the setting.
 
 Two habits make this faster. Select a file and press <kbd class="key">Space</kbd> to preview it with Quick Look, so you do not have to open each one. In a folder with hundreds of files, choose **View**, then **Group By**, then **Date Created**, and Finder splits the list into days and weeks.
 
@@ -62,4 +62,4 @@ Shotlight's setup offers to move new screenshots to a Screenshots folder inside 
 
 ## What this does not cover
 
-Shotlight searches the folders you give it. It cannot bring back a screenshot you deleted, and it does not search your Photos library. On macOS 15 the Finder steps are the same.
+Shotlight searches the folders you give it. It cannot bring back a screenshot you deleted, and it does not search your Photos library. On macOS 15 the Finder steps are the same. Looking for a video instead? See [where screen recordings go on Mac](/guides/find-screen-recordings-mac).

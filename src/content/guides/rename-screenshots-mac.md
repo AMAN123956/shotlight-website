@@ -4,7 +4,7 @@ description: Rename a Mac screenshot by hand, change the start of every new name
 category: name
 answer: Select a screenshot in Finder, press Return, and type a new name. To change how every future name starts, set a prefix with one Terminal command. To get a useful name without typing, use an app that reads the image, like Shotlight, which names each screenshot as you take it.
 date: 2026-11-21
-updated: 2026-11-21
+updated: 2026-11-28
 minutes: 6
 art: a2
 faq:
@@ -77,4 +77,4 @@ A name only does so much. When you need to [find an old screenshot](/guides/find
 
 ## What this does not cover
 
-Shotlight names screenshots and screen recordings. It does not rename other kinds of files. If a document already points to a screenshot by its file name, renaming the file can break that link in some apps.
+Shotlight names screenshots and screen recordings. It does not rename other kinds of files. If a document already points to a screenshot by its file name, renaming the file can break that link in some apps. For folders, tags and clearing out the ones you no longer need, see [how to organize screenshots on Mac](/guides/organize-screenshots-mac).
