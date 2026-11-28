@@ -70,6 +70,8 @@ Both work the same way once they are on:
 2. **Library**, then **Expiring**, lists what is due this week and later, with a countdown on each one. Press <kbd class="key">K</kbd> to keep a screenshot.
 3. Shotlight only ever moves files to the Trash. **Recently expired** lists them for 30 days with a **Restore** button.
 
+![Shotlight Library, Expiring section: a screenshot of API keys due in 6 days and a sign-in code due in 7 days, both blurred, and three reports due in 28 days](../../assets/guides/shotlight-expiring.png)
+
 Shotlight shows no notifications about any of this. A line in the menu bar popover says what happened, such as "This week · 6 trashed". It is free while in early access, and the [download page](/download) has the install steps.
 
 ## Which screenshots are safe to let go
