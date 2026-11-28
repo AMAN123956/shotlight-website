@@ -4,7 +4,7 @@ description: Copy text out of a Mac screenshot with Live Text in Preview, Quick 
 category: text
 answer: Open the screenshot in Preview, move the pointer over the text, drag to select it, and press Command C. Quick Look and Photos can do the same. To search the words in all your screenshots later, use an app that keeps the text, like Shotlight.
 date: 2026-11-21
-updated: 2026-11-21
+updated: 2026-11-28
 minutes: 5
 art: a3
 faq:
@@ -54,3 +54,5 @@ Because the text is saved, a search for `invoice number` can find the screenshot
 ## When the text comes out wrong
 
 Text recognition struggles with small type, low contrast, handwriting and stylized fonts. If a result looks wrong, zoom in on the image and select again, or take the screenshot again at a larger size. Always read what you pasted before you send it on, especially numbers.
+
+Copying only the words you need is also a safe way to share part of a screenshot. If you have to send the image itself, [cover private details first](/guides/hide-sensitive-info-screenshot-mac).
